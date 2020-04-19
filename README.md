@@ -5,6 +5,7 @@ Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 ## Related Links
 
 1. [A library that exposes matrix-js-sdk state via Redux](https://github.com/lukebarnard1/matrix-redux-wrap)
+1. [Scaling your Redux App with ducks](https://www.freecodecamp.org/news/scaling-your-redux-app-with-ducks-6115955638be/)
 
 ## Author
 
