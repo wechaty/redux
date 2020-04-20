@@ -9,8 +9,9 @@ Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 ## Related Projects
 
 1. [A library that exposes matrix-js-sdk state via Redux](https://github.com/lukebarnard1/matrix-redux-wrap)
-1. [A library for managing network state in Redux.](https://github.com/amplitude/redux-query)
+1. [A library for managing network state in Redux](https://github.com/amplitude/redux-query)
 1. [How to setup Redux for a REST api](https://medium.com/hackernoon/state-management-with-redux-50f3ec10c10a)
+1. [Redux middleware for calling an API](https://github.com/agraboso/redux-api-middleware)
 
 ## Author
 
