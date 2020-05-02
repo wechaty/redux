@@ -4,6 +4,7 @@ Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 
 ## Links
 
+1. [Building bots with Redux](https://blog.botframework.com/2018/04/12/building-bots-with-redux/)
 1. [Scaling your Redux App with ducks](https://www.freecodecamp.org/news/scaling-your-redux-app-with-ducks-6115955638be/)
 
 ## Related Projects
