@@ -12,6 +12,11 @@ Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 1. [Botbuilder Redux Common Package](https://github.com/howlowck/botbuilder-redux-common)
 1. [Remote Redux DevTools](https://github.com/zalmoxisus/remote-redux-devtools)
 
+### Redux
+
+- [Dan Abramov - Live React: Hot Reloading with Time Travel at react-europe 2015](https://www.youtube.com/watch?v=xsSnOQynTHs)
+- [Dan Abramov - The Redux Journey at react-europe 2016](https://www.youtube.com/watch?v=uvAXVMwHJXU)
+
 ## Related Projects
 
 1. [A library that exposes matrix-js-sdk state via Redux](https://github.com/lukebarnard1/matrix-redux-wrap)
