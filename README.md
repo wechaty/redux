@@ -2,6 +2,14 @@
 
 Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 
+## What is Redux?
+
+[Redux](https://redux.js.org) is a Predictable State Container for JS Apps
+
+## Why use Redux with Wechaty?
+
+To be write...
+
 ## Links
 
 ### Chatbot in Redux
