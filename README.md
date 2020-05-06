@@ -4,18 +4,26 @@ Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 
 ## Links
 
+### Chatbot in Redux
+
 1. [Building bots with Redux](https://blog.botframework.com/2018/04/12/building-bots-with-redux/)
 1. [BotBuilder v3 Node.js bot with Redux state management](https://github.com/microsoft/BotFramework-Samples/tree/master/blog-samples/Node/Blog-Redux-Bot)
-1. [Scaling your Redux App with ducks](https://www.freecodecamp.org/news/scaling-your-redux-app-with-ducks-6115955638be/)
 1. [🐺 Declarative development for state driven dynamic prompt flow](https://github.com/wolf-packs/wolf-core)
 1. [Botbuilder Redux Middleware](https://github.com/howlowck/botbuilder-redux)
 1. [Botbuilder Redux Common Package](https://github.com/howlowck/botbuilder-redux-common)
+
+### Redux Tools
+
 1. [Remote Redux DevTools](https://github.com/zalmoxisus/remote-redux-devtools)
 
-### Redux
+### Redux Talks
 
 - [Dan Abramov - Live React: Hot Reloading with Time Travel at react-europe 2015](https://www.youtube.com/watch?v=xsSnOQynTHs)
 - [Dan Abramov - The Redux Journey at react-europe 2016](https://www.youtube.com/watch?v=uvAXVMwHJXU)
+
+### Redux Middleware
+
+- [Redux Middleware](https://redux.js.org/advanced/middleware)
 
 ## Related Projects
 
