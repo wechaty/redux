@@ -31,6 +31,7 @@ To be write...
 
 - [Dan Abramov - Live React: Hot Reloading with Time Travel at react-europe 2015](https://www.youtube.com/watch?v=xsSnOQynTHs)
 - [Dan Abramov - The Redux Journey at react-europe 2016](https://www.youtube.com/watch?v=uvAXVMwHJXU)
+- [Debugging javascript applications in production - Mihail Diordiev](https://www.youtube.com/watch?v=YU8jQ2HtqH4&feature=youtu.be)
 
 ### Redux Middleware
 
