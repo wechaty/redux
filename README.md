@@ -25,6 +25,7 @@ To be write...
 1. [Redux DevTools](https://github.com/reduxjs/redux-devtools/tree/master/packages/redux-devtools)
 1. [Remote Redux DevTools](https://github.com/zalmoxisus/remote-redux-devtools)
 1. [Using Redux DevTools in production](https://medium.com/@zalmoxis/using-redux-devtools-in-production-4c5b56c5600f)
+1. [Video - Getting Started with Redux Dev Tools](https://egghead.io/lessons/javascript-getting-started-with-redux-dev-tools)
 
 ### Redux Talks
 
