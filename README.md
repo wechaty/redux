@@ -36,6 +36,7 @@ To be write...
 ### Redux Middleware
 
 - [Redux Middleware](https://redux.js.org/advanced/middleware)
+- [React tips — How to create a Redux Middleware Throttle](https://medium.com/@leonardobrunolima/react-tips-how-to-create-a-redux-middleware-throttle-f2908ee6f49e)
 
 ## Related Projects
 
