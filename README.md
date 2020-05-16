@@ -49,6 +49,10 @@ To be write...
 
 1. [Setting Up a Redux Project With Create-React-App](https://medium.com/backticks-tildes/setting-up-a-redux-project-with-create-react-app-e363ab2329b8)
 
+## Useful Modules
+
+1. [redux-automata - Finite state automaton for Redux.](https://github.com/mocoding-software/redux-automata)
+
 ## Author
 
 [Huan LI](https://github.com/huan) ([李卓桓](http://linkedin.com/in/zixia)) zixia@zixia.net
