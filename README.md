@@ -105,7 +105,7 @@ See: [api/operations.ts](src/api/operations.ts)
 
 ### v0.2 (Jun 2, 2020)
 
-Initial version.
+Initial version. Requires `wechaty@0.40` or above versions.
 
 1. `WechatyRedux` Plugin is ready to use.
 1. API follows the [Ducks](https://github.com/huan/ducks) specification.
