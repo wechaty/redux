@@ -1,6 +1,15 @@
 # wechaty-redux
 
+[![NPM Version](https://img.shields.io/npm/v/wechaty-redux?color=brightgreen)](https://www.npmjs.com/package/wechaty-redux)
+[![NPM](https://github.com/wechaty/wechaty-redux/workflows/NPM/badge.svg)](https://github.com/wechaty/wechaty-redux/actions?query=workflow%3ANPM)
+[![Ducksify Extension](https://img.shields.io/badge/Redux-Ducksify-yellowgreen)](https://github.com/huan/ducks#3-ducksify-extension-currying--api-interface)
+
 Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
+
+[![Wechaty Redux](docs/images/wechaty-redux.png)](https://github.com/wechaty/wechaty-redux)
+
+[![Downloads](https://img.shields.io/npm/dm/wechaty-redux.svg?style=flat-square)](https://www.npmjs.com/package/wechaty-redux)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://www.typescriptlang.org/)
 
 ## What is Redux
 
@@ -11,6 +20,8 @@ Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 To be write...
 
 ## What is Ducks
+
+[![Ducksify Extension](https://img.shields.io/badge/Redux-Ducksify-yellowgreen)](https://github.com/huan/ducks#3-ducksify-extension-currying--api-interface)
 
 See [Ducks](https://github.com/huan/ducks)
 
@@ -116,6 +127,6 @@ Related Projects:
 
 ## Copyright & License
 
-- Code & Docs © 2020-now Huan (李卓桓) \<zixia@zixia.net\>
+- Code & Docs © 2020 Huan (李卓桓) \<zixia@zixia.net\>
 - Code released under the Apache-2.0 License
 - Docs released under Creative Commons
