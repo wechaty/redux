@@ -55,7 +55,7 @@
     "shx": "^0.3.2",
     "tstest": "^0.4.10",
     "utility-types": "^3.10.0",
-    "wechaty": "^0.39.40"
+    "wechaty": "^0.40.1"
   },
   "git": {
     "scripts": {
