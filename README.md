@@ -8,6 +8,8 @@ Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 
 [![Wechaty Redux](docs/images/wechaty-redux.png)](https://github.com/wechaty/wechaty-redux)
 
+> Image Source: [Managing your React state with Redux](https://medium.com/the-web-tub/managing-your-react-state-with-redux-affab72de4b1)
+
 [![Downloads](https://img.shields.io/npm/dm/wechaty-redux.svg?style=flat-square)](https://www.npmjs.com/package/wechaty-redux)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-blue.svg)](https://www.typescriptlang.org/)
 
