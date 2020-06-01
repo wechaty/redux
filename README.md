@@ -2,13 +2,55 @@
 
 Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 
-## What is Redux?
+## What is Redux
 
 [Redux](https://redux.js.org) is a Predictable State Container for JS Apps
 
-## Why use Redux with Wechaty?
+## Why use Redux with Wechaty
 
 To be write...
+
+## What is Ducks
+
+See [Ducks](https://github.com/huan/ducks)
+
+## Usage
+
+### Install
+
+```sh
+npm install wechaty-redux
+```
+
+### Wechaty Plugin
+
+```ts
+import {
+  WechatyRedux,
+  api as wechatyApi,
+}                     from 'wechaty-redux'
+import { Wechaty }     from 'wechaty'
+import { Ducks }       from 'ducks'
+
+const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
+
+const ducks       = new Ducks({ wechaty: wechatyApi })
+const store       = ducks.configureStore()
+const wechatyDuck = ducks.ducksify('wechaty')
+
+bot.use(WechatyRedux({ store }))
+
+store.subscribe(() => console.info(store.getState()))
+store.dispatch(wechatyDuck.actions.ding('redux!'))
+```
+
+### Redux Actions
+
+See: [api/actions.ts](src/api/actions.ts)
+
+### Redux Operations
+
+See: [api/operations.ts](src/api/operations.ts)
 
 ## Links
 
@@ -38,13 +80,6 @@ To be write...
 - [Redux Middleware](https://redux.js.org/advanced/middleware)
 - [React tips — How to create a Redux Middleware Throttle](https://medium.com/@leonardobrunolima/react-tips-how-to-create-a-redux-middleware-throttle-f2908ee6f49e)
 
-## Related Projects
-
-1. [A library that exposes matrix-js-sdk state via Redux](https://github.com/lukebarnard1/matrix-redux-wrap)
-1. [A library for managing network state in Redux](https://github.com/amplitude/redux-query)
-1. [How to setup Redux for a REST api](https://medium.com/hackernoon/state-management-with-redux-50f3ec10c10a)
-1. [Redux middleware for calling an API](https://github.com/agraboso/redux-api-middleware)
-
 ## Articles
 
 1. [Setting Up a Redux Project With Create-React-App](https://medium.com/backticks-tildes/setting-up-a-redux-project-with-create-react-app-e363ab2329b8)
@@ -52,6 +87,26 @@ To be write...
 ## Useful Modules
 
 1. [redux-automata - Finite state automaton for Redux.](https://github.com/mocoding-software/redux-automata)
+
+## History
+
+### v0.1 (Jun 2, 2020)
+
+Initial version.
+
+1. `WechatyRedux` Plugin is ready to use.
+1. API follows the [Ducks](https://github.com/huan/ducks) specification.
+
+### v0.0.1 (Apr 19, 2020)
+
+Decide to build a Redux Plugin for Wechaty.
+
+Related Projects:
+
+1. [A library that exposes matrix-js-sdk state via Redux](https://github.com/lukebarnard1/matrix-redux-wrap)
+1. [A library for managing network state in Redux](https://github.com/amplitude/redux-query)
+1. [How to setup Redux for a REST api](https://medium.com/hackernoon/state-management-with-redux-50f3ec10c10a)
+1. [Redux middleware for calling an API](https://github.com/agraboso/redux-api-middleware)
 
 ## Author
 
@@ -61,6 +116,6 @@ To be write...
 
 ## Copyright & License
 
-* Code & Docs © 2020-now Huan (李卓桓) \<zixia@zixia.net\>
-* Code released under the Apache-2.0 License
-* Docs released under Creative Commons
+- Code & Docs © 2020-now Huan (李卓桓) \<zixia@zixia.net\>
+- Code released under the Apache-2.0 License
+- Docs released under Creative Commons
