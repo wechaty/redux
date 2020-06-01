@@ -103,7 +103,7 @@ See: [api/operations.ts](src/api/operations.ts)
 
 ## History
 
-### v0.1 (Jun 2, 2020)
+### v0.2 (Jun 2, 2020)
 
 Initial version.
 
