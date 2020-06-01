@@ -1,6 +1,6 @@
 {
   "name": "wechaty-redux",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Wechaty Redux Plugin Powered By Ducks",
   "main": "dist/src/index.js",
   "typings": "dist/src/index.d.ts",
