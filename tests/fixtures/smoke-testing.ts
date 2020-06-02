@@ -1,8 +1,8 @@
 #!/usr/bin/env ts-node
 import {
-  VERSION,
+  Api,
   WechatyRedux,
-  api,
+  VERSION,
 }                 from 'wechaty-redux'
 import { Ducks }  from 'ducks'
 import { Wechaty } from 'wechaty'
@@ -12,7 +12,7 @@ async function main () {
     throw new Error('version should be set before publishing')
   }
 
-  const ducks = new Ducks({ api })
+  const ducks = new Ducks({ wechaty: Api })
   const store = ducks.configureStore()
 
   const wechaty = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
