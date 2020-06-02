@@ -38,22 +38,31 @@ npm install wechaty-redux
 ### Wechaty Plugin
 
 ```ts
-import {
-  WechatyRedux,
-  api as wechatyApi,
-}                     from 'wechaty-redux'
-import { Wechaty }     from 'wechaty'
-import { Ducks }       from 'ducks'
+import { Wechaty }           from 'wechaty'
+import { WechatyRedux, Api } from 'wechaty-redux'
+import { Ducks }             from 'ducks'
 
+/**
+ * Ducksify Wechaty Redux Store
+ */
+const ducks = new Ducks({ wechaty: Api })
+const store = ducks.configureStore()
+
+/**
+ * Install Wechaty Redux Plugin
+ */
 const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
-
-const ducks       = new Ducks({ wechaty: wechatyApi })
-const store       = ducks.configureStore()
-const wechatyDuck = ducks.ducksify('wechaty')
-
 bot.use(WechatyRedux({ store }))
 
+/**
+ * Monitor Store State
+ */
 store.subscribe(() => console.info(store.getState()))
+
+/**
+ * Ducksify Wechaty Redux Ducks API
+ */
+const wechatyDuck = ducks.ducksify('wechaty')
 store.dispatch(wechatyDuck.actions.ding('redux!'))
 ```
 
@@ -64,6 +73,12 @@ See: [api/actions.ts](src/api/actions.ts)
 ### Redux Operations
 
 See: [api/operations.ts](src/api/operations.ts)
+
+### Ducks Api
+
+[![Ducksify Extension](https://img.shields.io/badge/Redux-Ducksify-yellowgreen)](https://github.com/huan/ducks#3-ducksify-extension-currying--api-interface)
+
+See: [api/index.ts](src/api/index.ts)
 
 ## Links
 
