@@ -1,4 +1,4 @@
-import * as api from './api'
+import * as Api from './api'
 
 import {
   WechatyRedux,
@@ -9,8 +9,8 @@ import { getWechaty }     from './manager'
 import { VERSION }        from './version'
 
 export {
-  api,
   getWechaty,
+  Api,
   VERSION,
   WechatyRedux,
   WechatyReduxOptions,
