@@ -38,22 +38,21 @@ npm install wechaty-redux
 ### Wechaty Plugin
 
 ```ts
-import {
-  WechatyRedux,
-  api as wechatyApi,
-}                     from 'wechaty-redux'
-import { Wechaty }     from 'wechaty'
-import { Ducks }       from 'ducks'
+import { Wechaty }           from 'wechaty'
+import { WechatyRedux, api } from 'wechaty-redux'
+import { Ducks }             from 'ducks'
 
 const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
 
-const ducks       = new Ducks({ wechaty: wechatyApi })
-const store       = ducks.configureStore()
-const wechatyDuck = ducks.ducksify('wechaty')
+const ducks       = new Ducks({ wechaty: api })
 
+const store       = ducks.configureStore()
 bot.use(WechatyRedux({ store }))
 
 store.subscribe(() => console.info(store.getState()))
+
+# Ducksify Wechaty Redux API
+const wechatyDuck = ducks.ducksify('wechaty')
 store.dispatch(wechatyDuck.actions.ding('redux!'))
 ```
 
