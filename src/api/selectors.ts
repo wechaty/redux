@@ -6,12 +6,12 @@
  */
 import { State } from './reducers'
 
-const getQRCode      = (state: State) => (wechatyId: string) => state[wechatyId]?.qrcode
+const getQrCode      = (state: State) => (wechatyId: string) => state[wechatyId]?.qrcode
 const getUserPayload = (state: State) => (wechatyId: string) => state[wechatyId]?.user
 const isLoggedIn     = (state: State) => (wechatyId: string) => state[wechatyId]?.user !== undefined
 
 export {
-  getQRCode,
+  getQrCode,
   getUserPayload,
   isLoggedIn,
 }
