@@ -48,16 +48,19 @@ const reset$ = (action: ReturnType<typeof actions.reset>) => from(  // promise
 
 const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => from( // promise
   getWechaty(action.payload.wechatyId)
-    .say(action.payload.text)
+    .puppet.messageSendText(
+      action.payload.conversationId,
+      action.payload.text,
+    )
 ).pipe(
   mapTo(actions.sayAsync.success({
-    asyncId   : action.payload.asyncId,
+    id        : action.payload.id,
     wechatyId : action.payload.wechatyId,
   })),
   catchError(e => of(
     actions.sayAsync.failure({
-      asyncId   : action.payload.asyncId,
       error     : e,
+      id        : action.payload.id,
       wechatyId : action.payload.wechatyId,
     })
   ))

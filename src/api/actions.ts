@@ -5,10 +5,6 @@ import {
 }                       from 'typesafe-actions'
 
 import {
-  Sayable,
-}             from 'wechaty'
-
-import {
   EventDongPayload,
   EventErrorPayload,
   EventScanPayload,
@@ -32,11 +28,11 @@ import cuid from 'cuid'
 import * as types from './types'
 
 // interface ContactIdOptions  { contactId: string }
-interface ErrorOptions      { error: Error }
-interface AsyncIdOptions    { asyncId: string }
-interface MessageIdOptions  { messageId: string }
-interface SayableOptions    { sayable: Sayable }
-interface TextOptions       { text: string }
+interface ErrorOptions            { error: Error }
+interface IdOptions               { id: string }
+interface MessageIdOptions        { messageId: string }
+interface ConversationIdOptions   { conversationId: string }
+interface TextOptions             { text: string }
 export interface WechatyIdOptions  { wechatyId: string }
 
 /**
@@ -95,9 +91,9 @@ const reset = createAction(types.RESET, prepareData)()
 /**
  * Actions: Non-Void APIs
  */
-const prepareSayRequest = ({ wechatyId, sayable, text }: WechatyIdOptions & SayableOptions & TextOptions)                    => ({ asyncId: cuid(), wechatyId, conversationId: sayable.id, text })
-const prepareSaySuccess = ({ asyncId, wechatyId, messageId }: WechatyIdOptions & AsyncIdOptions & Partial<MessageIdOptions>) => ({ asyncId, wechatyId, messageId })
-const prepareSayFailure = ({ asyncId, wechatyId, error }: WechatyIdOptions & AsyncIdOptions & ErrorOptions)                  => ({ asyncId, wechatyId, error: error.toString() })
+const prepareSayRequest = ({ wechatyId, conversationId, text }: WechatyIdOptions & ConversationIdOptions & TextOptions) => ({ id: cuid(), wechatyId, conversationId, text })
+const prepareSaySuccess = ({ id, wechatyId, messageId }: WechatyIdOptions & IdOptions & Partial<MessageIdOptions>)      => ({ id,         wechatyId, messageId })
+const prepareSayFailure = ({ id, wechatyId, error }: WechatyIdOptions & IdOptions & ErrorOptions)                       => ({ id,         wechatyId, error: error.toString() })
 
 const sayAsync = createAsyncAction(
   [types.SAY_REQUEST, prepareSayRequest],
@@ -108,8 +104,8 @@ const sayAsync = createAsyncAction(
 /**
  * Other Actions
  */
-const prepareLoginUser = (payload: WechatyIdOptions & ContactPayload) => payload
-const loginUser = createAction(types.USER_LOGIN, prepareLoginUser)()
+const prepareSaveUser = (payload: WechatyIdOptions & ContactPayload) => payload
+const saveUser = createAction(types.USER_LOGIN, prepareSaveUser)()
 
 /**
  * Bug compatible & workaround for Ducks API
@@ -141,7 +137,7 @@ export {
 
   sayAsync,
 
-  loginUser,
+  saveUser,
 
   noop,
 }

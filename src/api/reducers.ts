@@ -21,7 +21,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
       user: undefined,
     },
   }))
-  .handleAction(actions.loginUser, (state, action) => ({
+  .handleAction(actions.saveUser, (state, action) => ({
     ...state,
     [action.payload.wechatyId]: {
       ...state[action.payload.wechatyId],

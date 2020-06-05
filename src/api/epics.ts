@@ -34,7 +34,7 @@ const sayEpic: Epic = actions$ => actions$.pipe(
 const loginEpic: Epic = actions$ => actions$.pipe(
   filter(isActionOf(actions.loginEvent)),
   mergeMap(utils.toContactPayload$),
-  map(payload => actions.loginUser(payload)),
+  map(payload => actions.saveUser(payload)),
 )
 
 export {
