@@ -18,8 +18,8 @@
  *   limitations under the License.
  *
  */
-import { validateDucksApi } from 'ducks'
+import { validateDuck } from 'ducks'
 
-import * as api from '.'
+import * as Duck from '.'
 
-validateDucksApi(api)
+validateDuck(Duck)

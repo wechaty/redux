@@ -28,7 +28,7 @@ import {
 import { Wechaty }        from 'wechaty'
 import {
   WechatyRedux,
-  Api,
+  Duck,
 }                         from '../src/'  // 'wechaty-redux'
 
 /**
@@ -37,15 +37,15 @@ import {
 const epicMiddleware = createEpicMiddleware()
 
 const store = createStore(
-  Api.default,
+  Duck.default,
   applyMiddleware(epicMiddleware),
 )
 
-const rootEpic = combineEpics(...Object.values(Api.epics))
+const rootEpic = combineEpics(...Object.values(Duck.epics))
 epicMiddleware.run(rootEpic)
 
 /**
- * 2. Instanciate Wechaty and Install Redux Plugin
+ * 2. Instantiate Wechaty and Install Redux Plugin
  */
 const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
 bot.use(WechatyRedux({ store }))
@@ -55,6 +55,6 @@ bot.use(WechatyRedux({ store }))
  */
 store.subscribe(() => console.info(store.getState()))
 
-store.dispatch(Api.actions.ding(bot.id, 'dispatch a ding action'))
+store.dispatch(Duck.actions.ding(bot.id, 'dispatch a ding action'))
 // The above code 👆 is exactly do the same thing with the following code 👇 :
-Api.operations.ding(store.dispatch)(bot.id, 'call ding from operations')
+Duck.operations.ding(store.dispatch)(bot.id, 'call ding from operations')

@@ -21,17 +21,17 @@ import { Wechaty } from 'wechaty'
 import { Ducks }   from 'ducks'
 import {
   WechatyRedux,
-  Api,
+  Duck,
 }                 from '../src/' // 'wechaty-redux'
 
 /**
  * 1. Ducksify Wechaty Redux API
  */
-const ducks = new Ducks({ wechaty: Api })
+const ducks = new Ducks({ wechaty: Duck })
 const store = ducks.configureStore()
 
 /**
- * 2. Instanciate Wechaty with Redux Plugin
+ * 2. Instantiate Wechaty with Redux Plugin
  */
 const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
 bot.use(WechatyRedux({ store }))

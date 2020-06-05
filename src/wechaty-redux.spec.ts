@@ -22,7 +22,10 @@
 import test  from 'tstest'
 import sinon from 'sinon'
 
-import { Wechaty, Message } from 'wechaty'
+import {
+  Wechaty,
+  Message,
+}                         from 'wechaty'
 import {
   MessagePayload,
   MessageType,
@@ -30,8 +33,9 @@ import {
 
 import {
   createStore,
+  compose,
 }                               from 'redux'
-// import { composeWithDevTools }  from 'remote-redux-devtools'
+import { composeWithDevTools }  from 'remote-redux-devtools'
 import {
   Ducks,
   noopReducer,
@@ -42,29 +46,33 @@ import {
   PuppetMock,
 }                 from 'wechaty-puppet-mock'
 import {
-  Api,
+  Duck,
   WechatyRedux,
 }                 from './'
 
-async function * wechatyFixture () {
+async function * wechatyFixtures () {
   const ducks = new Ducks({
-    wechaty : Api,
+    wechaty : Duck,
   })
 
-  // const compose = composeWithDevTools({
-  //   hostname : 'localhost',
-  //   port     : 8000,
-  //   realtime : true,
-  //   stopOn: Api.types.NOOP,
-  // })
+  let devCompose = compose
+
+  if (process.env.REDUX_DEVTOOLS) {
+    devCompose = composeWithDevTools({
+      hostname : 'localhost',
+      port     : 8000,
+      realtime : true,
+      stopOn: Duck.types.NOOP,
+    }) as any
+  }
 
   const ducksEnhancer = ducks.enhancer()
 
   const store = createStore(
     noopReducer,
-    // compose(
-    ducksEnhancer,
-    // ) as typeof ducksEnhancer,
+    devCompose(
+      ducksEnhancer,
+    ) as typeof ducksEnhancer,
   )
 
   const mocker = new Mocker()
@@ -98,7 +106,7 @@ test('WechatyRedux: selectors.{isLoggedIn,getQrCode,getUserPayload}()', async t 
     bot,
     mocker,
     duck,
-  } of wechatyFixture()) {
+  } of wechatyFixtures()) {
 
     t.equal(duck.selectors.isLoggedIn(bot.id), false, 'should not logged in at start')
     t.notOk(duck.selectors.getQrCode(bot.id), 'should no QR Code at start')
@@ -127,7 +135,7 @@ test('WechatyRedux: operations.ding()', async t => {
   for await (const {
     bot,
     duck,
-  } of wechatyFixture()) {
+  } of wechatyFixtures()) {
 
     const DATA = 'test'
 
@@ -149,7 +157,7 @@ test('WechatyRedux: operations.say()', async t => {
     bot,
     duck,
     mocker,
-  } of wechatyFixture()) {
+  } of wechatyFixtures()) {
 
     const TEXT = 'Hello, world.'
 
@@ -177,7 +185,7 @@ test('WechatyRedux: Puppet `message` event', async t => {
   for await (const {
     bot,
     mocker,
-  } of wechatyFixture()) {
+  } of wechatyFixtures()) {
 
     const TEXT = 'Hello, world.'
 

@@ -17,7 +17,7 @@
  *   limitations under the License.
  *
  */
-import * as Api from './api'
+import * as Duck from './duck'
 
 import {
   WechatyRedux,
@@ -28,8 +28,8 @@ import { getWechaty }     from './manager'
 import { VERSION }        from './version'
 
 export {
+  Duck,
   getWechaty,
-  Api,
   VERSION,
   WechatyRedux,
   WechatyReduxOptions,
