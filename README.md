@@ -48,7 +48,7 @@ import {
   createEpicMiddleware,
   combineEpics,
 }                         from 'redux-observable'
-import { Wechaty }         from 'wechaty'
+import { Wechaty }        from 'wechaty'
 import {
   WechatyRedux,
   Api,
@@ -86,12 +86,12 @@ Api.operations.ding(store.dispatch)(bot.id, 'call ding from operations')
 ### Ducks Proposal Style for Wechaty Redux Plugin
 
 ```ts
-import { Wechaty }           from 'wechaty'
-import { Ducks }             from 'ducks'
+import { Wechaty }  from 'wechaty'
+import { Ducks }    from 'ducks'
 import {
   WechatyRedux,
   Api,
-}                           from 'wechaty-redux'
+}                   from 'wechaty-redux'
 
 /**
  * 1. Ducksify Wechaty Redux API

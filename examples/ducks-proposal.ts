@@ -1,9 +1,9 @@
-import { Wechaty }           from 'wechaty'
-import { Ducks }             from 'ducks'
+import { Wechaty } from 'wechaty'
+import { Ducks }   from 'ducks'
 import {
   WechatyRedux,
   Api,
-}                           from '../src/' // 'wechaty-redux'
+}                 from '../src/' // 'wechaty-redux'
 
 /**
  * 1. Ducksify Wechaty Redux API

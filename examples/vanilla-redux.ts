@@ -6,7 +6,7 @@ import {
   createEpicMiddleware,
   combineEpics,
 }                         from 'redux-observable'
-import { Wechaty }         from 'wechaty'
+import { Wechaty }        from 'wechaty'
 import {
   WechatyRedux,
   Api,
