@@ -19,7 +19,7 @@
  *
  */
 import {
-  Api,
+  Duck,
   WechatyRedux,
   VERSION,
 }                 from 'wechaty-redux'
@@ -31,7 +31,7 @@ async function main () {
     throw new Error('version should be set before publishing')
   }
 
-  const ducks = new Ducks({ wechaty: Api })
+  const ducks = new Ducks({ wechaty: Duck })
   const store = ducks.configureStore()
 
   const wechaty = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
