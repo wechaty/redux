@@ -12,7 +12,7 @@ import {
 import {
   createStore,
 }                               from 'redux'
-import { composeWithDevTools }  from 'remote-redux-devtools'
+// import { composeWithDevTools }  from 'remote-redux-devtools'
 import {
   Ducks,
   noopReducer,
@@ -32,20 +32,20 @@ async function * wechatyFixture () {
     wechaty : Api,
   })
 
-  const compose = composeWithDevTools({
-    hostname : 'localhost',
-    port     : 8000,
-    realtime : true,
-    stopOn: Api.types.NOOP,
-  })
+  // const compose = composeWithDevTools({
+  //   hostname : 'localhost',
+  //   port     : 8000,
+  //   realtime : true,
+  //   stopOn: Api.types.NOOP,
+  // })
 
   const ducksEnhancer = ducks.enhancer()
 
   const store = createStore(
     noopReducer,
-    compose(
-      ducksEnhancer,
-    ) as typeof ducksEnhancer,
+    // compose(
+    ducksEnhancer,
+    // ) as typeof ducksEnhancer,
   )
 
   const mocker = new Mocker()
