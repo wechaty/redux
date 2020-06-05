@@ -35,35 +35,84 @@ See [Ducks](https://github.com/huan/ducks)
 npm install wechaty-redux
 ```
 
-### Wechaty Plugin
+### Vanilla Redux with Wechaty Redex Plugin
+
+> Vanilla Redux means using plain Redux without any additional libraries like Ducks.
 
 ```ts
-import { Wechaty }           from 'wechaty'
-import { WechatyRedux, Api } from 'wechaty-redux'
-import { Ducks }             from 'ducks'
+import {
+  createStore,
+  applyMiddleware,
+}                         from 'redux'
+import {
+  createEpicMiddleware,
+  combineEpics,
+}                         from 'redux-observable'
+import { Wechaty }         from 'wechaty'
+import {
+  WechatyRedux,
+  Api,
+}                         from 'wechaty-redux'
 
 /**
- * Ducksify Wechaty Redux Store
+ * 1. Configure Store with RxJS Epic Middleware for Wechaty Ducks API
  */
-const ducks = new Ducks({ wechaty: Api })
-const store = ducks.configureStore()
+const epicMiddleware = createEpicMiddleware()
+
+const store = createStore(
+  Api.default,
+  applyMiddleware(epicMiddleware),
+)
+
+const rootEpic = combineEpics(...Object.values(Api.epics))
+epicMiddleware.run(rootEpic)
 
 /**
- * Install Wechaty Redux Plugin
+ * 2. Instanciate Wechaty and Install Redux Plugin
  */
 const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
 bot.use(WechatyRedux({ store }))
 
 /**
- * Monitor Store State
+ * 3. Using Redux Store with Wechaty Ducks API!
  */
 store.subscribe(() => console.info(store.getState()))
 
+store.dispatch(Api.actions.ding(bot.id, 'dispatch a ding action'))
+// The above code 👆 is exactly do the same thing with the following code 👇 :
+Api.operations.ding(store.dispatch)(bot.id, 'call ding from operations')
+```
+
+### Ducks Proposal Style for Wechaty Redux Plugin
+
+```ts
+import { Wechaty }           from 'wechaty'
+import { Ducks }             from 'ducks'
+import {
+  WechatyRedux,
+  Api,
+}                           from 'wechaty-redux'
+
 /**
- * Ducksify Wechaty Redux Ducks API
+ * 1. Ducksify Wechaty Redux API
+ */
+const ducks = new Ducks({ wechaty: Api })
+const store = ducks.configureStore()
+
+/**
+ * 2. Instanciate Wechaty with Redux Plugin
+ */
+const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
+bot.use(WechatyRedux({ store }))
+
+/**
+ * 3. Using Redux Store with Wechaty Ducks API!
+ *  (With the Power of Ducks / Ducksify)
  */
 const wechatyDuck = ducks.ducksify('wechaty')
-store.dispatch(wechatyDuck.actions.ding('redux!'))
+
+store.subscribe(() => console.info(store.getState()))
+wechatyDuck.operations.ding(bot.id, 'Ducksify Style ding!')
 ```
 
 ### Redux Actions
