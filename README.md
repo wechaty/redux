@@ -35,7 +35,7 @@ See [Ducks](https://github.com/huan/ducks)
 npm install wechaty-redux
 ```
 
-### Vanilla Redux with Wechaty Redex Plugin
+### Vanilla Redux with Wechaty Redux Plugin
 
 > Vanilla Redux means using plain Redux without any additional libraries like Ducks.
 
