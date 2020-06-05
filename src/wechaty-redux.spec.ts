@@ -183,7 +183,7 @@ test('WechatyRedux: Puppet `message` event', async t => {
     }
 
     // Huan(202006) Workaround for puppet payload mismatch
-    delete EXPECTED_PAYLOAD.mentionIdList
+    delete (EXPECTED_PAYLOAD as any).mentionIdList
 
     t.deepEqual((msg as any).payload, EXPECTED_PAYLOAD, 'should receive message with expected payload')
   }
