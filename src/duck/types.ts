@@ -51,7 +51,7 @@ const SAY_FAILURE = 'wechaty/SAY_FAILURE'
 /**
  * Other Types
  */
-const USER_LOGIN = 'wechaty/USER_LOGIN'
+const SAVE_USER = 'wechaty/SAVE_USER'
 
 const NOOP = 'wechaty/NOOP'
 
@@ -81,7 +81,7 @@ export {
   SAY_REQUEST,
   SAY_SUCCESS,
 
-  USER_LOGIN,
+  SAVE_USER,
 
   NOOP,
 }

@@ -124,7 +124,7 @@ const sayAsync = createAsyncAction(
  * Other Actions
  */
 const prepareSaveUser = (payload: WechatyIdOptions & ContactPayload) => payload
-const saveUser = createAction(types.USER_LOGIN, prepareSaveUser)()
+const saveUser = createAction(types.SAVE_USER, prepareSaveUser)()
 
 /**
  * Bug compatible & workaround for Ducks API
