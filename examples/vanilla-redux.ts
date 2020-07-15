@@ -29,7 +29,7 @@ import { Wechaty }        from 'wechaty'
 import {
   WechatyRedux,
   Duck,
-}                         from '../src/'  // 'wechaty-redux'
+}                         from '../src/mod'  // 'wechaty-redux'
 
 /**
  * 1. Configure Store with RxJS Epic Middleware for Wechaty Ducks API

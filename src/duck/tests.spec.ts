@@ -20,6 +20,6 @@
  */
 import { validateDuck } from 'ducks'
 
-import * as Duck from '.'
+import * as Duck from './mod'
 
 validateDuck(Duck)

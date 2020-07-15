@@ -2,8 +2,8 @@
   "name": "wechaty-redux",
   "version": "0.2.18",
   "description": "Wechaty Redux Plugin Powered By Ducks",
-  "main": "dist/src/index.js",
-  "typings": "dist/src/index.d.ts",
+  "main": "dist/src/mod.js",
+  "typings": "dist/src/mod.d.ts",
   "scripts": {
     "clean": "shx rm -fr dist/*",
     "dist": "npm run clean && tsc",

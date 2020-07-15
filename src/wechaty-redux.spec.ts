@@ -48,7 +48,7 @@ import {
 import {
   Duck,
   WechatyRedux,
-}                 from './'
+}                 from './mod'
 
 async function * wechatyFixtures () {
   const ducks = new Ducks({

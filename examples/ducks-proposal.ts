@@ -22,7 +22,7 @@ import { Ducks }   from 'ducks'
 import {
   WechatyRedux,
   Duck,
-}                 from '../src/' // 'wechaty-redux'
+}                 from '../src/mod' // 'wechaty-redux'
 
 /**
  * 1. Ducksify Wechaty Redux API

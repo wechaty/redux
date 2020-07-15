@@ -34,7 +34,7 @@ import {
   Store,
 }             from 'redux'
 
-import * as duck  from './duck/'
+import * as duck  from './duck/mod'
 
 import * as instances from './manager'
 

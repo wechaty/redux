@@ -25,7 +25,7 @@ import {
 
 import {
   WechatyRedux,
-}                 from '../src/'
+}                 from '../src/mod'
 
 test('integration testing', async (t) => {
   const name = WechatyRedux({ store: {} as any }).name

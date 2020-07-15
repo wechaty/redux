@@ -17,7 +17,7 @@
  *   limitations under the License.
  *
  */
-import * as Duck from './duck'
+import * as Duck from './duck/mod'
 
 import {
   WechatyRedux,
