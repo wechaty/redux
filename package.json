@@ -53,7 +53,7 @@
     "@chatie/tsconfig": "^0.10.1",
     "@types/glob": "^7.1.2",
     "@types/remote-redux-devtools": "^0.5.4",
-    "ducks": "^0.7.5",
+    "ducks": "^0.10.2",
     "glob": "^7.1.6",
     "pkg-jq": "^0.2.4",
     "redux-devtools-cli": "0.0.1-1",
