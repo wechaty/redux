@@ -44,7 +44,7 @@
     "rxjs": "^6.5.5"
   },
   "peerDependencies": {
-    "wechaty": "^0.40.4"
+    "wechaty": "^0.46.2"
   },
   "devDependencies": {
     "@chatie/eslint-config": "^0.12.1",
@@ -61,7 +61,7 @@
     "shx": "^0.3.2",
     "tstest": "^0.4.10",
     "utility-types": "^3.10.0",
-    "wechaty": "^0.40.4",
+    "wechaty": "^0.46.2",
     "wechaty-puppet-mock": "^0.22.6"
   },
   "git": {
