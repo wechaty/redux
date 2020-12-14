@@ -38,13 +38,13 @@
     "tag": "next"
   },
   "dependencies": {
-    "typesafe-actions": "^5.1.0",
     "redux": "^4.0.5",
     "redux-observable": "^1.2.0",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.5.5",
+    "typesafe-actions": "^5.1.0"
   },
   "peerDependencies": {
-    "wechaty": ">=0.48"
+    "wechaty": "^0.51.10"
   },
   "devDependencies": {
     "@chatie/eslint-config": "^0.12.1",
@@ -61,8 +61,8 @@
     "shx": "^0.3.2",
     "tstest": "^0.4.10",
     "utility-types": "^3.10.0",
+    "wechaty": "0.51.10",
     "wechaty-puppet-mock": "^0.28.2"
-    "wechaty": "^0.50.7",
   },
   "git": {
     "scripts": {

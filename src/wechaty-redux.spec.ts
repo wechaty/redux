@@ -42,7 +42,7 @@ import {
 }                               from 'ducks'
 
 import {
-  Mocker,
+  mock,
   PuppetMock,
 }                 from 'wechaty-puppet-mock'
 import {
@@ -75,7 +75,7 @@ async function * wechatyFixtures () {
     ) as typeof ducksEnhancer,
   )
 
-  const mocker = new Mocker()
+  const mocker = new mock.Mocker()
   const puppet = new PuppetMock({ mocker })
   const bot = new Wechaty({ puppet })
 
@@ -161,7 +161,7 @@ test('WechatyRedux: operations.say()', async t => {
 
     const TEXT = 'Hello, world.'
 
-    const [ user, mary ] = mocker.createContacts(2)
+    const [user, mary] = mocker.createContacts(2)
     mocker.login(user)
 
     const sandbox = sinon.createSandbox()
@@ -189,7 +189,7 @@ test('WechatyRedux: Puppet `message` event', async t => {
 
     const TEXT = 'Hello, world.'
 
-    const [ user, mary ] = mocker.createContacts(2)
+    const [user, mary] = mocker.createContacts(2)
     mocker.login(user)
 
     const future = new Promise<Message>(resolve => bot.once('message', resolve))
