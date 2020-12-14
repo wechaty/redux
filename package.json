@@ -1,6 +1,6 @@
 {
   "name": "wechaty-redux",
-  "version": "0.2.20",
+  "version": "0.2.21",
   "description": "Wechaty Redux Plugin Powered By Ducks",
   "main": "dist/src/mod.js",
   "typings": "dist/src/mod.d.ts",
@@ -44,7 +44,7 @@
     "rxjs": "^6.5.5"
   },
   "peerDependencies": {
-    "wechaty": "^0.50.7"
+    "wechaty": ">=0.48"
   },
   "devDependencies": {
     "@chatie/eslint-config": "^0.12.1",
