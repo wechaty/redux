@@ -34,7 +34,7 @@ async function main () {
   const ducks = new Ducks({ wechaty: Duck })
   const store = ducks.configureStore()
 
-  const wechaty = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
+  const wechaty = new Wechaty({ puppet: 'wechaty-puppet-mock' })
 
   wechaty.use(
     WechatyRedux({ store })
