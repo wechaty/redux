@@ -40,28 +40,28 @@
   "dependencies": {
     "redux": "^4.0.5",
     "redux-observable": "^1.2.0",
-    "rxjs": "^7.0.0-beta.9",
+    "rxjs": "^6.6",
     "typesafe-actions": "^5.1.0"
   },
   "peerDependencies": {
-    "wechaty": ">=0.53"
+    "wechaty": ">=0.56"
   },
   "devDependencies": {
-    "@chatie/eslint-config": "^0.12.1",
+    "@chatie/eslint-config": "^0.12.3",
     "@chatie/git-scripts": "^0.6.2",
     "@chatie/semver": "^0.4.7",
-    "@chatie/tsconfig": "^0.13.1",
+    "@chatie/tsconfig": "^0.14.1",
     "@types/glob": "^7.1.3",
     "@types/remote-redux-devtools": "^0.5.4",
     "ducks": "^0.10.2",
     "glob": "^7.1.6",
-    "pkg-jq": "^0.2.4",
+    "pkg-jq": "^0.2.11",
     "remote-redux-devtools": "^0.5.16",
     "shx": "^0.3.3",
     "tstest": "^0.4.10",
     "utility-types": "^3.10.0",
-    "wechaty": "^0.53.1",
-    "wechaty-puppet-mock": "^0.28.2"
+    "wechaty": "^0.57",
+    "wechaty-puppet-mock": "^0.28.3"
   },
   "git": {
     "scripts": {
