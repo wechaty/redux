@@ -105,20 +105,26 @@ function install (store: Store, wechaty: Wechaty): void {
   const switchOn$  = fromEvent(wechaty.puppet.state, 'on')
   const switchOff$ = fromEvent(wechaty.puppet.state, 'off')
 
-  const dong$       = fromEvent<EventDongPayload>       (wechaty.puppet, 'dong')
-  const error$      = fromEvent<EventErrorPayload>      (wechaty.puppet, 'error')
-  const friendship$ = fromEvent<EventFriendshipPayload> (wechaty.puppet, 'friendship')
-  const heartbeat$  = fromEvent<EventHeartbeatPayload>  (wechaty.puppet, 'heartbeat')
-  const login$      = fromEvent<EventLoginPayload>      (wechaty.puppet, 'login')
-  const logout$     = fromEvent<EventLogoutPayload>     (wechaty.puppet, 'logout')
-  const message$    = fromEvent<EventMessagePayload>    (wechaty.puppet, 'message')
-  const ready$      = fromEvent<EventReadyPayload>      (wechaty.puppet, 'ready')
-  const reset$      = fromEvent<EventResetPayload>      (wechaty.puppet, 'reset')
-  const roomInvite$ = fromEvent<EventRoomInvitePayload> (wechaty.puppet, 'room-invite')
-  const roomJoin$   = fromEvent<EventRoomJoinPayload>   (wechaty.puppet, 'room-join')
-  const roomLeave$  = fromEvent<EventRoomLeavePayload>  (wechaty.puppet, 'room-leave')
-  const roomTopic$  = fromEvent<EventRoomTopicPayload>  (wechaty.puppet, 'room-topic')
-  const scan$       = fromEvent<EventScanPayload>       (wechaty.puppet, 'scan')
+  /**
+   * FIXME: Huan(20200312) remove `any`
+   *  https://github.com/wechaty/wechaty-redux/issues/4
+   */
+  const puppet = wechaty.puppet as any
+
+  const dong$       = fromEvent<EventDongPayload>       (puppet, 'dong')
+  const error$      = fromEvent<EventErrorPayload>      (puppet, 'error')
+  const friendship$ = fromEvent<EventFriendshipPayload> (puppet, 'friendship')
+  const heartbeat$  = fromEvent<EventHeartbeatPayload>  (puppet, 'heartbeat')
+  const login$      = fromEvent<EventLoginPayload>      (puppet, 'login')
+  const logout$     = fromEvent<EventLogoutPayload>     (puppet, 'logout')
+  const message$    = fromEvent<EventMessagePayload>    (puppet, 'message')
+  const ready$      = fromEvent<EventReadyPayload>      (puppet, 'ready')
+  const reset$      = fromEvent<EventResetPayload>      (puppet, 'reset')
+  const roomInvite$ = fromEvent<EventRoomInvitePayload> (puppet, 'room-invite')
+  const roomJoin$   = fromEvent<EventRoomJoinPayload>   (puppet, 'room-join')
+  const roomLeave$  = fromEvent<EventRoomLeavePayload>  (puppet, 'room-leave')
+  const roomTopic$  = fromEvent<EventRoomTopicPayload>  (puppet, 'room-topic')
+  const scan$       = fromEvent<EventScanPayload>       (puppet, 'scan')
 
   merge(
     /**
@@ -152,7 +158,12 @@ function install (store: Store, wechaty: Wechaty): void {
       roomTopic$  .pipe(map(payload => duck.actions.roomTopicEvent  (wechaty.id, payload))),
     ),
     scan$         .pipe(map(payload => duck.actions.scanEvent(wechaty.id, payload))),
-  ).subscribe(store.dispatch)
+
+  /**
+  * FIXME: Huan(20200312) remove `any`
+  *  https://github.com/wechaty/wechaty-redux/issues/4
+  */
+  ).subscribe(store.dispatch as any)
 }
 
 export {
