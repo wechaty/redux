@@ -20,7 +20,7 @@ cp tests/fixtures/smoke-testing.ts "$TMPDIR"
 cd $TMPDIR
 npm init -y
 npm install *-*.*.*.tgz \
-  @chatie/tsconfig \
+  @chatie/tsconfig@"$NPM_TAG" \
   "wechaty@$NPM_TAG" \
   ducks \
 
