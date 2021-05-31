@@ -72,7 +72,10 @@ function WechatyRedux (options: WechatyReduxOptions) {
   }
 }
 
-function install (store: Store, wechaty: Wechaty): void {
+function install (
+  store: Store,
+  wechaty: Wechaty,
+): void {
   log.verbose('WechatyRedux', 'install(store, %s)', wechaty)
 
   /**
@@ -101,15 +104,16 @@ function install (store: Store, wechaty: Wechaty): void {
    * Actually, we are not installing to the Wechaty,
    *  but the Puppet for convenience
    */
+
   /* eslint-disable func-call-spacing */
   const switchOn$  = fromEvent(wechaty.puppet.state, 'on')
   const switchOff$ = fromEvent(wechaty.puppet.state, 'off')
 
   /**
-   * FIXME: Huan(20200312) remove `any`
+   * FIXME: Huan(20200312) remove the specified explicit types
    *  https://github.com/wechaty/wechaty-redux/issues/4
    */
-  const puppet = wechaty.puppet as any
+  const puppet = wechaty.puppet
 
   const dong$       = fromEvent<EventDongPayload>       (puppet, 'dong')
   const error$      = fromEvent<EventErrorPayload>      (puppet, 'error')
@@ -127,43 +131,25 @@ function install (store: Store, wechaty: Wechaty): void {
   const scan$       = fromEvent<EventScanPayload>       (puppet, 'scan')
 
   merge(
-    /**
-     * Huan(202004):
-     *  We are using `merge` inside `merge` because the typing system for the arguments of `merge()`
-     *  only support maximum 6 arguments at the same time.
-     */
+    /* eslint-disable no-whitespace-before-property */
+    switchOn$   .pipe(map(status  => duck.actions.turnOnSwitch    (wechaty.id, status))),
+    switchOff$  .pipe(map(status  => duck.actions.turnOffSwitch   (wechaty.id, status))),
 
-    /*  eslint-disable no-whitespace-before-property */
-    merge(
-      switchOn$   .pipe(map(status => duck.actions.turnOnSwitch (wechaty.id, status))),
-      switchOff$  .pipe(map(status => duck.actions.turnOffSwitch(wechaty.id, status))),
-    ),
-    merge(
-      dong$       .pipe(map(payload => duck.actions.dongEvent       (wechaty.id, payload))),
-      error$      .pipe(map(payload => duck.actions.errorEvent      (wechaty.id, payload))),
-      friendship$ .pipe(map(payload => duck.actions.friendshipEvent (wechaty.id, payload))),
-      heartbeat$  .pipe(map(payload => duck.actions.heartbeatEvent  (wechaty.id, payload))),
-      login$      .pipe(map(payload => duck.actions.loginEvent      (wechaty.id, payload))),
-      logout$     .pipe(map(payload => duck.actions.logoutEvent     (wechaty.id, payload))),
-    ),
-    merge(
-      message$    .pipe(map(payload => duck.actions.messageEvent(wechaty.id, payload))),
-      ready$      .pipe(map(payload => duck.actions.readyEvent  (wechaty.id, payload))),
-      reset$      .pipe(map(payload => duck.actions.resetEvent  (wechaty.id, payload))),
-    ),
-    merge(
-      roomInvite$ .pipe(map(payload => duck.actions.roomInviteEvent (wechaty.id, payload))),
-      roomJoin$   .pipe(map(payload => duck.actions.roomJoinEvent   (wechaty.id, payload))),
-      roomLeave$  .pipe(map(payload => duck.actions.roomLeaveEvent  (wechaty.id, payload))),
-      roomTopic$  .pipe(map(payload => duck.actions.roomTopicEvent  (wechaty.id, payload))),
-    ),
-    scan$         .pipe(map(payload => duck.actions.scanEvent(wechaty.id, payload))),
-
-  /**
-  * FIXME: Huan(20200312) remove `any`
-  *  https://github.com/wechaty/wechaty-redux/issues/4
-  */
-  ).subscribe(store.dispatch as any)
+    dong$       .pipe(map(payload => duck.actions.dongEvent       (wechaty.id, payload))),
+    error$      .pipe(map(payload => duck.actions.errorEvent      (wechaty.id, payload))),
+    friendship$ .pipe(map(payload => duck.actions.friendshipEvent (wechaty.id, payload))),
+    heartbeat$  .pipe(map(payload => duck.actions.heartbeatEvent  (wechaty.id, payload))),
+    login$      .pipe(map(payload => duck.actions.loginEvent      (wechaty.id, payload))),
+    logout$     .pipe(map(payload => duck.actions.logoutEvent     (wechaty.id, payload))),
+    message$    .pipe(map(payload => duck.actions.messageEvent    (wechaty.id, payload))),
+    ready$      .pipe(map(payload => duck.actions.readyEvent      (wechaty.id, payload))),
+    reset$      .pipe(map(payload => duck.actions.resetEvent      (wechaty.id, payload))),
+    roomInvite$ .pipe(map(payload => duck.actions.roomInviteEvent (wechaty.id, payload))),
+    roomJoin$   .pipe(map(payload => duck.actions.roomJoinEvent   (wechaty.id, payload))),
+    roomLeave$  .pipe(map(payload => duck.actions.roomLeaveEvent  (wechaty.id, payload))),
+    roomTopic$  .pipe(map(payload => duck.actions.roomTopicEvent  (wechaty.id, payload))),
+    scan$       .pipe(map(payload => duck.actions.scanEvent       (wechaty.id, payload))),
+  ).subscribe(store.dispatch)
 }
 
 export {
