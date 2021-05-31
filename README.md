@@ -167,6 +167,10 @@ See: [api/index.ts](src/api/index.ts)
 
 ## History
 
+### Main
+
+1. Upgrade RxJS version from 6 to 7
+
 ### v0.2 (Jun 2, 2020)
 
 Initial version. Requires `wechaty@0.40` or above versions.
