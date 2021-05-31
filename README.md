@@ -169,7 +169,7 @@ See: [api/index.ts](src/api/index.ts)
 
 ### Main
 
-1. Upgrade RxJS version from 6 to 7
+1. Upgrade RxJS version from 6 to 7.1
 
 ### v0.2 (Jun 2, 2020)
 
