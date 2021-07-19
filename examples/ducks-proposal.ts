@@ -24,23 +24,31 @@ import {
   Duck,
 }                 from '../src/mod' // 'wechaty-redux'
 
-/**
- * 1. Ducksify Wechaty Redux API
- */
-const ducks = new Ducks({ wechaty: Duck })
-const store = ducks.configureStore()
+async function main () {
+  /**
+   * 1. Ducksify Wechaty Redux API
+   */
+  const ducks = new Ducks({ wechaty: Duck })
+  const store = ducks.configureStore()
 
-/**
- * 2. Instantiate Wechaty with Redux Plugin
- */
-const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
-bot.use(WechatyRedux({ store }))
+  /**
+   * 2. Instantiate Wechaty with Redux Plugin
+   */
+  const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
+  bot.use(WechatyRedux({ store }))
 
-/**
- * 3. Using Redux Store with Wechaty Ducks API!
- *  (With the Power of Ducks / Ducksify)
- */
-const wechatyDuck = ducks.ducksify('wechaty')
+  await bot.start()
+  console.info('Wechaty has started with Redux enabled.')
 
-store.subscribe(() => console.info(store.getState()))
-wechatyDuck.operations.ding(bot.id, 'Ducksify Style ding!')
+  /**
+   * 3. Using Redux Store with Wechaty Ducks API!
+   *  (With the Power of Ducks / Ducksify)
+   */
+  const wechatyDuck = ducks.ducksify('wechaty')
+
+  store.subscribe(() => console.info(store.getState()))
+  wechatyDuck.operations.ding(bot.id, 'Ducksify Style ding!')
+}
+
+main()
+  .catch(console.error)

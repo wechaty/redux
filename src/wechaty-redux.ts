@@ -92,6 +92,7 @@ function install (
 
   if (!hasPuppet) {
     wechaty.once('puppet', () => install(store, wechaty))
+    log.verbose('WechatyRedux', 'install() wechaty.once(puppet) event listener added')
     return
   }
 
@@ -99,6 +100,7 @@ function install (
    * Save wechaty id with the instance for the future usage
    */
   instances.setWechaty(wechaty)
+  log.silly('WechatyRedux', 'install() added wechaty<%s> to manager instances')
 
   /**
    * Actually, we are not installing to the Wechaty,
