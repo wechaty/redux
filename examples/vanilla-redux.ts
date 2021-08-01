@@ -20,16 +20,16 @@
 import {
   createStore,
   applyMiddleware,
-} from 'redux'
+}                           from 'redux'
 import {
   createEpicMiddleware,
   combineEpics,
 } from 'redux-observable'
-import { Wechaty } from 'wechaty'
+import { Wechaty }          from 'wechaty'
 import {
   WechatyRedux,
   Duck,
-} from '../src/mod'  // 'wechaty-redux'
+}                           from '../src/mod'  // 'wechaty-redux'
 
 async function main () {
   /**
@@ -58,6 +58,8 @@ async function main () {
   store.subscribe(() => console.info(store.getState()))
 
   store.dispatch(Duck.actions.ding(bot.id, 'dispatch a ding action'))
+  // The above code 👆 is exactly do the same thing with the following code 👇 :
+  // Duck.operations.ding(store.dispatch)(bot.id, 'call ding from operations')
 }
 
 main()
