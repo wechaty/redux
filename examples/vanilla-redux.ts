@@ -17,7 +17,7 @@
  *   limitations under the License.
  *
  */
- import {
+import {
   createStore,
   applyMiddleware,
 } from 'redux'
