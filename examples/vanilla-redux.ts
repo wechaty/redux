@@ -17,44 +17,48 @@
  *   limitations under the License.
  *
  */
-import {
+ import {
   createStore,
   applyMiddleware,
-}                         from 'redux'
+} from 'redux'
 import {
   createEpicMiddleware,
   combineEpics,
-}                         from 'redux-observable'
-import { Wechaty }        from 'wechaty'
+} from 'redux-observable'
+import { Wechaty } from 'wechaty'
 import {
   WechatyRedux,
   Duck,
-}                         from '../src/mod'  // 'wechaty-redux'
+} from '../src/mod'  // 'wechaty-redux'
 
-/**
- * 1. Configure Store with RxJS Epic Middleware for Wechaty Ducks API
- */
-const epicMiddleware = createEpicMiddleware()
+async function main () {
+  /**
+  * 1. Configure Store with RxJS Epic Middleware for Wechaty Ducks API
+  */
+  const epicMiddleware = createEpicMiddleware()
 
-const store = createStore(
-  Duck.default,
-  applyMiddleware(epicMiddleware),
-)
+  const store = createStore(
+    Duck.default,
+    applyMiddleware(epicMiddleware),
+  )
 
-const rootEpic = combineEpics(...Object.values(Duck.epics))
-epicMiddleware.run(rootEpic)
+  const rootEpic = combineEpics(...Object.values(Duck.epics))
+  epicMiddleware.run(rootEpic)
 
-/**
- * 2. Instantiate Wechaty and Install Redux Plugin
- */
-const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
-bot.use(WechatyRedux({ store }))
+  /**
+   * 2. Instantiate Wechaty and Install Redux Plugin
+   */
+  const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
+  bot.use(WechatyRedux({ store }))
+  await bot.start()
 
-/**
- * 3. Using Redux Store with Wechaty Ducks API!
- */
-store.subscribe(() => console.info(store.getState()))
+  /**
+   * 3. Using Redux Store with Wechaty Ducks API!
+   */
+  store.subscribe(() => console.info(store.getState()))
 
-store.dispatch(Duck.actions.ding(bot.id, 'dispatch a ding action'))
-// The above code 👆 is exactly do the same thing with the following code 👇 :
-Duck.operations.ding(store.dispatch)(bot.id, 'call ding from operations')
+  store.dispatch(Duck.actions.ding(bot.id, 'dispatch a ding action'))
+}
+
+main()
+  .catch(console.error)
