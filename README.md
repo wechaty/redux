@@ -3,6 +3,7 @@
 [![NPM Version](https://img.shields.io/npm/v/wechaty-redux?color=brightgreen)](https://www.npmjs.com/package/wechaty-redux)
 [![NPM](https://github.com/wechaty/wechaty-redux/workflows/NPM/badge.svg)](https://github.com/wechaty/wechaty-redux/actions?query=workflow%3ANPM)
 [![Ducksify Extension](https://img.shields.io/badge/Redux-Ducksify-yellowgreen)](https://github.com/huan/ducks#3-ducksify-extension-currying--api-interface)
+[![ES Modules](https://img.shields.io/badge/ES-Modules-brightgreen)](https://github.com/Chatie/tsconfig/issues/16)
 
 Wrap Wechaty with Redux Actions &amp; Reducers for Easy State Management
 
