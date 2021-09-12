@@ -22,7 +22,7 @@ import { Ducks }   from 'ducks'
 import {
   WechatyRedux,
   Duck,
-}                 from '../src/mod' // 'wechaty-redux'
+}                 from '../src/mod.js' // 'wechaty-redux'
 
 async function main () {
   /**

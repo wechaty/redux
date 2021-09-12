@@ -23,7 +23,7 @@ import {
   createAsyncAction,
 }                       from 'typesafe-actions'
 
-import {
+import type {
   EventDongPayload,
   EventErrorPayload,
   EventScanPayload,
@@ -44,7 +44,7 @@ import {
 
 import cuid from 'cuid'
 
-import * as types from './types'
+import * as types from './types.js'
 
 // interface ContactIdOptions  { contactId: string }
 interface ErrorOptions            { error: Error }

@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 
 /**
  *   Wechaty Open Source Software - https://github.com/wechaty
@@ -25,7 +25,7 @@ import {
 
 import {
   WechatyRedux,
-}                 from '../src/mod'
+}                 from '../src/mod.js'
 
 test('integration testing', async (t) => {
   const name = WechatyRedux({ store: {} as any }).name

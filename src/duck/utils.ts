@@ -26,9 +26,9 @@ import {
   map,
 }                 from 'rxjs/operators'
 
-import { getWechaty } from '../manager'
+import { getWechaty } from '../manager.js'
 
-import * as actions from './actions'
+import type * as actions from './actions.js'
 import { Message } from 'wechaty'
 
 /**

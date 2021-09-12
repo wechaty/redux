@@ -27,13 +27,13 @@ import {
   map,
 }                   from 'rxjs/operators'
 
-import {
+import type {
   Epic,
 }               from 'redux-observable'
 
-import * as actions     from './actions'
-import * as rxAsync     from './rx-async'
-import * as utils       from './utils'
+import * as actions     from './actions.js'
+import * as rxAsync     from './rx-async.js'
+import * as utils       from './utils.js'
 
 const dingEpic: Epic = actions$ => actions$.pipe(
   filter(isActionOf(actions.ding)),

@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 /**
  *   Wechaty Open Source Software - https://github.com/wechaty
  *
@@ -20,6 +20,6 @@
  */
 import { validateDuck } from 'ducks'
 
-import * as Duck from './mod'
+import * as Duck from './mod.js'
 
 validateDuck(Duck)
