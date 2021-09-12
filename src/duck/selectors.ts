@@ -17,7 +17,7 @@
  *   limitations under the License.
  *
  */
-import { State } from './reducers'
+import type { State } from './reducers.js'
 
 const getQrCode      = (state: State) => (wechatyId: string) => state[wechatyId]?.qrcode
 const getUserPayload = (state: State) => (wechatyId: string) => state[wechatyId]?.user

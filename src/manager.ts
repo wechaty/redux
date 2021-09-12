@@ -17,7 +17,7 @@
  *   limitations under the License.
  *
  */
-import { Wechaty } from 'wechaty'
+import type { Wechaty } from 'wechaty'
 
 const instanceStore = new Map<string, Wechaty>()
 

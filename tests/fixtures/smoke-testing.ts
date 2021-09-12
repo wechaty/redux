@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 /**
  *   Wechaty Open Source Software - https://github.com/wechaty
  *
@@ -27,10 +27,6 @@ import { Ducks }  from 'ducks'
 import { Wechaty } from 'wechaty'
 
 async function main () {
-  if (VERSION === '0.0.0') {
-    throw new Error('version should be set before publishing')
-  }
-
   const ducks = new Ducks({ wechaty: Duck })
   const store = ducks.configureStore()
 
@@ -39,6 +35,10 @@ async function main () {
   wechaty.use(
     WechatyRedux({ store })
   )
+
+  if (VERSION === '0.0.0') {
+    throw new Error('version should be set before publishing')
+  }
 
   return 0
 }

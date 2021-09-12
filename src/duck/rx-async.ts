@@ -29,9 +29,9 @@ import {
 
 import {
   getWechaty,
-}                 from '../manager'
+}                 from '../manager.js'
 
-import * as actions from './actions'
+import * as actions from './actions.js'
 
 const ding$ = (action: ReturnType<typeof actions.ding>) => of(  // void
   getWechaty(action.payload.wechatyId)
@@ -41,20 +41,24 @@ const ding$ = (action: ReturnType<typeof actions.ding>) => of(  // void
   catchError(e => of(
     actions.errorEvent(
       action.payload.wechatyId,
-      { data: String(e) },
+      { ...e },
     )
   )),
 )
 
-const reset$ = (action: ReturnType<typeof actions.reset>) => from(  // promise
+/**
+ * Huan(202109): the return type of wechaty.reset() is void
+ *  which means we will not get any response from wechaty.reset()
+ */
+const reset$ = (action: ReturnType<typeof actions.reset>) => of(
   getWechaty(action.payload.wechatyId)
     .reset(action.payload.data)
 ).pipe(
   ignoreElements(),
-  catchError(e => of(
+  catchError((e: Error) => of(
     actions.errorEvent(
       action.payload.wechatyId,
-      { data: String(e) },
+      { ...e }, // { data: String(e) },
     )
   )),
 )

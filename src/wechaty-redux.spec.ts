@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env -S node --no-warnings --loader ts-node/esm
 
 /**
  *   Wechaty Open Source Software - https://github.com/wechaty
@@ -19,8 +19,10 @@
  *   limitations under the License.
  *
  */
-import test  from 'tstest'
-import sinon from 'sinon'
+import {
+  test,
+  sinon,
+}             from 'tstest'
 
 import {
   Wechaty,
@@ -48,7 +50,7 @@ import {
 import {
   Duck,
   WechatyRedux,
-}                 from './mod'
+}                 from './mod.js'
 
 async function * wechatyFixtures () {
   const ducks = new Ducks({
@@ -57,7 +59,7 @@ async function * wechatyFixtures () {
 
   let devCompose = compose
 
-  if (process.env.REDUX_DEVTOOLS) {
+  if (process.env['REDUX_DEVTOOLS']) {
     devCompose = composeWithDevTools({
       hostname : 'localhost',
       port     : 8000,
@@ -161,7 +163,7 @@ test('WechatyRedux: operations.say()', async t => {
 
     const TEXT = 'Hello, world.'
 
-    const [user, mary] = mocker.createContacts(2)
+    const [user, mary] = mocker.createContacts(2) as [mock.ContactMock, mock.ContactMock]
     mocker.login(user)
 
     const sandbox = sinon.createSandbox()
@@ -189,7 +191,7 @@ test('WechatyRedux: Puppet `message` event', async t => {
 
     const TEXT = 'Hello, world.'
 
-    const [user, mary] = mocker.createContacts(2)
+    const [user, mary] = mocker.createContacts(2) as [mock.ContactMock, mock.ContactMock]
     mocker.login(user)
 
     const future = new Promise<Message>(resolve => bot.once('message', resolve))

@@ -17,9 +17,9 @@
  *   limitations under the License.
  *
  */
-import { Dispatch } from 'redux'
+import type { Dispatch } from 'redux'
 
-import * as actions from './actions'
+import * as actions from './actions.js'
 
 const ding = (dispatch: Dispatch) => (wechatyId: string, data: string)  => dispatch(actions.ding(wechatyId, data))
 const say  = (dispatch: Dispatch) => (wechatyId: string, conversationId: string, text: string)  => dispatch(actions.sayAsync.request({ conversationId, text, wechatyId }))

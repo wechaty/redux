@@ -17,20 +17,22 @@
  *   limitations under the License.
  *
  */
-import * as Duck from './duck/mod'
+import * as Duck from './duck/mod.js'
 
 import {
   WechatyRedux,
   WechatyReduxOptions,
-}                        from './wechaty-redux'
+}                        from './wechaty-redux.js'
 
-import { getWechaty }     from './manager'
-import { VERSION }        from './version'
+import { getWechaty }     from './manager.js'
+import { VERSION }        from './config.js'
 
+export type {
+  WechatyReduxOptions,
+}
 export {
   Duck,
   getWechaty,
   VERSION,
   WechatyRedux,
-  WechatyReduxOptions,
 }

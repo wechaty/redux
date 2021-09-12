@@ -30,15 +30,15 @@ import {
   map,
 }             from 'rxjs/operators'
 
-import {
+import type {
   Store,
 }             from 'redux'
 
-import * as duck  from './duck/mod'
+import * as duck  from './duck/mod.js'
 
-import * as instances from './manager'
+import * as instances from './manager.js'
 
-import {
+import type {
   EventDongPayload,
   EventErrorPayload,
   EventScanPayload,
