@@ -49,10 +49,12 @@
     "tag": "next"
   },
   "dependencies": {
-    "redux": "^4.1.1",
-    "redux-observable": "^2.0.0",
-    "rxjs": "^7.3",
     "typesafe-actions": "^5.1.0"
+  },
+  "peerDependencies": {
+    "redux-observable": "^2.0.0",
+    "redux": "^4.1.1",
+    "rxjs": "^7.3"
   },
   "devDependencies": {
     "@chatie/eslint-config": "^0.14.1",
