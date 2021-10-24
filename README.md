@@ -161,6 +161,7 @@ See: [api/index.ts](src/api/index.ts)
 ## Articles
 
 1. [Setting Up a Redux Project With Create-React-App](https://medium.com/backticks-tildes/setting-up-a-redux-project-with-create-react-app-e363ab2329b8)
+1. [Redux is half of a pattern](https://dev.to/davidkpiano/redux-is-half-of-a-pattern-1-2-1hd7)
 
 ## Useful Modules
 
