@@ -169,7 +169,11 @@ See: [api/index.ts](src/api/index.ts)
 
 ## History
 
-### Main v0.5
+### main v1.0 (Oct 28, 2021)
+
+Release v1.0 of Wechaty Redux (thanks [@mukaiu](https://github.com/wechaty/redux/pull/49))
+
+### v0.5
 
 1. Upgrade RxJS version from 6 to 7.1
 1. ES Modules support
