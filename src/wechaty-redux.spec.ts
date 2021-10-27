@@ -124,12 +124,12 @@ test('WechatyRedux: selectors.{isLoggedIn,getQrCode,getUserPayload}()', async t 
     // Let the bullets fly
     await new Promise(resolve => setImmediate(resolve))
 
-    t.true(duck.selectors.isLoggedIn(bot.id), 'should logged in after login(user)')
+    t.ok(duck.selectors.isLoggedIn(bot.id), 'should logged in after login(user)')
     t.notOk(duck.selectors.getQrCode(bot.id), 'should no QR Code after user login')
-    t.deepEqual(duck.selectors.getUserPayload(bot.id), { ...user.payload, wechatyId: bot.id }, 'should login user with payload')
+    t.same(duck.selectors.getUserPayload(bot.id), { ...user.payload, wechatyId: bot.id }, 'should login user with payload')
 
     await bot.logout()
-    t.false(duck.selectors.isLoggedIn(bot.id), 'should logged out after call bot.logout')
+    t.notOk(duck.selectors.isLoggedIn(bot.id), 'should logged out after call bot.logout')
   }
 })
 
@@ -149,8 +149,8 @@ test('WechatyRedux: operations.ding()', async t => {
     // Let the bullets fly
     await new Promise(resolve => setImmediate(resolve))
 
-    t.true(spy.calledOnce, 'should call bot.ding()')
-    t.true(spy.calledWith(DATA), 'should called with DATA')
+    t.ok(spy.calledOnce, 'should call bot.ding()')
+    t.ok(spy.calledWith(DATA), 'should called with DATA')
   }
 })
 
@@ -178,8 +178,8 @@ test('WechatyRedux: operations.say()', async t => {
     // Let the bullets fly
     await new Promise(resolve => setImmediate(resolve))
 
-    t.true(spy.calledOnce, 'should call bot.say()')
-    t.true(spy.calledWith(...EXPECTED_ARGS), 'should call say() with expected args')
+    t.ok(spy.calledOnce, 'should call bot.say()')
+    t.ok(spy.calledWith(...EXPECTED_ARGS), 'should call say() with expected args')
   }
 })
 
@@ -214,6 +214,6 @@ test('WechatyRedux: Puppet `message` event', async t => {
     // Huan(202006) Workaround for puppet payload mismatch
     delete (EXPECTED_PAYLOAD as any).mentionIdList
 
-    t.deepEqual((msg as any).payload, EXPECTED_PAYLOAD, 'should receive message with expected payload')
+    t.same((msg as any)._payload, EXPECTED_PAYLOAD, 'should receive message with expected payload')
   }
 })

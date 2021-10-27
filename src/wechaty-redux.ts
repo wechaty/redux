@@ -28,6 +28,7 @@ import {
 }             from 'rxjs'
 import {
   map,
+  // eslint-disable-next-line import/extensions
 }             from 'rxjs/operators'
 
 import type {
@@ -60,7 +61,7 @@ export interface WechatyReduxOptions {
 }
 
 function WechatyRedux (options: WechatyReduxOptions) {
-  log.verbose('WechatyRedux', '(%s)', options ? JSON.stringify(options) : '')
+  log.verbose('WechatyRedux', '(%s)', JSON.stringify(options))
 
   return function WechatyReduxPlugin (wechaty: Wechaty) {
     log.verbose('WechatyRedux', 'WechatyReduxPlugin(%s)', wechaty)
