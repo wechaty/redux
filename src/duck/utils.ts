@@ -24,12 +24,14 @@ import {
   mapTo,
   filter,
   map,
+  // eslint-disable-next-line import/extensions
 }                 from 'rxjs/operators'
 
 import { getWechaty } from '../manager.js'
 
 import type * as actions from './actions.js'
-import { Message } from 'wechaty'
+import type { Message } from 'wechaty'
+import { type } from 'wechaty'
 
 /**
  * Example: `pipe(mergeMap(toMessage$))`
@@ -38,7 +40,7 @@ const toMessage$ = (action: ReturnType<typeof actions.messageEvent>) => {
   const wechaty = getWechaty(action.payload.wechatyId)
   const message = wechaty.Message.load(action.payload.messageId)
   return from(
-    message.ready()
+    message.ready(),
   ).pipe(
     mapTo(message),
   )
@@ -48,23 +50,23 @@ const toContact$ = (action: ReturnType<typeof actions.loginEvent>) => {
   const wechaty = getWechaty(action.payload.wechatyId)
   const contact = wechaty.Contact.load(action.payload.contactId)
   return from(
-    contact.ready()
+    contact.ready(),
   ).pipe(
     mapTo(contact),
   )
 }
 const toContactPayload$ = (action: ReturnType<typeof actions.loginEvent>) => from(
   getWechaty(action.payload.wechatyId)
-    .puppet.contactPayload(action.payload.contactId)
+    .puppet.contactPayload(action.payload.contactId),
 ).pipe(
   map(payload => ({
     ...payload,
     wechatyId: action.payload.wechatyId,
-  }))
+  })),
 )
 
 const isTextMessage = (text?: string) => (message: Message) => (
-  message.type() === Message.Type.Text
+  message.type() === type.Message.Text
 ) && (
   text
     ? text === message.text()
@@ -77,7 +79,7 @@ const skipSelfMessage$ = (action: ReturnType<typeof actions.messageEvent>) => {
   const message = wechaty.Message.load(action.payload.messageId)
   return from(message.ready()).pipe(
     filter(() => !message.self()),
-    mapTo(action)
+    mapTo(action),
   )
 }
 

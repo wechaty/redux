@@ -1,6 +1,6 @@
 {
   "name": "wechaty-redux",
-  "version": "0.5.9",
+  "version": "1.0.1",
   "description": "Wechaty Redux Plugin Powered By Ducks",
   "type": "module",
   "exports": {
@@ -11,7 +11,7 @@
   },
   "typings": "./dist/esm/src/mod.d.ts",
   "engines": {
-    "wechaty": ">=0.68",
+    "wechaty": ">=0.78",
     "node": ">=16",
     "npm": ">=7"
   },
@@ -53,8 +53,8 @@
     "typesafe-actions": "^5.1.0"
   },
   "peerDependencies": {
-    "redux-observable": "^2.0.0",
     "redux": "^4.1.1",
+    "redux-observable": "^2.0.0",
     "rxjs": "^7.4"
   },
   "devDependencies": {
@@ -68,8 +68,8 @@
     "glob": "^7.2.0",
     "remote-redux-devtools": "^0.5.16",
     "utility-types": "^3.10.0",
-    "wechaty": "^0.69.41",
-    "wechaty-puppet-mock": "^0.31.3"
+    "wechaty": "^0.78.8",
+    "wechaty-puppet-mock": "^0.36.1"
   },
   "files": [
     "bin/",

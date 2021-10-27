@@ -25,6 +25,7 @@ import {
   ignoreElements,
   catchError,
   mapTo,
+  // eslint-disable-next-line import/extensions
 }                 from 'rxjs/operators'
 
 import {
@@ -35,14 +36,14 @@ import * as actions from './actions.js'
 
 const ding$ = (action: ReturnType<typeof actions.ding>) => of(  // void
   getWechaty(action.payload.wechatyId)
-    .ding(action.payload.data)
+    .ding(action.payload.data),
 ).pipe(
   ignoreElements(),
   catchError(e => of(
     actions.errorEvent(
       action.payload.wechatyId,
       { ...e },
-    )
+    ),
   )),
 )
 
@@ -52,14 +53,14 @@ const ding$ = (action: ReturnType<typeof actions.ding>) => of(  // void
  */
 const reset$ = (action: ReturnType<typeof actions.reset>) => of(
   getWechaty(action.payload.wechatyId)
-    .reset(action.payload.data)
+    .reset(action.payload.data),
 ).pipe(
   ignoreElements(),
   catchError((e: Error) => of(
     actions.errorEvent(
       action.payload.wechatyId,
-      { ...e }, // { data: String(e) },
-    )
+      { data: String(e) }, // { ...e },
+    ),
   )),
 )
 
@@ -68,7 +69,7 @@ const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => from( // p
     .puppet.messageSendText(
       action.payload.conversationId,
       action.payload.text,
-    )
+    ),
 ).pipe(
   mapTo(actions.sayAsync.success({
     id        : action.payload.id,
@@ -79,8 +80,8 @@ const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => from( // p
       error     : e,
       id        : action.payload.id,
       wechatyId : action.payload.wechatyId,
-    })
-  ))
+    }),
+  )),
 )
 
 export {

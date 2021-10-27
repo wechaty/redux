@@ -24,13 +24,13 @@ import {
   VERSION,
 }                 from 'wechaty-redux'
 import { Ducks }  from 'ducks'
-import { Wechaty } from 'wechaty'
+import { WechatyBuilder } from 'wechaty'
 
 async function main () {
   const ducks = new Ducks({ wechaty: Duck })
   const store = ducks.configureStore()
 
-  const wechaty = new Wechaty({ puppet: 'wechaty-puppet-mock' })
+  const wechaty = WechatyBuilder.build({ puppet: 'wechaty-puppet-mock' })
 
   wechaty.use(
     WechatyRedux({ store })

@@ -25,6 +25,7 @@ import {
   filter,
   mergeMap,
   map,
+  // eslint-disable-next-line import/extensions
 }                   from 'rxjs/operators'
 
 import type {

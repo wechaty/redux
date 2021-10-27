@@ -49,7 +49,7 @@ import {
   createEpicMiddleware,
   combineEpics,
 }                         from 'redux-observable'
-import { Wechaty }        from 'wechaty'
+import { WechatyBuilder }  from 'wechaty'
 import {
   WechatyRedux,
   Api,
@@ -71,7 +71,7 @@ epicMiddleware.run(rootEpic)
 /**
  * 2. Instanciate Wechaty and Install Redux Plugin
  */
-const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
+const bot = WechatyBuilder.build({ puppet: 'wechaty-puppet-mock' })
 bot.use(WechatyRedux({ store }))
 
 /**
@@ -87,8 +87,8 @@ Api.operations.ding(store.dispatch)(bot.id, 'call ding from operations')
 ### Ducks Proposal Style for Wechaty Redux Plugin
 
 ```ts
-import { Wechaty }  from 'wechaty'
-import { Ducks }    from 'ducks'
+import { WechatyBuilder } from 'wechaty'
+import { Ducks }          from 'ducks'
 import {
   WechatyRedux,
   Api,
@@ -103,7 +103,7 @@ const store = ducks.configureStore()
 /**
  * 2. Instanciate Wechaty with Redux Plugin
  */
-const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
+const bot = WechatyBuilder.build({ puppet: 'wechaty-puppet-mock' })
 bot.use(WechatyRedux({ store }))
 
 /**
@@ -169,7 +169,11 @@ See: [api/index.ts](src/api/index.ts)
 
 ## History
 
-### Main v0.5
+### main v1.0 (Oct 28, 2021)
+
+Release v1.0 of Wechaty Redux (thanks [@mukaiu](https://github.com/wechaty/redux/pull/49))
+
+### v0.5
 
 1. Upgrade RxJS version from 6 to 7.1
 1. ES Modules support
