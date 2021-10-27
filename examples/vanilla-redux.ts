@@ -25,7 +25,7 @@ import {
   createEpicMiddleware,
   combineEpics,
 } from 'redux-observable'
-import { Wechaty }          from 'wechaty'
+import { WechatyBuilder }          from 'wechaty'
 import {
   WechatyRedux,
   Duck,
@@ -48,7 +48,7 @@ async function main () {
   /**
    * 2. Instantiate Wechaty and Install Redux Plugin
    */
-  const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
+  const bot = WechatyBuilder.build({ puppet: 'wechaty-puppet-mock' })
   bot.use(WechatyRedux({ store }))
   await bot.start()
 

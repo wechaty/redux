@@ -29,7 +29,8 @@ import {
 import { getWechaty } from '../manager.js'
 
 import type * as actions from './actions.js'
-import { Message } from 'wechaty'
+import type { Message } from 'wechaty'
+import { impl } from 'wechaty'
 
 /**
  * Example: `pipe(mergeMap(toMessage$))`
@@ -64,7 +65,7 @@ const toContactPayload$ = (action: ReturnType<typeof actions.loginEvent>) => fro
 )
 
 const isTextMessage = (text?: string) => (message: Message) => (
-  message.type() === Message.Type.Text
+  message.type() === impl.Message.Type.Text
 ) && (
   text
     ? text === message.text()

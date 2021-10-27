@@ -58,7 +58,7 @@ const reset$ = (action: ReturnType<typeof actions.reset>) => of(
   catchError((e: Error) => of(
     actions.errorEvent(
       action.payload.wechatyId,
-      { ...e }, // { data: String(e) },
+      { data: String(e) }, // { ...e },
     )
   )),
 )

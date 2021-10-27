@@ -17,7 +17,7 @@
  *   limitations under the License.
  *
  */
-import { Wechaty } from 'wechaty'
+import { WechatyBuilder } from 'wechaty'
 import { Ducks }   from 'ducks'
 import {
   WechatyRedux,
@@ -34,7 +34,7 @@ async function main () {
   /**
    * 2. Instantiate Wechaty with Redux Plugin
    */
-  const bot = Wechaty.instance({ puppet: 'wechaty-puppet-mock' })
+  const bot = WechatyBuilder.build({ puppet: 'wechaty-puppet-mock' })
   bot.use(WechatyRedux({ store }))
 
   await bot.start()

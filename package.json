@@ -68,7 +68,7 @@
     "glob": "^7.2.0",
     "remote-redux-devtools": "^0.5.16",
     "utility-types": "^3.10.0",
-    "wechaty": "^0.69.41",
+    "wechaty": "^0.78.8",
     "wechaty-puppet-mock": "^0.31.3"
   },
   "files": [

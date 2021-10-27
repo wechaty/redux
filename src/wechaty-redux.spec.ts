@@ -25,7 +25,7 @@ import {
 }             from 'tstest'
 
 import {
-  Wechaty,
+  WechatyBuilder,
   Message,
 }                         from 'wechaty'
 import {
@@ -79,7 +79,7 @@ async function * wechatyFixtures () {
 
   const mocker = new mock.Mocker()
   const puppet = new PuppetMock({ mocker })
-  const bot = new Wechaty({ puppet })
+  const bot = WechatyBuilder.build({ puppet })
 
   const duck = ducks.ducksify('wechaty')
 
