@@ -27,11 +27,8 @@ import {
 import {
   WechatyBuilder,
   Message,
-}                         from 'wechaty'
-import {
-  MessagePayload,
-  MessageType,
-}                         from 'wechaty-puppet'
+}                     from 'wechaty'
+import * as PUPPET     from 'wechaty-puppet'
 
 import {
   createStore,
@@ -64,7 +61,7 @@ async function * wechatyFixtures () {
       hostname : 'localhost',
       port     : 8000,
       realtime : true,
-      stopOn: Duck.types.NOOP,
+      stopOn: Duck.types.NOP,
     }) as any
   }
 
@@ -200,14 +197,14 @@ test('WechatyRedux: Puppet `message` event', async t => {
 
     const msg = await future
 
-    const EXPECTED_PAYLOAD: MessagePayload = {
+    const EXPECTED_PAYLOAD: PUPPET.payload.Message = {
       fromId        : mary.id,
       id            : msg.id,
       mentionIdList : [],
       text          : TEXT,
       timestamp     : msg.date().getTime(),
       toId          : user.id,
-      type          : MessageType.Text,
+      type          : PUPPET.type.Message.Text,
 
     }
 
