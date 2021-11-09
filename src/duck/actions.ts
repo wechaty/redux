@@ -23,24 +23,7 @@ import {
   createAsyncAction,
 }                       from 'typesafe-actions'
 
-import type {
-  EventDongPayload,
-  EventErrorPayload,
-  EventScanPayload,
-  EventRoomTopicPayload,
-  EventRoomLeavePayload,
-  EventRoomJoinPayload,
-  EventRoomInvitePayload,
-  EventReadyPayload,
-  EventMessagePayload,
-  EventLogoutPayload,
-  EventLoginPayload,
-  EventHeartbeatPayload,
-  EventFriendshipPayload,
-  EventResetPayload,
-
-  ContactPayload,
-}                             from 'wechaty-puppet'
+import type * as PUPPET   from 'wechaty-puppet'
 
 import cuid from 'cuid'
 
@@ -60,20 +43,20 @@ export interface WechatyIdOptions  { wechatyId: string }
 const prepareTurnOnSwitch  = (wechatyId: string, status: true | 'pending') => ({ status, wechatyId })
 const prepareTurnOffSwitch = (wechatyId: string, status: true | 'pending') => ({ status, wechatyId })
 
-const prepareDong           = (wechatyId: string, payload: EventDongPayload)       => ({ ...payload, wechatyId })
-const prepareError          = (wechatyId: string, payload: EventErrorPayload)      => ({ ...payload, wechatyId })
-const prepareHeartbeat      = (wechatyId: string, payload: EventHeartbeatPayload)  => ({ ...payload, wechatyId })
-const prepareReady          = (wechatyId: string, payload: EventReadyPayload)      => ({ ...payload, wechatyId })
-const prepareReset          = (wechatyId: string, payload: EventResetPayload)      => ({ ...payload, wechatyId })
-const prepareFriendship     = (wechatyId: string, payload: EventFriendshipPayload) => ({ ...payload, wechatyId })
-const prepareLogin          = (wechatyId: string, payload: EventLoginPayload)      => ({ ...payload, wechatyId })
-const prepareLogout         = (wechatyId: string, payload: EventLogoutPayload)     => ({ ...payload, wechatyId })
-const prepareMessage        = (wechatyId: string, payload: EventMessagePayload)    => ({ ...payload, wechatyId })
-const prepareRoomInvitation = (wechatyId: string, payload: EventRoomInvitePayload) => ({ ...payload, wechatyId })
-const prepareRoomJoin       = (wechatyId: string, payload: EventRoomJoinPayload)   => ({ ...payload, wechatyId })
-const prepareRoomLeave      = (wechatyId: string, payload: EventRoomLeavePayload)  => ({ ...payload, wechatyId })
-const prepareRoomTopic      = (wechatyId: string, payload: EventRoomTopicPayload)  => ({ ...payload, wechatyId })
-const prepareScan           = (wechatyId: string, payload: EventScanPayload)       => ({ ...payload, wechatyId })
+const prepareDong           = (wechatyId: string, payload: PUPPET.payload.EventDong)       => ({ ...payload, wechatyId })
+const prepareError          = (wechatyId: string, payload: PUPPET.payload.EventError)      => ({ ...payload, wechatyId })
+const prepareHeartbeat      = (wechatyId: string, payload: PUPPET.payload.EventHeartbeat)  => ({ ...payload, wechatyId })
+const prepareReady          = (wechatyId: string, payload: PUPPET.payload.EventReady)      => ({ ...payload, wechatyId })
+const prepareReset          = (wechatyId: string, payload: PUPPET.payload.EventReset)      => ({ ...payload, wechatyId })
+const prepareFriendship     = (wechatyId: string, payload: PUPPET.payload.EventFriendship) => ({ ...payload, wechatyId })
+const prepareLogin          = (wechatyId: string, payload: PUPPET.payload.EventLogin)      => ({ ...payload, wechatyId })
+const prepareLogout         = (wechatyId: string, payload: PUPPET.payload.EventLogout)     => ({ ...payload, wechatyId })
+const prepareMessage        = (wechatyId: string, payload: PUPPET.payload.EventMessage)    => ({ ...payload, wechatyId })
+const prepareRoomInvitation = (wechatyId: string, payload: PUPPET.payload.EventRoomInvite) => ({ ...payload, wechatyId })
+const prepareRoomJoin       = (wechatyId: string, payload: PUPPET.payload.EventRoomJoin)   => ({ ...payload, wechatyId })
+const prepareRoomLeave      = (wechatyId: string, payload: PUPPET.payload.EventRoomLeave)  => ({ ...payload, wechatyId })
+const prepareRoomTopic      = (wechatyId: string, payload: PUPPET.payload.EventRoomTopic)  => ({ ...payload, wechatyId })
+const prepareScan           = (wechatyId: string, payload: PUPPET.payload.EventScan)       => ({ ...payload, wechatyId })
 
 /**
  * Actions: StateSwitch
@@ -123,14 +106,14 @@ const sayAsync = createAsyncAction(
 /**
  * Other Actions
  */
-const prepareSaveUser = (payload: WechatyIdOptions & ContactPayload) => payload
+const prepareSaveUser = (payload: WechatyIdOptions & PUPPET.payload.Contact) => payload
 const saveUser = createAction(types.SAVE_USER, prepareSaveUser)()
 
 /**
  * Bug compatible & workaround for Ducks API
  *  https://github.com/huan/ducks/issues/2
  */
-const noop = createAction(types.NOOP)()
+const noop = createAction(types.NOP)()
 
 export {
   turnOffSwitch,

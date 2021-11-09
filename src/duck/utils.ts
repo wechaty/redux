@@ -18,13 +18,16 @@
  *
  */
 import {
+  EMPTY,
   from,
+  of,
+  mergeMap,
+  Observable,
 }                 from 'rxjs'
 import {
   mapTo,
   filter,
   map,
-  // eslint-disable-next-line import/extensions
 }                 from 'rxjs/operators'
 
 import { getWechaty } from '../manager.js'
@@ -33,28 +36,37 @@ import type * as actions from './actions.js'
 import type { Message } from 'wechaty'
 import { type } from 'wechaty'
 
+const throwUndefined = <T> (value?: T): T => {
+  if (value) return value
+  throw new Error('throwUndefined() value is undefined')
+}
+
+const skipUndefined$ = <T> (value?: T): typeof EMPTY | Observable<T> => {
+  if (value) return of(value)
+  return EMPTY
+}
+
 /**
  * Example: `pipe(mergeMap(toMessage$))`
  */
 const toMessage$ = (action: ReturnType<typeof actions.messageEvent>) => {
   const wechaty = getWechaty(action.payload.wechatyId)
-  const message = wechaty.Message.load(action.payload.messageId)
   return from(
-    message.ready(),
+    wechaty.Message.find({ id: action.payload.messageId }),
   ).pipe(
-    mapTo(message),
+    map(throwUndefined),
   )
 }
 
 const toContact$ = (action: ReturnType<typeof actions.loginEvent>) => {
   const wechaty = getWechaty(action.payload.wechatyId)
-  const contact = wechaty.Contact.load(action.payload.contactId)
   return from(
-    contact.ready(),
+    wechaty.Contact.find({ id: action.payload.contactId }),
   ).pipe(
-    mapTo(contact),
+    map(throwUndefined),
   )
 }
+
 const toContactPayload$ = (action: ReturnType<typeof actions.loginEvent>) => from(
   getWechaty(action.payload.wechatyId)
     .puppet.contactPayload(action.payload.contactId),
@@ -76,9 +88,12 @@ const isWechaty = (wechatyId: string) => (action: ReturnType<typeof actions.mess
 
 const skipSelfMessage$ = (action: ReturnType<typeof actions.messageEvent>) => {
   const wechaty = getWechaty(action.payload.wechatyId)
-  const message = wechaty.Message.load(action.payload.messageId)
-  return from(message.ready()).pipe(
-    filter(() => !message.self()),
+
+  return from(
+    wechaty.Message.find({ id: action.payload.messageId }),
+  ).pipe(
+    mergeMap(skipUndefined$),
+    filter(message => !message.self()),
     mapTo(action),
   )
 }

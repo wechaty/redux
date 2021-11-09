@@ -17,6 +17,10 @@
  *   limitations under the License.
  *
  */
+
+/* eslint-disable func-call-spacing */
+
+import type * as PUPPET   from 'wechaty-puppet'
 import {
   Wechaty,
   log,
@@ -38,23 +42,6 @@ import type {
 import * as duck  from './duck/mod.js'
 
 import * as instances from './manager.js'
-
-import type {
-  EventDongPayload,
-  EventErrorPayload,
-  EventScanPayload,
-  EventRoomTopicPayload,
-  EventRoomLeavePayload,
-  EventRoomJoinPayload,
-  EventRoomInvitePayload,
-  EventReadyPayload,
-  EventMessagePayload,
-  EventLogoutPayload,
-  EventLoginPayload,
-  EventHeartbeatPayload,
-  EventFriendshipPayload,
-  EventResetPayload,
-}                             from 'wechaty-puppet'
 
 export interface WechatyReduxOptions {
   store: Store,
@@ -108,9 +95,8 @@ function install (
    *  but the Puppet for convenience
    */
 
-  /* eslint-disable func-call-spacing */
-  const switchOn$  = fromEvent(wechaty.puppet.state, 'on')
-  const switchOff$ = fromEvent(wechaty.puppet.state, 'off')
+  const switchOn$  = fromEvent<true | 'pending'>(wechaty.puppet.state, 'on')
+  const switchOff$ = fromEvent<true | 'pending'>(wechaty.puppet.state, 'off')
 
   /**
    * FIXME: Huan(20200312) remove the specified explicit types
@@ -118,20 +104,20 @@ function install (
    */
   const puppet = wechaty.puppet
 
-  const dong$       = fromEvent<EventDongPayload>       (puppet, 'dong')
-  const error$      = fromEvent<EventErrorPayload>      (puppet, 'error')
-  const friendship$ = fromEvent<EventFriendshipPayload> (puppet, 'friendship')
-  const heartbeat$  = fromEvent<EventHeartbeatPayload>  (puppet, 'heartbeat')
-  const login$      = fromEvent<EventLoginPayload>      (puppet, 'login')
-  const logout$     = fromEvent<EventLogoutPayload>     (puppet, 'logout')
-  const message$    = fromEvent<EventMessagePayload>    (puppet, 'message')
-  const ready$      = fromEvent<EventReadyPayload>      (puppet, 'ready')
-  const reset$      = fromEvent<EventResetPayload>      (puppet, 'reset')
-  const roomInvite$ = fromEvent<EventRoomInvitePayload> (puppet, 'room-invite')
-  const roomJoin$   = fromEvent<EventRoomJoinPayload>   (puppet, 'room-join')
-  const roomLeave$  = fromEvent<EventRoomLeavePayload>  (puppet, 'room-leave')
-  const roomTopic$  = fromEvent<EventRoomTopicPayload>  (puppet, 'room-topic')
-  const scan$       = fromEvent<EventScanPayload>       (puppet, 'scan')
+  const dong$       = fromEvent<PUPPET.payload.EventDong>       (puppet, 'dong')
+  const error$      = fromEvent<PUPPET.payload.EventError>      (puppet, 'error')
+  const friendship$ = fromEvent<PUPPET.payload.EventFriendship> (puppet, 'friendship')
+  const heartbeat$  = fromEvent<PUPPET.payload.EventHeartbeat>  (puppet, 'heartbeat')
+  const login$      = fromEvent<PUPPET.payload.EventLogin>      (puppet, 'login')
+  const logout$     = fromEvent<PUPPET.payload.EventLogout>     (puppet, 'logout')
+  const message$    = fromEvent<PUPPET.payload.EventMessage>    (puppet, 'message')
+  const ready$      = fromEvent<PUPPET.payload.EventReady>      (puppet, 'ready')
+  const reset$      = fromEvent<PUPPET.payload.EventReset>      (puppet, 'reset')
+  const roomInvite$ = fromEvent<PUPPET.payload.EventRoomInvite> (puppet, 'room-invite')
+  const roomJoin$   = fromEvent<PUPPET.payload.EventRoomJoin>   (puppet, 'room-join')
+  const roomLeave$  = fromEvent<PUPPET.payload.EventRoomLeave>  (puppet, 'room-leave')
+  const roomTopic$  = fromEvent<PUPPET.payload.EventRoomTopic>  (puppet, 'room-topic')
+  const scan$       = fromEvent<PUPPET.payload.EventScan>       (puppet, 'scan')
 
   merge(
     /* eslint-disable no-whitespace-before-property */

@@ -46,9 +46,9 @@ const removeWechaty = (wechaty: Wechaty): void => {
 
 }
 
-const getMessage = (wechatyId: string, messageId: string) => getWechaty(wechatyId).Message.load(messageId)
-const getRoom    = (wechatyId: string, roomId: string)    => getWechaty(wechatyId).Room.load(roomId)
-const getContact = (wechatyId: string, contactId: string) => getWechaty(wechatyId).Contact.load(contactId)
+const getMessage = async (wechatyId: string, messageId: string) => getWechaty(wechatyId).Message.find({ id: messageId })
+const getRoom    = async (wechatyId: string, roomId: string)    => getWechaty(wechatyId).Room.find({ id: roomId })
+const getContact = async (wechatyId: string, contactId: string) => getWechaty(wechatyId).Contact.find({ id: contactId })
 
 export {
   getWechaty,

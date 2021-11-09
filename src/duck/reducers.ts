@@ -20,14 +20,14 @@
 import { createReducer, ActionType } from 'typesafe-actions'
 import type { DeepReadonly } from 'utility-types'
 
-import type { ContactPayload } from 'wechaty-puppet'
+import type * as PUPPET from 'wechaty-puppet'
 
 import * as actions from './actions.js'
 
 const initialState: DeepReadonly<{
   [wechatyId: string]: undefined | {  // wechaty id
     qrcode? : string,
-    user?   : ContactPayload,
+    user?   : PUPPET.payload.Contact,
   }
 }> = {}
 

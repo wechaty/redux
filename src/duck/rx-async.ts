@@ -53,7 +53,7 @@ const ding$ = (action: ReturnType<typeof actions.ding>) => of(  // void
  */
 const reset$ = (action: ReturnType<typeof actions.reset>) => of(
   getWechaty(action.payload.wechatyId)
-    .reset(action.payload.data),
+    .reset(),
 ).pipe(
   ignoreElements(),
   catchError((e: Error) => of(

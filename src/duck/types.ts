@@ -53,7 +53,7 @@ const SAY_FAILURE = 'wechaty/SAY_FAILURE'
  */
 const SAVE_USER = 'wechaty/SAVE_USER'
 
-const NOOP = 'wechaty/NOOP'
+const NOP = 'wechaty/NOP'
 
 export {
   SWITCH_OFF,
@@ -83,5 +83,5 @@ export {
 
   SAVE_USER,
 
-  NOOP,
+  NOP,
 }
