@@ -61,7 +61,7 @@ async function * wechatyFixtures () {
       hostname : 'localhost',
       port     : 8000,
       realtime : true,
-      stopOn: Duck.types.NOP,
+      stopOn   : Duck.types.NOOP,
     }) as any
   }
 
@@ -109,7 +109,7 @@ test('WechatyRedux: selectors.{isLoggedIn,getQrCode,getUserPayload}()', async t 
 
     t.equal(duck.selectors.isLoggedIn(bot.id), false, 'should not logged in at start')
     t.notOk(duck.selectors.getQrCode(bot.id), 'should no QR Code at start')
-    t.notOk(duck.selectors.getUserPayload(bot.id), 'should no user payload at start')
+    t.notOk(duck.selectors.getCurrentUser(bot.id), 'should no user payload at start')
 
     const QR_CODE = 'qrcode'
     mocker.scan(QR_CODE)
@@ -123,7 +123,7 @@ test('WechatyRedux: selectors.{isLoggedIn,getQrCode,getUserPayload}()', async t 
 
     t.ok(duck.selectors.isLoggedIn(bot.id), 'should logged in after login(user)')
     t.notOk(duck.selectors.getQrCode(bot.id), 'should no QR Code after user login')
-    t.same(duck.selectors.getUserPayload(bot.id), { ...user.payload, wechatyId: bot.id }, 'should login user with payload')
+    t.same(duck.selectors.getCurrentUser(bot.id), { ...user.payload, wechatyId: bot.id }, 'should login user with payload')
 
     await bot.logout()
     t.notOk(duck.selectors.isLoggedIn(bot.id), 'should logged out after call bot.logout')

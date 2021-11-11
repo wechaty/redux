@@ -25,8 +25,8 @@ import {
   ignoreElements,
   catchError,
   mapTo,
-  // eslint-disable-next-line import/extensions
 }                 from 'rxjs/operators'
+import { GError } from 'gerror'
 
 import {
   getWechaty,
@@ -34,7 +34,7 @@ import {
 
 import * as actions from './actions.js'
 
-const ding$ = (action: ReturnType<typeof actions.ding>) => of(  // void
+const ding$ = (action: ReturnType<typeof actions.ding>) => of( // void
   getWechaty(action.payload.wechatyId)
     .ding(action.payload.data),
 ).pipe(
@@ -42,16 +42,12 @@ const ding$ = (action: ReturnType<typeof actions.ding>) => of(  // void
   catchError(e => of(
     actions.errorEvent(
       action.payload.wechatyId,
-      { ...e },
+      { gerror: GError.stringify(e) },
     ),
   )),
 )
 
-/**
- * Huan(202109): the return type of wechaty.reset() is void
- *  which means we will not get any response from wechaty.reset()
- */
-const reset$ = (action: ReturnType<typeof actions.reset>) => of(
+const reset$ = (action: ReturnType<typeof actions.reset>) => from(
   getWechaty(action.payload.wechatyId)
     .reset(),
 ).pipe(
@@ -59,12 +55,12 @@ const reset$ = (action: ReturnType<typeof actions.reset>) => of(
   catchError((e: Error) => of(
     actions.errorEvent(
       action.payload.wechatyId,
-      { data: String(e) }, // { ...e },
+      { gerror: GError.stringify(e) },
     ),
   )),
 )
 
-const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => from( // promise
+const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => from(
   getWechaty(action.payload.wechatyId)
     .puppet.messageSendText(
       action.payload.conversationId,
@@ -77,7 +73,7 @@ const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => from( // p
   })),
   catchError(e => of(
     actions.sayAsync.failure({
-      error     : e,
+      gerror    : GError.stringify(e),
       id        : action.payload.id,
       wechatyId : action.payload.wechatyId,
     }),

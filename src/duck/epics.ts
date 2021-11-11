@@ -19,22 +19,19 @@
  */
 import {
   isActionOf,
-}                 from 'typesafe-actions'
-
+}               from 'typesafe-actions'
 import {
   filter,
   mergeMap,
   map,
-  // eslint-disable-next-line import/extensions
-}                   from 'rxjs/operators'
-
+}               from 'rxjs/operators'
 import type {
   Epic,
 }               from 'redux-observable'
 
-import * as actions     from './actions.js'
-import * as rxAsync     from './rx-async.js'
-import * as utils       from './utils.js'
+import * as actions from './actions.js'
+import * as rxAsync from './rx-async.js'
+import * as utils   from './utils.js'
 
 const dingEpic: Epic = actions$ => actions$.pipe(
   filter(isActionOf(actions.ding)),
@@ -54,7 +51,7 @@ const sayEpic: Epic = actions$ => actions$.pipe(
 const loginEpic: Epic = actions$ => actions$.pipe(
   filter(isActionOf(actions.loginEvent)),
   mergeMap(utils.toContactPayload$),
-  map(payload => actions.saveUser(payload)),
+  map(payload => actions.loginCurrentUser(payload)),
 )
 
 export {
