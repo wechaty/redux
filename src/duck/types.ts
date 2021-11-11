@@ -17,8 +17,8 @@
  *   limitations under the License.
  *
  */
-const SWITCH_ON  = 'wechaty/SWITCH_ON'
-const SWITCH_OFF = 'wechaty/SWITCH_OFF'
+const SWITCH_ACTIVE   = 'wechaty/SWITCH_ACTIVE'
+const SWITCH_INACTIVE = 'wechaty/SWITCH_INACTIVE'
 
 const EVENT_DONG        = 'wechaty/EVENT_DONG'
 const EVENT_ERROR       = 'wechaty/EVENT_ERROR'
@@ -51,13 +51,18 @@ const SAY_FAILURE = 'wechaty/SAY_FAILURE'
 /**
  * Other Types
  */
-const SAVE_USER = 'wechaty/SAVE_USER'
+/**
+ * EVENT_LOGIN will have a payload only contains { id }
+ *  Huan(202111): rename it to a better to be understood name,
+ *    i.e. LOGIN_USER_PAYLOAD ?
+ */
+const LOGIN_CURRENT_USER = 'wechaty/LOGIN_CURRENT_USER'
 
-const NOP = 'wechaty/NOP'
+const NOOP = 'wechaty/NOOP'
 
 export {
-  SWITCH_OFF,
-  SWITCH_ON,
+  SWITCH_INACTIVE,
+  SWITCH_ACTIVE,
 
   EVENT_DONG,
   EVENT_ERROR,
@@ -81,7 +86,7 @@ export {
   SAY_REQUEST,
   SAY_SUCCESS,
 
-  SAVE_USER,
+  LOGIN_CURRENT_USER,
 
-  NOP,
+  NOOP,
 }

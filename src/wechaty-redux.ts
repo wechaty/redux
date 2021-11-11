@@ -32,7 +32,6 @@ import {
 }             from 'rxjs'
 import {
   map,
-  // eslint-disable-next-line import/extensions
 }             from 'rxjs/operators'
 
 import type {
@@ -95,8 +94,9 @@ function install (
    *  but the Puppet for convenience
    */
 
-  const switchOn$  = fromEvent<true | 'pending'>(wechaty.puppet.state, 'on')
-  const switchOff$ = fromEvent<true | 'pending'>(wechaty.puppet.state, 'off')
+  // TODO: find a better way to remove `any` with StateSwitch interface
+  const switchActive$   = fromEvent<true | 'pending'>(wechaty.puppet.state as any, 'active')
+  const switchInactive$ = fromEvent<true | 'pending'>(wechaty.puppet.state as any, 'inactive')
 
   /**
    * FIXME: Huan(20200312) remove the specified explicit types
@@ -121,8 +121,8 @@ function install (
 
   merge(
     /* eslint-disable no-whitespace-before-property */
-    switchOn$   .pipe(map(status  => duck.actions.turnOnSwitch    (wechaty.id, status))),
-    switchOff$  .pipe(map(status  => duck.actions.turnOffSwitch   (wechaty.id, status))),
+    switchActive$   .pipe(map(status  => duck.actions.activeSwitch    (wechaty.id, status))),
+    switchInactive$ .pipe(map(status  => duck.actions.inactiveSwitch  (wechaty.id, status))),
 
     dong$       .pipe(map(payload => duck.actions.dongEvent       (wechaty.id, payload))),
     error$      .pipe(map(payload => duck.actions.errorEvent      (wechaty.id, payload))),

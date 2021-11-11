@@ -21,16 +21,15 @@
 import {
   createAction,
   createAsyncAction,
-}                       from 'typesafe-actions'
+}                         from 'typesafe-actions'
 
 import type * as PUPPET   from 'wechaty-puppet'
-
-import cuid from 'cuid'
+import * as UUID          from 'uuid'
 
 import * as types from './types.js'
 
 // interface ContactIdOptions  { contactId: string }
-interface ErrorOptions            { error: Error }
+interface ErrorOptions            { gerror: string }
 interface IdOptions               { id: string }
 interface MessageIdOptions        { messageId: string }
 interface ConversationIdOptions   { conversationId: string }
@@ -40,8 +39,8 @@ export interface WechatyIdOptions  { wechatyId: string }
 /**
  * Event Actions' Payloads
  */
-const prepareTurnOnSwitch  = (wechatyId: string, status: true | 'pending') => ({ status, wechatyId })
-const prepareTurnOffSwitch = (wechatyId: string, status: true | 'pending') => ({ status, wechatyId })
+const prepareSwitchActive   = (wechatyId: string, status: true | 'pending') => ({ status, wechatyId })
+const prepareSwitchInactive = (wechatyId: string, status: true | 'pending') => ({ status, wechatyId })
 
 const prepareDong           = (wechatyId: string, payload: PUPPET.payload.EventDong)       => ({ ...payload, wechatyId })
 const prepareError          = (wechatyId: string, payload: PUPPET.payload.EventError)      => ({ ...payload, wechatyId })
@@ -61,8 +60,8 @@ const prepareScan           = (wechatyId: string, payload: PUPPET.payload.EventS
 /**
  * Actions: StateSwitch
  */
-const turnOnSwitch  = createAction(types.SWITCH_ON,  prepareTurnOnSwitch)()
-const turnOffSwitch = createAction(types.SWITCH_OFF, prepareTurnOffSwitch)()
+const activeSwitch    = createAction(types.SWITCH_ACTIVE,   prepareSwitchActive)()
+const inactiveSwitch  = createAction(types.SWITCH_INACTIVE, prepareSwitchInactive)()
 
 /**
  * Actions: Events
@@ -93,9 +92,9 @@ const reset = createAction(types.RESET, prepareData)()
 /**
  * Actions: Non-Void APIs
  */
-const prepareSayRequest = ({ wechatyId, conversationId, text }: WechatyIdOptions & ConversationIdOptions & TextOptions) => ({ id: cuid(), wechatyId, conversationId, text })
-const prepareSaySuccess = ({ id, wechatyId, messageId }: WechatyIdOptions & IdOptions & Partial<MessageIdOptions>)      => ({ id,         wechatyId, messageId })
-const prepareSayFailure = ({ id, wechatyId, error }: WechatyIdOptions & IdOptions & ErrorOptions)                       => ({ id,         wechatyId, error: error.toString() })
+const prepareSayRequest = ({ wechatyId, conversationId, text }: WechatyIdOptions & ConversationIdOptions & TextOptions)   => ({ id: UUID.v4(),  wechatyId, conversationId, text })
+const prepareSaySuccess = ({ id, wechatyId, messageId }       : WechatyIdOptions & IdOptions & Partial<MessageIdOptions>) => ({ id,             wechatyId, messageId })
+const prepareSayFailure = ({ id, wechatyId, gerror }          : WechatyIdOptions & IdOptions & ErrorOptions)              => ({ id,             wechatyId, gerror })
 
 const sayAsync = createAsyncAction(
   [types.SAY_REQUEST, prepareSayRequest],
@@ -106,18 +105,18 @@ const sayAsync = createAsyncAction(
 /**
  * Other Actions
  */
-const prepareSaveUser = (payload: WechatyIdOptions & PUPPET.payload.Contact) => payload
-const saveUser = createAction(types.SAVE_USER, prepareSaveUser)()
+const prepareCurrentUser  = (payload: WechatyIdOptions & PUPPET.payload.Contact) => payload
+const loginCurrentUser    = createAction(types.LOGIN_CURRENT_USER, prepareCurrentUser)()
 
 /**
  * Bug compatible & workaround for Ducks API
  *  https://github.com/huan/ducks/issues/2
  */
-const noop = createAction(types.NOP)()
+const noop = createAction(types.NOOP)()
 
 export {
-  turnOffSwitch,
-  turnOnSwitch,
+  inactiveSwitch,
+  activeSwitch,
 
   dongEvent,
   errorEvent,
@@ -139,7 +138,7 @@ export {
 
   sayAsync,
 
-  saveUser,
+  loginCurrentUser,
 
   noop,
 }

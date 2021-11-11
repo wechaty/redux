@@ -26,8 +26,8 @@ import * as actions from './actions.js'
 
 const initialState: DeepReadonly<{
   [wechatyId: string]: undefined | {  // wechaty id
-    qrcode? : string,
-    user?   : PUPPET.payload.Contact,
+    qrcode?      : string,
+    currentUser? : PUPPET.payload.Contact,
   }
 }> = {}
 
@@ -36,16 +36,16 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
     ...state,
     [action.payload.wechatyId]: {
       ...state[action.payload.wechatyId],
+      currentUser: undefined,
       qrcode: action.payload.qrcode,
-      user: undefined,
     },
   }))
-  .handleAction(actions.saveUser, (state, action) => ({
+  .handleAction(actions.loginCurrentUser, (state, action) => ({
     ...state,
     [action.payload.wechatyId]: {
       ...state[action.payload.wechatyId],
+      currentUser: action.payload,
       qrcode: undefined,
-      user: action.payload,
     },
   }))
   .handleAction(actions.logoutEvent, (state, action) => ({
