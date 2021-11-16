@@ -27,9 +27,11 @@ import {
 }             from 'wechaty'
 
 import {
-  fromEvent,
+  fromEvent as rxFromEvent,
   merge,
-}             from 'rxjs'
+}                             from 'rxjs'
+import type { FromEvent }     from 'typed-emitter/rxjs'
+import type { StateSwitch }   from 'state-switch'
 import {
   map,
 }             from 'rxjs/operators'
@@ -42,7 +44,9 @@ import * as duck  from './duck/mod.js'
 
 import * as instances from './manager.js'
 
-export interface WechatyReduxOptions {
+const fromEvent: FromEvent = rxFromEvent
+
+interface WechatyReduxOptions {
   store: Store,
 }
 
@@ -94,30 +98,31 @@ function install (
    *  but the Puppet for convenience
    */
 
-  // TODO: find a better way to remove `any` with StateSwitch interface
-  const switchActive$   = fromEvent<true | 'pending'>(wechaty.puppet.state as any, 'active')
-  const switchInactive$ = fromEvent<true | 'pending'>(wechaty.puppet.state as any, 'inactive')
+  const state = wechaty.puppet.state as StateSwitch
+
+  const switchActive$   = fromEvent(state, 'active')
+  const switchInactive$ = fromEvent(state, 'inactive')
 
   /**
    * FIXME: Huan(20200312) remove the specified explicit types
    *  https://github.com/wechaty/wechaty-redux/issues/4
    */
-  const puppet = wechaty.puppet
+  const puppet = wechaty.puppet as PUPPET.impl.PuppetAbstract
 
-  const dong$       = fromEvent<PUPPET.payload.EventDong>       (puppet, 'dong')
-  const error$      = fromEvent<PUPPET.payload.EventError>      (puppet, 'error')
-  const friendship$ = fromEvent<PUPPET.payload.EventFriendship> (puppet, 'friendship')
-  const heartbeat$  = fromEvent<PUPPET.payload.EventHeartbeat>  (puppet, 'heartbeat')
-  const login$      = fromEvent<PUPPET.payload.EventLogin>      (puppet, 'login')
-  const logout$     = fromEvent<PUPPET.payload.EventLogout>     (puppet, 'logout')
-  const message$    = fromEvent<PUPPET.payload.EventMessage>    (puppet, 'message')
-  const ready$      = fromEvent<PUPPET.payload.EventReady>      (puppet, 'ready')
-  const reset$      = fromEvent<PUPPET.payload.EventReset>      (puppet, 'reset')
-  const roomInvite$ = fromEvent<PUPPET.payload.EventRoomInvite> (puppet, 'room-invite')
-  const roomJoin$   = fromEvent<PUPPET.payload.EventRoomJoin>   (puppet, 'room-join')
-  const roomLeave$  = fromEvent<PUPPET.payload.EventRoomLeave>  (puppet, 'room-leave')
-  const roomTopic$  = fromEvent<PUPPET.payload.EventRoomTopic>  (puppet, 'room-topic')
-  const scan$       = fromEvent<PUPPET.payload.EventScan>       (puppet, 'scan')
+  const dong$       = fromEvent(puppet, 'dong')
+  const error$      = fromEvent(puppet, 'error')
+  const friendship$ = fromEvent(puppet, 'friendship')
+  const heartbeat$  = fromEvent(puppet, 'heartbeat')
+  const login$      = fromEvent(puppet, 'login')
+  const logout$     = fromEvent(puppet, 'logout')
+  const message$    = fromEvent(puppet, 'message')
+  const ready$      = fromEvent(puppet, 'ready')
+  const reset$      = fromEvent(puppet, 'reset')
+  const roomInvite$ = fromEvent(puppet, 'room-invite')
+  const roomJoin$   = fromEvent(puppet, 'room-join')
+  const roomLeave$  = fromEvent(puppet, 'room-leave')
+  const roomTopic$  = fromEvent(puppet, 'room-topic')
+  const scan$       = fromEvent(puppet, 'scan')
 
   merge(
     /* eslint-disable no-whitespace-before-property */
@@ -141,6 +146,9 @@ function install (
   ).subscribe(store.dispatch)
 }
 
+export type {
+  WechatyReduxOptions,
+}
 export {
   WechatyRedux,
 }
