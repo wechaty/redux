@@ -22,7 +22,8 @@ import * as Duck from './duck/mod.js'
 import {
   WechatyRedux,
   WechatyReduxOptions,
-}                        from './wechaty-redux.js'
+  puppet$,
+}                         from './wechaty-redux.js'
 
 import { getWechaty }     from './manager.js'
 import { VERSION }        from './config.js'
@@ -33,6 +34,7 @@ export type {
 export {
   Duck,
   getWechaty,
+  puppet$,
   VERSION,
   WechatyRedux,
 }

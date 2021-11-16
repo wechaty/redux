@@ -97,17 +97,16 @@ function install (
    * Actually, we are not installing to the Wechaty,
    *  but the Puppet for convenience
    */
+  puppet$(wechaty.puppet)
+    .subscribe(store.dispatch)
+}
 
-  const state = wechaty.puppet.state as StateSwitch
+const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
+  const puppet = puppetInterface as PUPPET.impl.PuppetAbstract
 
+  const state = puppet.state as StateSwitch
   const switchActive$   = fromEvent(state, 'active')
   const switchInactive$ = fromEvent(state, 'inactive')
-
-  /**
-   * FIXME: Huan(20200312) remove the specified explicit types
-   *  https://github.com/wechaty/wechaty-redux/issues/4
-   */
-  const puppet = wechaty.puppet as PUPPET.impl.PuppetAbstract
 
   const dong$       = fromEvent(puppet, 'dong')
   const error$      = fromEvent(puppet, 'error')
@@ -124,26 +123,26 @@ function install (
   const roomTopic$  = fromEvent(puppet, 'room-topic')
   const scan$       = fromEvent(puppet, 'scan')
 
-  merge(
+  return merge(
     /* eslint-disable no-whitespace-before-property */
-    switchActive$   .pipe(map(status  => duck.actions.activeSwitch    (wechaty.id, status))),
-    switchInactive$ .pipe(map(status  => duck.actions.inactiveSwitch  (wechaty.id, status))),
+    switchActive$   .pipe(map(status  => duck.actions.activeSwitch    (puppet.id, status))),
+    switchInactive$ .pipe(map(status  => duck.actions.inactiveSwitch  (puppet.id, status))),
 
-    dong$       .pipe(map(payload => duck.actions.dongEvent       (wechaty.id, payload))),
-    error$      .pipe(map(payload => duck.actions.errorEvent      (wechaty.id, payload))),
-    friendship$ .pipe(map(payload => duck.actions.friendshipEvent (wechaty.id, payload))),
-    heartbeat$  .pipe(map(payload => duck.actions.heartbeatEvent  (wechaty.id, payload))),
-    login$      .pipe(map(payload => duck.actions.loginEvent      (wechaty.id, payload))),
-    logout$     .pipe(map(payload => duck.actions.logoutEvent     (wechaty.id, payload))),
-    message$    .pipe(map(payload => duck.actions.messageEvent    (wechaty.id, payload))),
-    ready$      .pipe(map(payload => duck.actions.readyEvent      (wechaty.id, payload))),
-    reset$      .pipe(map(payload => duck.actions.resetEvent      (wechaty.id, payload))),
-    roomInvite$ .pipe(map(payload => duck.actions.roomInviteEvent (wechaty.id, payload))),
-    roomJoin$   .pipe(map(payload => duck.actions.roomJoinEvent   (wechaty.id, payload))),
-    roomLeave$  .pipe(map(payload => duck.actions.roomLeaveEvent  (wechaty.id, payload))),
-    roomTopic$  .pipe(map(payload => duck.actions.roomTopicEvent  (wechaty.id, payload))),
-    scan$       .pipe(map(payload => duck.actions.scanEvent       (wechaty.id, payload))),
-  ).subscribe(store.dispatch)
+    dong$       .pipe(map(payload => duck.actions.dongEvent       (puppet.id, payload))),
+    error$      .pipe(map(payload => duck.actions.errorEvent      (puppet.id, payload))),
+    friendship$ .pipe(map(payload => duck.actions.friendshipEvent (puppet.id, payload))),
+    heartbeat$  .pipe(map(payload => duck.actions.heartbeatEvent  (puppet.id, payload))),
+    login$      .pipe(map(payload => duck.actions.loginEvent      (puppet.id, payload))),
+    logout$     .pipe(map(payload => duck.actions.logoutEvent     (puppet.id, payload))),
+    message$    .pipe(map(payload => duck.actions.messageEvent    (puppet.id, payload))),
+    ready$      .pipe(map(payload => duck.actions.readyEvent      (puppet.id, payload))),
+    reset$      .pipe(map(payload => duck.actions.resetEvent      (puppet.id, payload))),
+    roomInvite$ .pipe(map(payload => duck.actions.roomInviteEvent (puppet.id, payload))),
+    roomJoin$   .pipe(map(payload => duck.actions.roomJoinEvent   (puppet.id, payload))),
+    roomLeave$  .pipe(map(payload => duck.actions.roomLeaveEvent  (puppet.id, payload))),
+    roomTopic$  .pipe(map(payload => duck.actions.roomTopicEvent  (puppet.id, payload))),
+    scan$       .pipe(map(payload => duck.actions.scanEvent       (puppet.id, payload))),
+  )
 }
 
 export type {
@@ -151,4 +150,5 @@ export type {
 }
 export {
   WechatyRedux,
+  puppet$,
 }
