@@ -17,31 +17,17 @@
  *   limitations under the License.
  *
  */
-import type * as PUPPET   from 'wechaty-puppet'
 import {
   Wechaty,
   log,
 }             from 'wechaty'
 
-import {
-  fromEvent as rxFromEvent,
-  merge,
-}                             from 'rxjs'
-import type { FromEvent }     from 'typed-emitter/rxjs'
-import type { StateSwitch }   from 'state-switch'
-import {
-  map,
-}             from 'rxjs/operators'
-
 import type {
   Store,
 }             from 'redux'
-
-import * as duck  from './duck/mod.js'
-
 import * as instances from './manager.js'
 
-const fromEvent: FromEvent = rxFromEvent
+import { puppet$ } from './puppet$.js'
 
 interface WechatyReduxOptions {
   store: Store,
@@ -98,55 +84,9 @@ function install (
     .subscribe(store.dispatch)
 }
 
-const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
-  const puppet = puppetInterface as PUPPET.impl.PuppetAbstract
-
-  const state = puppet.state as StateSwitch
-  const stateActive$   = fromEvent(state, 'active')
-  const stateInactive$ = fromEvent(state, 'inactive')
-
-  const dong$       = fromEvent(puppet, 'dong')
-  const error$      = fromEvent(puppet, 'error')
-  const friendship$ = fromEvent(puppet, 'friendship')
-  const heartbeat$  = fromEvent(puppet, 'heartbeat')
-  const login$      = fromEvent(puppet, 'login')
-  const logout$     = fromEvent(puppet, 'logout')
-  const message$    = fromEvent(puppet, 'message')
-  const ready$      = fromEvent(puppet, 'ready')
-  const reset$      = fromEvent(puppet, 'reset')
-  const roomInvite$ = fromEvent(puppet, 'room-invite')
-  const roomJoin$   = fromEvent(puppet, 'room-join')
-  const roomLeave$  = fromEvent(puppet, 'room-leave')
-  const roomTopic$  = fromEvent(puppet, 'room-topic')
-  const scan$       = fromEvent(puppet, 'scan')
-
-  /* eslint-disable func-call-spacing */
-  /* eslint-disable no-whitespace-before-property */
-  return merge(
-    stateActive$   .pipe(map(status  => duck.actions.activeState    (puppet.id, status))),
-    stateInactive$ .pipe(map(status  => duck.actions.inactiveState  (puppet.id, status))),
-
-    dong$       .pipe(map(payload => duck.actions.dongEvent       (puppet.id, payload))),
-    error$      .pipe(map(payload => duck.actions.errorEvent      (puppet.id, payload))),
-    friendship$ .pipe(map(payload => duck.actions.friendshipEvent (puppet.id, payload))),
-    heartbeat$  .pipe(map(payload => duck.actions.heartbeatEvent  (puppet.id, payload))),
-    login$      .pipe(map(payload => duck.actions.loginEvent      (puppet.id, payload))),
-    logout$     .pipe(map(payload => duck.actions.logoutEvent     (puppet.id, payload))),
-    message$    .pipe(map(payload => duck.actions.messageEvent    (puppet.id, payload))),
-    ready$      .pipe(map(payload => duck.actions.readyEvent      (puppet.id, payload))),
-    reset$      .pipe(map(payload => duck.actions.resetEvent      (puppet.id, payload))),
-    roomInvite$ .pipe(map(payload => duck.actions.roomInviteEvent (puppet.id, payload))),
-    roomJoin$   .pipe(map(payload => duck.actions.roomJoinEvent   (puppet.id, payload))),
-    roomLeave$  .pipe(map(payload => duck.actions.roomLeaveEvent  (puppet.id, payload))),
-    roomTopic$  .pipe(map(payload => duck.actions.roomTopicEvent  (puppet.id, payload))),
-    scan$       .pipe(map(payload => duck.actions.scanEvent       (puppet.id, payload))),
-  )
-}
-
 export type {
   WechatyReduxOptions,
 }
 export {
   WechatyRedux,
-  puppet$,
 }
