@@ -21,13 +21,15 @@ import type { Dispatch } from 'redux'
 
 import * as actions from './actions.js'
 
-const ding = (dispatch: Dispatch) => (puppetId: string, data: string)                          => dispatch(actions.ding(puppetId, data))
-const say  = (dispatch: Dispatch) => (puppetId: string, conversationId: string, text: string)  => dispatch(actions.sayAsync.request({ conversationId, puppetId, text }))
+const ding  = (dispatch: Dispatch) => (puppetId: string, data: string)                          => dispatch(actions.ding(puppetId, data))
+const reset = (dispatch: Dispatch) => (puppetId: string, data: string)                          => dispatch(actions.reset(puppetId, data))
+const say   = (dispatch: Dispatch) => (puppetId: string, conversationId: string, text: string)  => dispatch(actions.sayAsync.request({ conversationId, puppetId, text }))
 
 const noop = (dispatch: Dispatch) => ()  => dispatch(actions.noop())
 
 export {
   ding,
+  reset,
   say,
 
   noop,
