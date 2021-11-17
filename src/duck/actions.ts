@@ -34,34 +34,34 @@ interface IdOptions               { id: string }
 interface MessageIdOptions        { messageId: string }
 interface ConversationIdOptions   { conversationId: string }
 interface TextOptions             { text: string }
-export interface WechatyIdOptions  { wechatyId: string }
+export interface PuppetIdOptions  { puppetId: string }
 
 /**
  * Event Actions' Payloads
  */
-const prepareSwitchActive   = (wechatyId: string, status: true | 'pending') => ({ status, wechatyId })
-const prepareSwitchInactive = (wechatyId: string, status: true | 'pending') => ({ status, wechatyId })
+const prepareStateActive   = (puppetId: string, status: true | 'pending') => ({ status, puppetId })
+const prepareStateInactive = (puppetId: string, status: true | 'pending') => ({ status, puppetId })
 
-const prepareDong           = (wechatyId: string, payload: PUPPET.payload.EventDong)       => ({ ...payload, wechatyId })
-const prepareError          = (wechatyId: string, payload: PUPPET.payload.EventError)      => ({ ...payload, wechatyId })
-const prepareHeartbeat      = (wechatyId: string, payload: PUPPET.payload.EventHeartbeat)  => ({ ...payload, wechatyId })
-const prepareReady          = (wechatyId: string, payload: PUPPET.payload.EventReady)      => ({ ...payload, wechatyId })
-const prepareReset          = (wechatyId: string, payload: PUPPET.payload.EventReset)      => ({ ...payload, wechatyId })
-const prepareFriendship     = (wechatyId: string, payload: PUPPET.payload.EventFriendship) => ({ ...payload, wechatyId })
-const prepareLogin          = (wechatyId: string, payload: PUPPET.payload.EventLogin)      => ({ ...payload, wechatyId })
-const prepareLogout         = (wechatyId: string, payload: PUPPET.payload.EventLogout)     => ({ ...payload, wechatyId })
-const prepareMessage        = (wechatyId: string, payload: PUPPET.payload.EventMessage)    => ({ ...payload, wechatyId })
-const prepareRoomInvitation = (wechatyId: string, payload: PUPPET.payload.EventRoomInvite) => ({ ...payload, wechatyId })
-const prepareRoomJoin       = (wechatyId: string, payload: PUPPET.payload.EventRoomJoin)   => ({ ...payload, wechatyId })
-const prepareRoomLeave      = (wechatyId: string, payload: PUPPET.payload.EventRoomLeave)  => ({ ...payload, wechatyId })
-const prepareRoomTopic      = (wechatyId: string, payload: PUPPET.payload.EventRoomTopic)  => ({ ...payload, wechatyId })
-const prepareScan           = (wechatyId: string, payload: PUPPET.payload.EventScan)       => ({ ...payload, wechatyId })
+const prepareDong           = (puppetId: string, payload: PUPPET.payload.EventDong)       => ({ ...payload, puppetId })
+const prepareError          = (puppetId: string, payload: PUPPET.payload.EventError)      => ({ ...payload, puppetId })
+const prepareHeartbeat      = (puppetId: string, payload: PUPPET.payload.EventHeartbeat)  => ({ ...payload, puppetId })
+const prepareReady          = (puppetId: string, payload: PUPPET.payload.EventReady)      => ({ ...payload, puppetId })
+const prepareReset          = (puppetId: string, payload: PUPPET.payload.EventReset)      => ({ ...payload, puppetId })
+const prepareFriendship     = (puppetId: string, payload: PUPPET.payload.EventFriendship) => ({ ...payload, puppetId })
+const prepareLogin          = (puppetId: string, payload: PUPPET.payload.EventLogin)      => ({ ...payload, puppetId })
+const prepareLogout         = (puppetId: string, payload: PUPPET.payload.EventLogout)     => ({ ...payload, puppetId })
+const prepareMessage        = (puppetId: string, payload: PUPPET.payload.EventMessage)    => ({ ...payload, puppetId })
+const prepareRoomInvitation = (puppetId: string, payload: PUPPET.payload.EventRoomInvite) => ({ ...payload, puppetId })
+const prepareRoomJoin       = (puppetId: string, payload: PUPPET.payload.EventRoomJoin)   => ({ ...payload, puppetId })
+const prepareRoomLeave      = (puppetId: string, payload: PUPPET.payload.EventRoomLeave)  => ({ ...payload, puppetId })
+const prepareRoomTopic      = (puppetId: string, payload: PUPPET.payload.EventRoomTopic)  => ({ ...payload, puppetId })
+const prepareScan           = (puppetId: string, payload: PUPPET.payload.EventScan)       => ({ ...payload, puppetId })
 
 /**
- * Actions: StateSwitch
+ * Actions: StateState
  */
-const activeSwitch    = createAction(types.SWITCH_ACTIVE,   prepareSwitchActive)()
-const inactiveSwitch  = createAction(types.SWITCH_INACTIVE, prepareSwitchInactive)()
+const activeState    = createAction(types.STATE_ACTIVE,   prepareStateActive)()
+const inactiveState  = createAction(types.STATE_INACTIVE, prepareStateInactive)()
 
 /**
  * Actions: Events
@@ -84,7 +84,7 @@ const scanEvent       = createAction(types.EVENT_SCAN,        prepareScan)()
 /**
  * Actions: Void APIs
  */
-const prepareData = (wechatyId: string, data: string)  => ({ data, wechatyId })
+const prepareData = (puppetId: string, data: string)  => ({ data, puppetId })
 
 const ding  = createAction(types.DING,  prepareData)()
 const reset = createAction(types.RESET, prepareData)()
@@ -92,9 +92,9 @@ const reset = createAction(types.RESET, prepareData)()
 /**
  * Actions: Non-Void APIs
  */
-const prepareSayRequest = ({ wechatyId, conversationId, text }: WechatyIdOptions & ConversationIdOptions & TextOptions)   => ({ id: UUID.v4(),  wechatyId, conversationId, text })
-const prepareSaySuccess = ({ id, wechatyId, messageId }       : WechatyIdOptions & IdOptions & Partial<MessageIdOptions>) => ({ id,             wechatyId, messageId })
-const prepareSayFailure = ({ id, wechatyId, gerror }          : WechatyIdOptions & IdOptions & ErrorOptions)              => ({ id,             wechatyId, gerror })
+const prepareSayRequest = ({ puppetId, conversationId, text }: PuppetIdOptions & ConversationIdOptions & TextOptions)   => ({ id: UUID.v4(),  puppetId, conversationId, text })
+const prepareSaySuccess = ({ id, puppetId, messageId }       : PuppetIdOptions & IdOptions & Partial<MessageIdOptions>) => ({ id,             puppetId, messageId })
+const prepareSayFailure = ({ id, puppetId, gerror }          : PuppetIdOptions & IdOptions & ErrorOptions)              => ({ id,             puppetId, gerror })
 
 const sayAsync = createAsyncAction(
   [types.SAY_REQUEST, prepareSayRequest],
@@ -105,7 +105,7 @@ const sayAsync = createAsyncAction(
 /**
  * Other Actions
  */
-const prepareCurrentUser  = (payload: WechatyIdOptions & PUPPET.payload.Contact) => payload
+const prepareCurrentUser  = (payload: PuppetIdOptions & PUPPET.payload.Contact) => payload
 const loginCurrentUser    = createAction(types.LOGIN_CURRENT_USER, prepareCurrentUser)()
 
 /**
@@ -115,8 +115,8 @@ const loginCurrentUser    = createAction(types.LOGIN_CURRENT_USER, prepareCurren
 const noop = createAction(types.NOOP)()
 
 export {
-  inactiveSwitch,
-  activeSwitch,
+  inactiveState,
+  activeState,
 
   dongEvent,
   errorEvent,

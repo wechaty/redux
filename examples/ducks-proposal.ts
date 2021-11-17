@@ -47,7 +47,7 @@ async function main () {
   const wechatyDuck = ducks.ducksify('wechaty')
 
   store.subscribe(() => console.info(store.getState()))
-  wechatyDuck.operations.ding(bot.id, 'Ducksify Style ding!')
+  wechatyDuck.operations.ding(bot.puppet.id, 'Ducksify Style ding!')
 }
 
 main()

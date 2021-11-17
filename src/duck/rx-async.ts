@@ -35,47 +35,47 @@ import {
 import * as actions from './actions.js'
 
 const ding$ = (action: ReturnType<typeof actions.ding>) => of( // void
-  getWechaty(action.payload.wechatyId)
+  getWechaty(action.payload.puppetId)
     .ding(action.payload.data),
 ).pipe(
   ignoreElements(),
   catchError(e => of(
     actions.errorEvent(
-      action.payload.wechatyId,
+      action.payload.puppetId,
       { gerror: GError.stringify(e) },
     ),
   )),
 )
 
 const reset$ = (action: ReturnType<typeof actions.reset>) => from(
-  getWechaty(action.payload.wechatyId)
+  getWechaty(action.payload.puppetId)
     .reset(),
 ).pipe(
   ignoreElements(),
   catchError((e: Error) => of(
     actions.errorEvent(
-      action.payload.wechatyId,
+      action.payload.puppetId,
       { gerror: GError.stringify(e) },
     ),
   )),
 )
 
 const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => from(
-  getWechaty(action.payload.wechatyId)
+  getWechaty(action.payload.puppetId)
     .puppet.messageSendText(
       action.payload.conversationId,
       action.payload.text,
     ),
 ).pipe(
   mapTo(actions.sayAsync.success({
-    id        : action.payload.id,
-    wechatyId : action.payload.wechatyId,
+    id       : action.payload.id,
+    puppetId : action.payload.puppetId,
   })),
   catchError(e => of(
     actions.sayAsync.failure({
-      gerror    : GError.stringify(e),
-      id        : action.payload.id,
-      wechatyId : action.payload.wechatyId,
+      gerror   : GError.stringify(e),
+      id       : action.payload.id,
+      puppetId : action.payload.puppetId,
     }),
   )),
 )

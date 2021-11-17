@@ -17,8 +17,8 @@
  *   limitations under the License.
  *
  */
-const SWITCH_ACTIVE   = 'wechaty/SWITCH_ACTIVE'
-const SWITCH_INACTIVE = 'wechaty/SWITCH_INACTIVE'
+const STATE_ACTIVE   = 'wechaty/STATE_ACTIVE'
+const STATE_INACTIVE = 'wechaty/STATE_INACTIVE'
 
 const EVENT_DONG        = 'wechaty/EVENT_DONG'
 const EVENT_ERROR       = 'wechaty/EVENT_ERROR'
@@ -61,8 +61,8 @@ const LOGIN_CURRENT_USER = 'wechaty/LOGIN_CURRENT_USER'
 const NOOP = 'wechaty/NOOP'
 
 export {
-  SWITCH_INACTIVE,
-  SWITCH_ACTIVE,
+  STATE_INACTIVE,
+  STATE_ACTIVE,
 
   EVENT_DONG,
   EVENT_ERROR,

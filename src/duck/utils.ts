@@ -50,7 +50,7 @@ const skipUndefined$ = <T> (value?: T): typeof EMPTY | Observable<T> => {
  * Example: `pipe(mergeMap(toMessage$))`
  */
 const toMessage$ = (action: ReturnType<typeof actions.messageEvent>) => {
-  const wechaty = getWechaty(action.payload.wechatyId)
+  const wechaty = getWechaty(action.payload.puppetId)
   return from(
     wechaty.Message.find({ id: action.payload.messageId }),
   ).pipe(
@@ -59,7 +59,7 @@ const toMessage$ = (action: ReturnType<typeof actions.messageEvent>) => {
 }
 
 const toContact$ = (action: ReturnType<typeof actions.loginEvent>) => {
-  const wechaty = getWechaty(action.payload.wechatyId)
+  const wechaty = getWechaty(action.payload.puppetId)
   return from(
     wechaty.Contact.find({ id: action.payload.contactId }),
   ).pipe(
@@ -68,12 +68,12 @@ const toContact$ = (action: ReturnType<typeof actions.loginEvent>) => {
 }
 
 const toContactPayload$ = (action: ReturnType<typeof actions.loginEvent>) => from(
-  getWechaty(action.payload.wechatyId)
+  getWechaty(action.payload.puppetId)
     .puppet.contactPayload(action.payload.contactId),
 ).pipe(
   map(payload => ({
     ...payload,
-    wechatyId: action.payload.wechatyId,
+    puppetId: action.payload.puppetId,
   })),
 )
 
@@ -84,10 +84,10 @@ const isTextMessage = (text?: string) => (message: Message) => (
     ? text === message.text()
     : true
 )
-const isWechaty = (wechatyId: string) => (action: ReturnType<typeof actions.messageEvent>) => action.payload.wechatyId === wechatyId
+const isWechaty = (puppetId: string) => (action: ReturnType<typeof actions.messageEvent>) => action.payload.puppetId === puppetId
 
 const skipSelfMessage$ = (action: ReturnType<typeof actions.messageEvent>) => {
-  const wechaty = getWechaty(action.payload.wechatyId)
+  const wechaty = getWechaty(action.payload.puppetId)
 
   return from(
     wechaty.Message.find({ id: action.payload.messageId }),
