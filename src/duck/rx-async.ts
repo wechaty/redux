@@ -18,6 +18,7 @@
  *
  */
 import {
+  EMPTY,
   from,
   of,
 }                 from 'rxjs'
@@ -25,19 +26,24 @@ import {
   ignoreElements,
   catchError,
   mapTo,
+  mergeMap,
+  // tap,
 }                 from 'rxjs/operators'
 import { GError } from 'gerror'
 
 import {
-  getWechaty,
-}                 from '../manager.js'
+  getPuppet,
+}             from '../puppet-pool.js'
 
 import * as actions from './actions.js'
 
-const ding$ = (action: ReturnType<typeof actions.ding>) => of( // void
-  getWechaty(action.payload.puppetId)
-    .ding(action.payload.data),
+const ding$ = (action: ReturnType<typeof actions.ding>) => of(
+  getPuppet(action.payload.puppetId),
 ).pipe(
+  mergeMap(puppet => puppet
+    ? of(puppet.ding(action.payload.data))
+    : EMPTY,
+  ),
   ignoreElements(),
   catchError(e => of(
     actions.errorEvent(
@@ -47,10 +53,13 @@ const ding$ = (action: ReturnType<typeof actions.ding>) => of( // void
   )),
 )
 
-const reset$ = (action: ReturnType<typeof actions.reset>) => from(
-  getWechaty(action.payload.puppetId)
-    .reset(),
+const reset$ = (action: ReturnType<typeof actions.reset>) => of(
+  getPuppet(action.payload.puppetId),
 ).pipe(
+  mergeMap(puppet => puppet
+    ? of(puppet.reset())
+    : EMPTY,
+  ),
   ignoreElements(),
   catchError((e: Error) => of(
     actions.errorEvent(
@@ -60,13 +69,16 @@ const reset$ = (action: ReturnType<typeof actions.reset>) => from(
   )),
 )
 
-const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => from(
-  getWechaty(action.payload.puppetId)
-    .puppet.messageSendText(
+const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => of(
+  getPuppet(action.payload.puppetId),
+).pipe(
+  mergeMap(puppet => puppet
+    ? from(puppet.messageSendText(
       action.payload.conversationId,
       action.payload.text,
-    ),
-).pipe(
+    ))
+    : EMPTY,
+  ),
   mapTo(actions.sayAsync.success({
     id       : action.payload.id,
     puppetId : action.payload.puppetId,

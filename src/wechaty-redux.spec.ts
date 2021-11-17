@@ -27,8 +27,8 @@ import {
 import {
   WechatyBuilder,
   Message,
-}                     from 'wechaty'
-import * as PUPPET     from 'wechaty-puppet'
+}                   from 'wechaty'
+import * as PUPPET  from 'wechaty-puppet'
 
 import {
   createStore,
@@ -139,12 +139,12 @@ test('WechatyRedux: operations.ding()', async t => {
     const DATA = 'test'
 
     const sandbox = sinon.createSandbox()
-    const spy = sandbox.spy(bot, 'ding')
+    const spy = sandbox.spy(bot.puppet, 'ding')
 
     duck.operations.ding(bot.puppet.id, DATA)
 
     // Let the bullets fly
-    await new Promise(resolve => setImmediate(resolve))
+    await new Promise(setImmediate)
 
     t.ok(spy.calledOnce, 'should call bot.ding()')
     t.ok(spy.calledWith(DATA), 'should called with DATA')

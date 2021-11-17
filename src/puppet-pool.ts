@@ -17,26 +17,19 @@
  *   limitations under the License.
  *
  */
-import * as Duck from './duck/mod.js'
+import type {
+  impl,
+}                 from 'wechaty-puppet'
 
-import {
-  WechatyRedux,
-  WechatyReduxOptions,
-}                         from './wechaty-redux.js'
-import {
-  puppet$,
-}                         from './puppet$.js'
+const puppetPool = new Map<string, impl.PuppetInterface>()
 
-import { getPuppet }      from './puppet-pool.js'
-import { VERSION }        from './config.js'
+const getPuppet = (id: string) => puppetPool.get(id)
 
-export type {
-  WechatyReduxOptions,
-}
+// const getMessage = async (puppetId: string, messageId: string) => puppetPool.get(puppetId)?.messagePayload(messageId)
+// const getRoom    = async (puppetId: string, roomId: string)    => puppetPool.get(puppetId)?.roomPayload(roomId)
+// const getContact = async (puppetId: string, contactId: string) => puppetPool.get(puppetId)?.contactPayload(contactId)
+
 export {
-  Duck,
+  puppetPool,
   getPuppet,
-  puppet$,
-  VERSION,
-  WechatyRedux,
 }
