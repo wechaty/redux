@@ -79,9 +79,9 @@ bot.use(WechatyRedux({ store }))
  */
 store.subscribe(() => console.info(store.getState()))
 
-store.dispatch(Api.actions.ding(bot.id, 'dispatch a ding action'))
+store.dispatch(Api.actions.ding(bot.puppet.id, 'dispatch a ding action'))
 // The above code 👆 is exactly do the same thing with the following code 👇 :
-Api.operations.ding(store.dispatch)(bot.id, 'call ding from operations')
+Api.operations.ding(store.dispatch)(bot.puppet.id, 'call ding from operations')
 ```
 
 ### Ducks Proposal Style for Wechaty Redux Plugin
@@ -113,7 +113,7 @@ bot.use(WechatyRedux({ store }))
 const wechatyDuck = ducks.ducksify('wechaty')
 
 store.subscribe(() => console.info(store.getState()))
-wechatyDuck.operations.ding(bot.id, 'Ducksify Style ding!')
+wechatyDuck.operations.ding(bot.puppet.id, 'Ducksify Style ding!')
 ```
 
 ### Redux Actions

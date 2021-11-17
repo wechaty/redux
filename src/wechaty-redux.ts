@@ -17,9 +17,6 @@
  *   limitations under the License.
  *
  */
-
-/* eslint-disable func-call-spacing */
-
 import type * as PUPPET   from 'wechaty-puppet'
 import {
   Wechaty,
@@ -105,8 +102,8 @@ const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
   const puppet = puppetInterface as PUPPET.impl.PuppetAbstract
 
   const state = puppet.state as StateSwitch
-  const switchActive$   = fromEvent(state, 'active')
-  const switchInactive$ = fromEvent(state, 'inactive')
+  const stateActive$   = fromEvent(state, 'active')
+  const stateInactive$ = fromEvent(state, 'inactive')
 
   const dong$       = fromEvent(puppet, 'dong')
   const error$      = fromEvent(puppet, 'error')
@@ -123,10 +120,11 @@ const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
   const roomTopic$  = fromEvent(puppet, 'room-topic')
   const scan$       = fromEvent(puppet, 'scan')
 
+  /* eslint-disable func-call-spacing */
+  /* eslint-disable no-whitespace-before-property */
   return merge(
-    /* eslint-disable no-whitespace-before-property */
-    switchActive$   .pipe(map(status  => duck.actions.activeSwitch    (puppet.id, status))),
-    switchInactive$ .pipe(map(status  => duck.actions.inactiveSwitch  (puppet.id, status))),
+    stateActive$   .pipe(map(status  => duck.actions.activeState    (puppet.id, status))),
+    stateInactive$ .pipe(map(status  => duck.actions.inactiveState  (puppet.id, status))),
 
     dong$       .pipe(map(payload => duck.actions.dongEvent       (puppet.id, payload))),
     error$      .pipe(map(payload => duck.actions.errorEvent      (puppet.id, payload))),

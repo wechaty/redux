@@ -107,13 +107,13 @@ test('WechatyRedux: selectors.{isLoggedIn,getQrCode,getUserPayload}()', async t 
     duck,
   } of wechatyFixtures()) {
 
-    t.equal(duck.selectors.isLoggedIn(bot.id), false, 'should not logged in at start')
-    t.notOk(duck.selectors.getQrCode(bot.id), 'should no QR Code at start')
-    t.notOk(duck.selectors.getCurrentUser(bot.id), 'should no user payload at start')
+    t.equal(duck.selectors.isLoggedIn(bot.puppet.id), false, 'should not logged in at start')
+    t.notOk(duck.selectors.getQrCode(bot.puppet.id), 'should no QR Code at start')
+    t.notOk(duck.selectors.getCurrentUser(bot.puppet.id), 'should no user payload at start')
 
     const QR_CODE = 'qrcode'
     mocker.scan(QR_CODE)
-    t.equal(duck.selectors.getQrCode(bot.id), QR_CODE, 'should get QR Code right')
+    t.equal(duck.selectors.getQrCode(bot.puppet.id), QR_CODE, 'should get QR Code right')
 
     const user = mocker.createContact()
     mocker.login(user)
@@ -121,12 +121,12 @@ test('WechatyRedux: selectors.{isLoggedIn,getQrCode,getUserPayload}()', async t 
     // Let the bullets fly
     await new Promise(resolve => setImmediate(resolve))
 
-    t.ok(duck.selectors.isLoggedIn(bot.id), 'should logged in after login(user)')
-    t.notOk(duck.selectors.getQrCode(bot.id), 'should no QR Code after user login')
-    t.same(duck.selectors.getCurrentUser(bot.id), { ...user.payload, wechatyId: bot.id }, 'should login user with payload')
+    t.ok(duck.selectors.isLoggedIn(bot.puppet.id), 'should logged in after login(user)')
+    t.notOk(duck.selectors.getQrCode(bot.puppet.id), 'should no QR Code after user login')
+    t.same(duck.selectors.getCurrentUser(bot.puppet.id), { ...user.payload, puppetId: bot.puppet.id }, 'should login user with payload')
 
     await bot.logout()
-    t.notOk(duck.selectors.isLoggedIn(bot.id), 'should logged out after call bot.logout')
+    t.notOk(duck.selectors.isLoggedIn(bot.puppet.id), 'should logged out after call bot.logout')
   }
 })
 
@@ -141,7 +141,7 @@ test('WechatyRedux: operations.ding()', async t => {
     const sandbox = sinon.createSandbox()
     const spy = sandbox.spy(bot, 'ding')
 
-    duck.operations.ding(bot.id, DATA)
+    duck.operations.ding(bot.puppet.id, DATA)
 
     // Let the bullets fly
     await new Promise(resolve => setImmediate(resolve))
@@ -170,7 +170,7 @@ test('WechatyRedux: operations.say()', async t => {
       mary.id,
       TEXT,
     ]
-    duck.operations.say(bot.id, mary.id, TEXT)
+    duck.operations.say(bot.puppet.id, mary.id, TEXT)
 
     // Let the bullets fly
     await new Promise(resolve => setImmediate(resolve))

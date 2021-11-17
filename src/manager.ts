@@ -21,34 +21,34 @@ import type { Wechaty } from 'wechaty'
 
 const instanceStore = new Map<string, Wechaty>()
 
-const getWechaty = (wechatyId: string): Wechaty => {
-  const wechaty = instanceStore.get(wechatyId)
+const getWechaty = (puppetId: string): Wechaty => {
+  const wechaty = instanceStore.get(puppetId)
   if (!wechaty) {
-    throw new Error('no wechaty found for id ' + wechatyId)
+    throw new Error('no wechaty found for puppet id ' + puppetId)
   }
   return wechaty
 }
 
 const setWechaty = (wechaty: Wechaty): void => {
-  const id = wechaty.id
+  const id = wechaty.puppet.id
   if (instanceStore.get(id)) {
-    throw new Error('wechaty id ' + id + ' has already been set before! it can not be set twice.')
+    throw new Error('wechaty puppet id ' + id + ' has already been set before! it can not be set twice.')
   }
   instanceStore.set(id, wechaty)
 }
 
 const removeWechaty = (wechaty: Wechaty): void => {
-  const id = wechaty.id
+  const id = wechaty.puppet.id
   if (!instanceStore.get(id)) {
-    throw new Error('wechaty id ' + id + ' does not exist!')
+    throw new Error('wechaty puppet id ' + id + ' does not exist!')
   }
   instanceStore.delete(id)
 
 }
 
-const getMessage = async (wechatyId: string, messageId: string) => getWechaty(wechatyId).Message.find({ id: messageId })
-const getRoom    = async (wechatyId: string, roomId: string)    => getWechaty(wechatyId).Room.find({ id: roomId })
-const getContact = async (wechatyId: string, contactId: string) => getWechaty(wechatyId).Contact.find({ id: contactId })
+const getMessage = async (puppetId: string, messageId: string) => getWechaty(puppetId).Message.find({ id: messageId })
+const getRoom    = async (puppetId: string, roomId: string)    => getWechaty(puppetId).Room.find({ id: roomId })
+const getContact = async (puppetId: string, contactId: string) => getWechaty(puppetId).Contact.find({ id: contactId })
 
 export {
   getWechaty,

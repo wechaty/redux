@@ -57,9 +57,9 @@ async function main () {
    */
   store.subscribe(() => console.info(store.getState()))
 
-  store.dispatch(Duck.actions.ding(bot.id, 'dispatch a ding action'))
+  store.dispatch(Duck.actions.ding(bot.puppet.id, 'dispatch a ding action'))
   // The above code 👆 is exactly do the same thing with the following code 👇 :
-  // Duck.operations.ding(store.dispatch)(bot.id, 'call ding from operations')
+  // Duck.operations.ding(store.dispatch)(bot.puppet.id, 'call ding from operations')
 }
 
 main()
