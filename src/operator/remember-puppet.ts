@@ -23,11 +23,11 @@ import {
   Observable,
 }               from 'rxjs'
 
-import type { puppetPool } from '../puppet-pool.js'
+import type { PuppetPool } from '../puppet-pool.js'
 
 const puppetRef = new Map<string, number>()
 
-const refRemember = (pool: typeof puppetPool) => (puppet: PUPPET.impl.PuppetInterface) => {
+const refRemember = (pool: PuppetPool) => (puppet: PUPPET.impl.PuppetInterface) => {
   const counter = puppetRef.get(puppet.id) ?? 0
 
   if (counter === 0) {
@@ -37,7 +37,7 @@ const refRemember = (pool: typeof puppetPool) => (puppet: PUPPET.impl.PuppetInte
   puppetRef.set(puppet.id, counter + 1)
 }
 
-const refForget = (pool: typeof puppetPool) => (puppet: PUPPET.impl.PuppetInterface) => {
+const refForget = (pool: PuppetPool) => (puppet: PUPPET.impl.PuppetInterface) => {
   const counter = puppetRef.get(puppet.id) ?? 0
 
   if (counter > 1) {
@@ -52,7 +52,7 @@ const refForget = (pool: typeof puppetPool) => (puppet: PUPPET.impl.PuppetInterf
 * Creating new operators from scratch
 *  @see https://rxjs.dev/guide/operators
 */
-const rememberPuppet = (pool: typeof puppetPool) => <T> (puppet: PUPPET.impl.PuppetInterface) =>
+const rememberPuppet = (pool: PuppetPool) => <T> (puppet: PUPPET.impl.PuppetInterface) =>
   (observable: Observable<T>) => new Observable<T>((subscriber) => {
     refRemember(pool)(puppet)
     subscriber.add(() => refForget(pool)(puppet))

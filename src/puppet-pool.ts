@@ -21,7 +21,8 @@ import type {
   impl,
 }                 from 'wechaty-puppet'
 
-const puppetPool = new Map<string, impl.PuppetInterface>()
+type PuppetPool = Map<string, impl.PuppetInterface>
+const puppetPool: PuppetPool = new Map()
 
 const getPuppet = (id: string) => puppetPool.get(id)
 
@@ -29,6 +30,9 @@ const getPuppet = (id: string) => puppetPool.get(id)
 // const getRoom    = async (puppetId: string, roomId: string)    => puppetPool.get(puppetId)?.roomPayload(roomId)
 // const getContact = async (puppetId: string, contactId: string) => puppetPool.get(puppetId)?.contactPayload(contactId)
 
+export type {
+  PuppetPool,
+}
 export {
   puppetPool,
   getPuppet,
