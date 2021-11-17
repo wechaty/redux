@@ -50,7 +50,7 @@ const sayEpic: Epic = actions$ => actions$.pipe(
 
 const loginEpic: Epic = actions$ => actions$.pipe(
   filter(isActionOf(actions.loginEvent)),
-  mergeMap(utils.toContactPayload$),
+  mergeMap(utils.toContact$),
   map(payload => actions.loginCurrentUser(payload)),
 )
 

@@ -17,6 +17,7 @@
  *   limitations under the License.
  *
  */
+import * as PUPPET from 'wechaty-puppet'
 import {
   EMPTY,
   from,
@@ -30,11 +31,9 @@ import {
   map,
 }                 from 'rxjs/operators'
 
-import { getWechaty } from '../manager.js'
+import { getPuppet } from '../puppet-pool.js'
 
 import type * as actions from './actions.js'
-import type { Message } from 'wechaty'
-import { type } from 'wechaty'
 
 const throwUndefined = <T> (value?: T): T => {
   if (value) return value
@@ -45,63 +44,68 @@ const skipUndefined$ = <T> (value?: T): typeof EMPTY | Observable<T> => {
   if (value) return of(value)
   return EMPTY
 }
+void skipUndefined$
+
+const extendPayloadWithPuppetId = (puppetId: string) => <T> (payload: T): T & { puppetId: string } => ({
+  ...payload,
+  puppetId,
+})
 
 /**
  * Example: `pipe(mergeMap(toMessage$))`
  */
-const toMessage$ = (action: ReturnType<typeof actions.messageEvent>) => {
-  const wechaty = getWechaty(action.payload.puppetId)
-  return from(
-    wechaty.Message.find({ id: action.payload.messageId }),
-  ).pipe(
-    map(throwUndefined),
-  )
-}
-
-const toContact$ = (action: ReturnType<typeof actions.loginEvent>) => {
-  const wechaty = getWechaty(action.payload.puppetId)
-  return from(
-    wechaty.Contact.find({ id: action.payload.contactId }),
-  ).pipe(
-    map(throwUndefined),
-  )
-}
-
-const toContactPayload$ = (action: ReturnType<typeof actions.loginEvent>) => from(
-  getWechaty(action.payload.puppetId)
-    .puppet.contactPayload(action.payload.contactId),
+const toMessage$ = (action: ReturnType<typeof actions.messageEvent>) => from(
+  getPuppet(action.payload.puppetId)
+    ?.messagePayload(action.payload.messageId) || EMPTY,
 ).pipe(
-  map(payload => ({
-    ...payload,
-    puppetId: action.payload.puppetId,
-  })),
+  map(throwUndefined),
+  map(extendPayloadWithPuppetId(action.payload.puppetId)),
 )
 
-const isTextMessage = (text?: string) => (message: Message) => (
-  message.type() === type.Message.Text
+const toContact$ = (action: ReturnType<typeof actions.loginEvent>) => from(
+  getPuppet(action.payload.puppetId)
+    ?.contactPayload(action.payload.contactId) || EMPTY,
+).pipe(
+  map(throwUndefined),
+  map(extendPayloadWithPuppetId(action.payload.puppetId)),
+)
+
+const isTextMessage = (text?: string) => (message: PUPPET.payload.Message) => (
+  message.type === PUPPET.type.Message.Text
 ) && (
   text
-    ? text === message.text()
+    ? text === message.text
     : true
 )
 const isWechaty = (puppetId: string) => (action: ReturnType<typeof actions.messageEvent>) => action.payload.puppetId === puppetId
 
-const skipSelfMessage$ = (action: ReturnType<typeof actions.messageEvent>) => {
-  const wechaty = getWechaty(action.payload.puppetId)
+const isSelfMessage = (puppet: PUPPET.impl.PuppetInterface) =>
+  (message: PUPPET.payload.Message) =>
+    puppet.isLoggedIn && message.fromId
+      ? message.fromId === puppet.currentUserId
+      : false
+void isSelfMessage
 
-  return from(
-    wechaty.Message.find({ id: action.payload.messageId }),
-  ).pipe(
-    mergeMap(skipUndefined$),
-    filter(message => !message.self()),
-    mapTo(action),
-  )
-}
+const isNotSelfMessage = (puppet: PUPPET.impl.PuppetInterface) =>
+  (message: PUPPET.payload.Message) => puppet.isLoggedIn
+    ? message.fromId !== puppet.currentUserId
+    : true
+
+const skipSelfMessage$ = (action: ReturnType<typeof actions.messageEvent>) => of(
+  getPuppet(action.payload.puppetId),
+).pipe(
+  mergeMap(puppet => puppet
+    ? from(puppet.messagePayload(action.payload.messageId)).pipe(
+      filter(isNotSelfMessage(puppet)),
+      mapTo(action),
+    )
+    : EMPTY,
+  ),
+)
 
 export {
   toMessage$,
   toContact$,
-  toContactPayload$,
   isTextMessage,
   isWechaty,
   skipSelfMessage$,

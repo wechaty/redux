@@ -30,9 +30,17 @@ import {
   share,
 }             from 'rxjs/operators'
 
-import * as duck  from './duck/mod.js'
+import { rememberPuppet } from './operator/remember-puppet.js'
+import * as duck          from './duck/mod.js'
+
+import { puppetPool } from './puppet-pool.js'
 
 const fromEvent: FromEvent = rxFromEvent
+
+/**
+ * Ducks operations need to get Puppet instance by id
+ *   this map is used to store the Puppet instances
+ */
 
 const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
   const puppet = puppetInterface as PUPPET.impl.PuppetAbstract
@@ -86,6 +94,11 @@ const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
     roomTopic$  .pipe(map(payload => duck.actions.roomTopicEvent  (puppet.id, payload))),
     scan$       .pipe(map(payload => duck.actions.scanEvent       (puppet.id, payload))),
   ).pipe(
+    /**
+     * Save the puppet instance to the map when there's any subscription
+     *  and automatically remove the puppet instance from the map when there's no subscription
+     */
+    rememberPuppet(puppetPool)(puppet),
     /**
      * share() === multicast(() => new Subject()).refCount()
      *  @see https://itnext.io/the-magic-of-rxjs-sharing-operators-and-their-differences-3a03d699d255

@@ -19,15 +19,15 @@
  */
 import {
   Wechaty,
+  WechatyPluginUninstaller,
   log,
-}             from 'wechaty'
+}                             from 'wechaty'
 
 import type {
   Store,
 }             from 'redux'
-import * as instances from './manager.js'
 
-import { puppet$ } from './puppet$.js'
+import { puppet$ }  from './puppet$.js'
 
 interface WechatyReduxOptions {
   store: Store,
@@ -36,52 +36,56 @@ interface WechatyReduxOptions {
 function WechatyRedux (options: WechatyReduxOptions) {
   log.verbose('WechatyRedux', '(%s)', JSON.stringify(options))
 
-  return function WechatyReduxPlugin (wechaty: Wechaty) {
+  const uninstallerList: WechatyPluginUninstaller[] = []
+
+  return function WechatyReduxPlugin (wechaty: Wechaty): WechatyPluginUninstaller {
     log.verbose('WechatyRedux', 'WechatyReduxPlugin(%s)', wechaty)
 
-    install(
+    installWechaty(
       options.store,
       wechaty,
+      uninstallerList,
     )
+
+    return () => uninstallerList.forEach(fn => fn())
   }
 }
 
-function install (
-  store: Store,
-  wechaty: Wechaty,
+function installWechaty (
+  store           : Store,
+  wechaty         : Wechaty,
+  uninstallerList : WechatyPluginUninstaller[],
 ): void {
-  log.verbose('WechatyRedux', 'install(store, %s)', wechaty)
+  log.verbose('WechatyRedux', 'installWechaty(store, %s)', wechaty)
 
   /**
    * Huan(202005):
    *  the wechaty.puppet will be initialized after the wechaty.start()
    *  so here might be no puppet yet.
    */
-  let hasPuppet: any
+  let puppet
   try {
-    hasPuppet = wechaty.puppet
+    puppet = wechaty.puppet
   } catch (e) {
     log.verbose('WechatyRedux', 'install() wechaty.puppet not ready yet. retry on puppet event later')
   }
 
-  if (!hasPuppet) {
-    wechaty.once('puppet', () => install(store, wechaty))
+  if (!puppet) {
+    const onPuppet = () => installWechaty(store, wechaty, uninstallerList)
+    wechaty.once('puppet', onPuppet)
+    uninstallerList.push(
+      () => wechaty.off('puppet', onPuppet),
+    )
     log.verbose('WechatyRedux', 'install() wechaty.once(puppet) event listener added')
     return
   }
 
-  /**
-   * Save wechaty id with the instance for the future usage
-   */
-  instances.setWechaty(wechaty)
-  log.silly('WechatyRedux', 'install() added wechaty<%s> to manager instances')
-
-  /**
-   * Actually, we are not installing to the Wechaty,
-   *  but the Puppet for convenience
-   */
-  puppet$(wechaty.puppet)
+  const sub = puppet$(puppet)
     .subscribe(store.dispatch)
+
+  uninstallerList.push(
+    () => sub.unsubscribe(),
+  )
 }
 
 export type {
