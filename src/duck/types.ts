@@ -17,6 +17,9 @@
  *   limitations under the License.
  *
  */
+const PUPPET_REGISTER   = 'wechaty/PUPPET_REGISTER'
+const PUPPET_DEREGISTER = 'wechaty/PUPPET_DEREGISTER'
+
 const STATE_ACTIVE   = 'wechaty/STATE_ACTIVE'
 const STATE_INACTIVE = 'wechaty/STATE_INACTIVE'
 
@@ -61,6 +64,9 @@ const LOGIN_CURRENT_USER = 'wechaty/LOGIN_CURRENT_USER'
 const NOOP = 'wechaty/NOOP'
 
 export {
+  PUPPET_REGISTER,
+  PUPPET_DEREGISTER,
+
   STATE_INACTIVE,
   STATE_ACTIVE,
 

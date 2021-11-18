@@ -25,9 +25,9 @@ import type * as PUPPET from 'wechaty-puppet'
 import * as actions from './actions.js'
 
 const initialState: DeepReadonly<{
-  [puppetId: string]: undefined | {  // wechaty.puppet.id
-    qrcode?      : string,
+  [puppetId: string]: {
     currentUser? : PUPPET.payload.Contact,
+    qrcode?      : string,
   }
 }> = {}
 
@@ -48,10 +48,33 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
       qrcode: undefined,
     },
   }))
-  .handleAction(actions.logoutEvent, (state, action) => ({
-    ...state,
-    [action.payload.puppetId]: undefined,
-  }))
+  .handleAction(actions.logoutEvent, (state, action) => {
+    const newState = {
+      ...state,
+      [action.payload.puppetId]: {
+        ...state[action.payload.puppetId],
+        currentUser : undefined,
+        qrcode      : undefined,
+      },
+    }
+    return newState
+  })
+  .handleAction(actions.registerPuppet, (state, action) => {
+    const newState = {
+      ...state,
+      [action.payload.puppetId]: {
+        ...state[action.payload.puppetId],
+      },
+    }
+    return newState
+  })
+  .handleAction(actions.deregisterPuppet, (state, action) => {
+    const newState = {
+      ...state,
+    }
+    delete newState[action.payload.puppetId]
+    return newState
+  })
 
 export type State = ReturnType<typeof reducer>
 export default reducer

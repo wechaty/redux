@@ -25,12 +25,20 @@ const ding  = (dispatch: Dispatch) => (puppetId: string, data: string)          
 const reset = (dispatch: Dispatch) => (puppetId: string, data: string)                          => dispatch(actions.reset(puppetId, data))
 const say   = (dispatch: Dispatch) => (puppetId: string, conversationId: string, text: string)  => dispatch(actions.sayAsync.request({ conversationId, puppetId, text }))
 
-const noop = (dispatch: Dispatch) => ()  => dispatch(actions.noop())
+/**
+ * Remove the puppet from registry
+ *  caution: all actions will failed if the specified puppet id is not in the registry
+ */
+const deregisterPuppet = (dispatch: Dispatch) => (puppetId: string) => dispatch(actions.deregisterPuppet(puppetId))
+
+const noop = (dispatch: Dispatch) => () => dispatch(actions.noop())
 
 export {
   ding,
   reset,
   say,
+
+  deregisterPuppet,
 
   noop,
 }

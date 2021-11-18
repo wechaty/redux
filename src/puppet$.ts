@@ -33,7 +33,7 @@ import {
 import { rememberPuppet } from './operator/remember-puppet.js'
 import * as duck          from './duck/mod.js'
 
-import { puppetPool } from './puppet-pool.js'
+import { puppetRegistry } from './puppet-registry.js'
 
 const fromEvent: FromEvent = rxFromEvent
 
@@ -95,15 +95,18 @@ const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
     scan$       .pipe(map(payload => duck.actions.scanEvent       (puppet.id, payload))),
   ).pipe(
     /**
-     * Save the puppet instance to the map when there's any subscription
-     *  and automatically remove the puppet instance from the map when there's no subscription
-     */
-    rememberPuppet(puppetPool)(puppet),
-    /**
      * share() === multicast(() => new Subject()).refCount()
      *  @see https://itnext.io/the-magic-of-rxjs-sharing-operators-and-their-differences-3a03d699d255
      */
     share(),
+    /**
+     * Save the puppet instance to the map when there's any subscription
+     *  and automatically remove the puppet instance from the map when there's no subscription
+     *
+     *  - Huan(202111): put it below the `share()`
+     *    because we want to count the ref numbers internally
+     */
+    rememberPuppet(puppetRegistry)(puppet),
   )
 }
 

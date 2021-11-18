@@ -31,7 +31,7 @@ import {
   map,
 }                 from 'rxjs/operators'
 
-import { getPuppet } from '../puppet-pool.js'
+import { getPuppet } from '../puppet-registry.js'
 
 import type * as actions from './actions.js'
 

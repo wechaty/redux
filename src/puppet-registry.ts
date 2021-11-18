@@ -21,19 +21,19 @@ import type {
   impl,
 }                 from 'wechaty-puppet'
 
-type PuppetPool = Map<string, impl.PuppetInterface>
-const puppetPool: PuppetPool = new Map()
+type PuppetRegistry = Map<string, impl.PuppetInterface>
+const puppetRegistry: PuppetRegistry = new Map()
 
-const getPuppet = (id: string) => puppetPool.get(id)
+const getPuppet = (id: string) => puppetRegistry.get(id)
 
 // const getMessage = async (puppetId: string, messageId: string) => puppetPool.get(puppetId)?.messagePayload(messageId)
 // const getRoom    = async (puppetId: string, roomId: string)    => puppetPool.get(puppetId)?.roomPayload(roomId)
 // const getContact = async (puppetId: string, contactId: string) => puppetPool.get(puppetId)?.contactPayload(contactId)
 
 export type {
-  PuppetPool,
+  PuppetRegistry,
 }
 export {
-  puppetPool,
+  puppetRegistry,
   getPuppet,
 }

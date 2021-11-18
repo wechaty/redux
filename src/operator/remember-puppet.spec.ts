@@ -21,25 +21,31 @@ test('refRemember() & refForget()', async t => {
   t.equal(pool.size, 0, 'should be 0 puppet in pool at initial')
   t.equal(puppetRef.size, 0, 'should be 0 puppet in ref at initial')
 
-  refRemember(pool)(puppet)
+  let counter
+
+  counter = refRemember(pool)(puppet)
+  t.equal(counter, 1, 'should be 1 ref after remember once')
   t.equal(pool.size, 1, 'should be 1 puppet in pool after remember once')
   t.equal(puppetRef.size, 1, 'should be 1 puppet in ref after remember once')
   t.equal(pool.get(puppet.id), puppet, 'should get puppet from pool after remember once')
   t.equal(puppetRef.get(puppet.id), 1, 'should get 1 puppet ref after remember once')
 
-  refRemember(pool)(puppet)
+  counter = refRemember(pool)(puppet)
+  t.equal(counter, 2, 'should be 2 ref after remember twice')
   t.equal(pool.size, 1, 'should be 1 puppet in pool after remember twice')
   t.equal(puppetRef.size, 1, 'should be 1 puppet in ref after remember twice')
   t.equal(pool.get(puppet.id), puppet, 'should get puppet from pool after remember twice')
   t.equal(puppetRef.get(puppet.id), 2, 'should get 2 puppet ref after remember twice')
 
-  refForget(pool)(puppet)
+  counter = refForget(pool)(puppet)
+  t.equal(counter, 1, 'should be 1 ref after forget once')
   t.equal(pool.size, 1, 'should be 1 puppet in pool after forget once')
   t.equal(puppetRef.size, 1, 'should be 1 puppet in ref after forget once')
   t.equal(pool.get(puppet.id), puppet, 'should get puppet from pool after forget once')
   t.equal(puppetRef.get(puppet.id), 1, 'should get 1 puppet ref after forget once')
 
-  refForget(pool)(puppet)
+  counter = refForget(pool)(puppet)
+  t.equal(counter, 0, 'should be 1 ref after forget twice')
   t.equal(pool.size, 0, 'should be 1 puppet in pool after forget twice')
   t.equal(puppetRef.size, 0, 'should be 1 puppet in ref after forget twice')
 })

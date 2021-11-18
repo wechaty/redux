@@ -21,42 +21,85 @@ import type * as PUPPET from 'wechaty-puppet'
 
 import {
   Observable,
+  Subject,
 }               from 'rxjs'
 
-import type { PuppetPool } from '../puppet-pool.js'
+import * as duck from '../duck/mod.js'
+
+import type { PuppetRegistry } from '../puppet-registry.js'
 
 const puppetRef = new Map<string, number>()
 
-const refRemember = (pool: PuppetPool) => (puppet: PUPPET.impl.PuppetInterface) => {
+const refRemember = (pool: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
   const counter = puppetRef.get(puppet.id) ?? 0
 
   if (counter === 0) {
     pool.set(puppet.id, puppet)
   }
 
-  puppetRef.set(puppet.id, counter + 1)
+  const newCounter = counter + 1
+  puppetRef.set(puppet.id, newCounter)
+
+  return newCounter
 }
 
-const refForget = (pool: PuppetPool) => (puppet: PUPPET.impl.PuppetInterface) => {
+const refForget = (pool: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
   const counter = puppetRef.get(puppet.id) ?? 0
 
-  if (counter > 1) {
-    puppetRef.set(puppet.id, counter - 1)
-  } else {
+  const newCounter = counter - 1
+  puppetRef.set(puppet.id, newCounter)
+
+  if (newCounter <= 0) {
     pool.delete(puppet.id)
     puppetRef.delete(puppet.id)
   }
+
+  return newCounter
 }
+
+type PayloadActionRegisterPuppet = ReturnType<typeof duck.actions.registerPuppet>
 
 /**
 * Creating new operators from scratch
 *  @see https://rxjs.dev/guide/operators
 */
-const rememberPuppet = (pool: PuppetPool) => <T> (puppet: PUPPET.impl.PuppetInterface) =>
-  (observable: Observable<T>) => new Observable<T>((subscriber) => {
-    refRemember(pool)(puppet)
-    subscriber.add(() => refForget(pool)(puppet))
-    return observable.subscribe(subscriber)
+const rememberPuppet = (pool: PuppetRegistry) => <T> (puppet: PUPPET.impl.PuppetInterface) =>
+  (observable: Observable<T>) => new Observable<T | PayloadActionRegisterPuppet>((subscriber) => {
+    /**
+     * For emitting the `RregisterPuppet` action
+     */
+    const proxySubject = new Subject<T | PayloadActionRegisterPuppet>()
+
+    /**
+     * Chain the subscription to the observable
+     */
+    const proxySubscription = observable.subscribe(proxySubject)
+    const finalSubscription = proxySubject.subscribe(subscriber)
+
+    const counter = refRemember(pool)(puppet)
+
+    /**
+     * Emit `RegisterPuppet` action when first time subscribe to the puppet
+     */
+    if (counter === 1) {
+      proxySubject.next(
+        duck.actions.registerPuppet(puppet.id),
+      )
+    }
+
+    /**
+     * Return the teardown logic.
+     *
+     * This will be invoked when the result errors, completes, or is unsubscribed.
+     */
+    return () => {
+      finalSubscription.unsubscribe()
+      proxySubscription.unsubscribe()
+      /**
+       * Cleanup puppet in pool with reference counter
+       */
+      refForget(pool)(puppet)
+    }
   })
 
 export {

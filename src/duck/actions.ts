@@ -37,6 +37,11 @@ interface TextOptions             { text: string }
 export interface PuppetIdOptions  { puppetId: string }
 
 /**
+ * Puppet Register to pool
+ */
+const preparePuppetId = (puppetId: string) => ({ puppetId })
+
+/**
  * Event Actions' Payloads
  */
 const prepareStateActive   = (puppetId: string, status: true | 'pending') => ({ status, puppetId })
@@ -56,6 +61,12 @@ const prepareRoomJoin       = (puppetId: string, payload: PUPPET.payload.EventRo
 const prepareRoomLeave      = (puppetId: string, payload: PUPPET.payload.EventRoomLeave)  => ({ ...payload, puppetId })
 const prepareRoomTopic      = (puppetId: string, payload: PUPPET.payload.EventRoomTopic)  => ({ ...payload, puppetId })
 const prepareScan           = (puppetId: string, payload: PUPPET.payload.EventScan)       => ({ ...payload, puppetId })
+
+/**
+ * Actions: Puppet Pool
+ */
+const registerPuppet    = createAction(types.PUPPET_REGISTER,   preparePuppetId)()
+const deregisterPuppet  = createAction(types.PUPPET_DEREGISTER, preparePuppetId)()
 
 /**
  * Actions: StateState
@@ -115,6 +126,9 @@ const loginCurrentUser    = createAction(types.LOGIN_CURRENT_USER, prepareCurren
 const noop = createAction(types.NOOP)()
 
 export {
+  registerPuppet,
+  deregisterPuppet,
+
   inactiveState,
   activeState,
 
