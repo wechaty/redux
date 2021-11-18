@@ -33,7 +33,7 @@ import { GError } from 'gerror'
 
 import {
   getPuppet,
-}             from '../puppet-registry.js'
+}             from '../puppet-registry/puppet-registry.js'
 
 import * as actions from './actions.js'
 

@@ -26,15 +26,15 @@ import {
 
 import * as duck from '../duck/mod.js'
 
-import type { PuppetRegistry } from '../puppet-registry.js'
+import type { PuppetRegistry } from './puppet-registry.js'
 
 const puppetRef = new Map<string, number>()
 
-const refRemember = (pool: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
+const refRemember = (registry: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
   const counter = puppetRef.get(puppet.id) ?? 0
 
   if (counter === 0) {
-    pool.set(puppet.id, puppet)
+    registry.set(puppet.id, puppet)
   }
 
   const newCounter = counter + 1
@@ -43,14 +43,14 @@ const refRemember = (pool: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterfa
   return newCounter
 }
 
-const refForget = (pool: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
+const refForget = (registry: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
   const counter = puppetRef.get(puppet.id) ?? 0
 
   const newCounter = counter - 1
   puppetRef.set(puppet.id, newCounter)
 
   if (newCounter <= 0) {
-    pool.delete(puppet.id)
+    registry.delete(puppet.id)
     puppetRef.delete(puppet.id)
   }
 
@@ -63,7 +63,7 @@ type PayloadActionRegisterPuppet = ReturnType<typeof duck.actions.registerPuppet
 * Creating new operators from scratch
 *  @see https://rxjs.dev/guide/operators
 */
-const rememberPuppet = (pool: PuppetRegistry) => <T> (puppet: PUPPET.impl.PuppetInterface) =>
+const registerPuppet = (registry: PuppetRegistry) => <T> (puppet: PUPPET.impl.PuppetInterface) =>
   (observable: Observable<T>) => new Observable<T | PayloadActionRegisterPuppet>((subscriber) => {
     /**
      * For emitting the `RregisterPuppet` action
@@ -76,7 +76,7 @@ const rememberPuppet = (pool: PuppetRegistry) => <T> (puppet: PUPPET.impl.Puppet
     const proxySubscription = observable.subscribe(proxySubject)
     const finalSubscription = proxySubject.subscribe(subscriber)
 
-    const counter = refRemember(pool)(puppet)
+    const counter = refRemember(registry)(puppet)
 
     /**
      * Emit `RegisterPuppet` action when first time subscribe to the puppet
@@ -96,14 +96,14 @@ const rememberPuppet = (pool: PuppetRegistry) => <T> (puppet: PUPPET.impl.Puppet
       finalSubscription.unsubscribe()
       proxySubscription.unsubscribe()
       /**
-       * Cleanup puppet in pool with reference counter
+       * Cleanup puppet in registry with reference counter
        */
-      refForget(pool)(puppet)
+      refForget(registry)(puppet)
     }
   })
 
 export {
-  rememberPuppet,
+  registerPuppet,
   refRemember,
   refForget,
   puppetRef,

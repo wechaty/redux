@@ -27,7 +27,7 @@ import {
   puppet$,
 }                         from './puppet$.js'
 
-import { getPuppet }      from './puppet-registry.js'
+import { getPuppet }      from './puppet-registry/puppet-registry.js'
 import { VERSION }        from './config.js'
 
 export type {

@@ -30,10 +30,10 @@ import {
   share,
 }             from 'rxjs/operators'
 
-import { rememberPuppet } from './operator/remember-puppet.js'
+import { registerPuppet } from './puppet-registry/register-puppet.js'
 import * as duck          from './duck/mod.js'
 
-import { puppetRegistry } from './puppet-registry.js'
+import { puppetRegistry } from './puppet-registry/puppet-registry.js'
 
 const fromEvent: FromEvent = rxFromEvent
 
@@ -106,7 +106,7 @@ const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
      *  - Huan(202111): put it below the `share()`
      *    because we want to count the ref numbers internally
      */
-    rememberPuppet(puppetRegistry)(puppet),
+    registerPuppet(puppetRegistry)(puppet),
   )
 }
 
