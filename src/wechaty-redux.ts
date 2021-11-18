@@ -17,17 +17,21 @@
  *   limitations under the License.
  *
  */
-import {
-  Wechaty,
-  WechatyPluginUninstaller,
-  log,
-}                             from 'wechaty'
+import type * as PUPPET from 'wechaty-puppet'
+import { log }          from 'wechaty-puppet'
 
 import type {
   Store,
 }             from 'redux'
 
 import { puppet$ }  from './puppet$.js'
+
+interface WechatyLike {
+  puppet?: PUPPET.impl.PuppetInterface
+  once: (eventName: 'puppet', listener: (puppet: PUPPET.impl.PuppetInterface) => void) => void
+  off:  (eventName: 'puppet', listener: (puppet: PUPPET.impl.PuppetInterface) => void) => void
+}
+type VoidFunction = () => void
 
 interface WechatyReduxOptions {
   store: Store,
@@ -36,9 +40,9 @@ interface WechatyReduxOptions {
 function WechatyRedux (options: WechatyReduxOptions) {
   log.verbose('WechatyRedux', '(%s)', JSON.stringify(options))
 
-  const uninstallerList: WechatyPluginUninstaller[] = []
+  const uninstallerList: VoidFunction[] = []
 
-  return function WechatyReduxPlugin (wechaty: Wechaty): WechatyPluginUninstaller {
+  return function WechatyReduxPlugin (wechaty: WechatyLike): VoidFunction {
     log.verbose('WechatyRedux', 'WechatyReduxPlugin(%s)', wechaty)
 
     installWechaty(
@@ -53,8 +57,8 @@ function WechatyRedux (options: WechatyReduxOptions) {
 
 function installWechaty (
   store           : Store,
-  wechaty         : Wechaty,
-  uninstallerList : WechatyPluginUninstaller[],
+  wechaty         : WechatyLike,
+  uninstallerList : VoidFunction[],
 ): void {
   log.verbose('WechatyRedux', 'installWechaty(store, %s)', wechaty)
 
