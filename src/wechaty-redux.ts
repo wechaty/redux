@@ -17,20 +17,19 @@
  *   limitations under the License.
  *
  */
-import type * as PUPPET from 'wechaty-puppet'
-import { log }          from 'wechaty-puppet'
+import { log } from 'wechaty-puppet'
 
 import type {
   Store,
 }             from 'redux'
 
+import {
+  registerWechaty,
+  type WechatyLike,
+}                   from './registry/mod.js'
+
 import { puppet$ }  from './puppet$.js'
 
-interface WechatyLike {
-  puppet?: PUPPET.impl.PuppetInterface
-  once: (eventName: 'puppet', listener: (puppet: PUPPET.impl.PuppetInterface) => void) => void
-  off:  (eventName: 'puppet', listener: (puppet: PUPPET.impl.PuppetInterface) => void) => void
-}
 type VoidFunction = () => void
 
 interface WechatyReduxOptions {
@@ -40,27 +39,39 @@ interface WechatyReduxOptions {
 function WechatyRedux (options: WechatyReduxOptions) {
   log.verbose('WechatyRedux', '(%s)', JSON.stringify(options))
 
+  const store = options.store
+
   const uninstallerList: VoidFunction[] = []
 
   return function WechatyReduxPlugin (wechaty: WechatyLike): VoidFunction {
     log.verbose('WechatyRedux', 'WechatyReduxPlugin(%s)', wechaty)
 
-    installWechaty(
-      options.store,
+    /**
+     * Register Wechaty to the Registry
+     *  to support `getWechaty(id)` usage in the future
+     */
+    const deregister = registerWechaty(wechaty, store)
+    uninstallerList.push(() => deregister())
+
+    subscribePuppetEvents(
       wechaty,
+      store,
       uninstallerList,
     )
 
-    return () => uninstallerList.forEach(fn => fn())
+    return () => {
+      uninstallerList.forEach(setImmediate)
+      uninstallerList.length = 0
+    }
   }
 }
 
-function installWechaty (
-  store           : Store,
+function subscribePuppetEvents (
   wechaty         : WechatyLike,
+  store           : Store,
   uninstallerList : VoidFunction[],
 ): void {
-  log.verbose('WechatyRedux', 'installWechaty(store, %s)', wechaty)
+  log.verbose('WechatyRedux', 'subscribePuppetEvents(store, %s)', wechaty)
 
   /**
    * Huan(202005):
@@ -75,26 +86,28 @@ function installWechaty (
   }
 
   if (!puppet) {
-    const onPuppet = () => installWechaty(store, wechaty, uninstallerList)
+    const onPuppet = () => subscribePuppetEvents(wechaty, store, uninstallerList)
+
     wechaty.once('puppet', onPuppet)
     uninstallerList.push(
       () => wechaty.off('puppet', onPuppet),
     )
+
     log.verbose('WechatyRedux', 'install() wechaty.once(puppet) event listener added')
     return
   }
 
-  const sub = puppet$(puppet)
-    .subscribe(store.dispatch)
+  const sub = puppet$(puppet, {
+    store,
+    wechaty,
+  }).subscribe(store.dispatch)
 
-  uninstallerList.push(
-    () => sub.unsubscribe(),
-  )
+  uninstallerList.push(() => {
+    sub.unsubscribe()
+  })
 }
 
-export type {
-  WechatyReduxOptions,
-}
 export {
+  type WechatyReduxOptions,
   WechatyRedux,
 }

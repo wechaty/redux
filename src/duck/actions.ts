@@ -37,9 +37,12 @@ interface TextOptions             { text: string }
 export interface PuppetIdOptions  { puppetId: string }
 
 /**
- * Puppet Register to pool
+ * Register Actions
  */
-const preparePuppetId = (puppetId: string) => ({ puppetId })
+const preparePuppetId   = (puppetId: string)  => ({ puppetId })
+const prepareWechatyId  = (wechatyId: string) => ({ wechatyId })
+
+const prepareWechatyPuppetId = (options: { wechatyId: string, puppetId: string }) => options
 
 /**
  * Event Actions' Payloads
@@ -63,10 +66,16 @@ const prepareRoomTopic      = (puppetId: string, payload: PUPPET.payload.EventRo
 const prepareScan           = (puppetId: string, payload: PUPPET.payload.EventScan)       => ({ ...payload, puppetId })
 
 /**
- * Actions: Puppet Pool
+ * Actions: Registry
  */
 const registerPuppet    = createAction(types.PUPPET_REGISTER,   preparePuppetId)()
 const deregisterPuppet  = createAction(types.PUPPET_DEREGISTER, preparePuppetId)()
+
+const registerWechaty    = createAction(types.WECHATY_REGISTER,   prepareWechatyId)()
+const deregisterWechaty  = createAction(types.WECHATY_DEREGISTER, prepareWechatyId)()
+
+const bindWechatyPuppet   = createAction(types.WECHATY_PUPPET_BIND,   prepareWechatyPuppetId)()
+const unbindWechatyPuppet = createAction(types.WECHATY_PUPPET_UNBIND, prepareWechatyPuppetId)()
 
 /**
  * Actions: StateState
@@ -91,6 +100,9 @@ const roomJoinEvent   = createAction(types.EVENT_ROOM_JOIN,   prepareRoomJoin)()
 const roomLeaveEvent  = createAction(types.EVENT_ROOM_LEAVE,  prepareRoomLeave)()
 const roomTopicEvent  = createAction(types.EVENT_ROOM_TOPIC,  prepareRoomTopic)()
 const scanEvent       = createAction(types.EVENT_SCAN,        prepareScan)()
+
+const startEvent      = createAction(types.EVENT_START,       preparePuppetId)()
+const stopEvent       = createAction(types.EVENT_STOP,        preparePuppetId)()
 
 /**
  * Actions: Void APIs
@@ -129,6 +141,12 @@ export {
   registerPuppet,
   deregisterPuppet,
 
+  registerWechaty,
+  deregisterWechaty,
+
+  bindWechatyPuppet,
+  unbindWechatyPuppet,
+
   inactiveState,
   activeState,
 
@@ -146,6 +164,9 @@ export {
   roomLeaveEvent,
   roomTopicEvent,
   scanEvent,
+
+  startEvent,
+  stopEvent,
 
   ding,
   reset,

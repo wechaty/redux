@@ -44,10 +44,16 @@ import {
   mock,
   PuppetMock,
 }                 from 'wechaty-puppet-mock'
+
 import {
-  Duck,
+  getPuppet,
+  getWechaty,
+}                 from './registry/mod.js'
+import * as Duck  from './duck/mod.js'
+
+import {
   WechatyRedux,
-}                 from './mod.js'
+}                 from './wechaty-redux.js'
 
 async function * wechatyFixtures () {
   const ducks = new Ducks({
@@ -213,4 +219,43 @@ test('WechatyRedux: Puppet `message` event', async t => {
 
     t.same((msg as any)._payload, EXPECTED_PAYLOAD, 'should receive message with expected payload')
   }
+})
+
+test.only('WechatyRedux: getPuppet() & getWechaty()', async t => {
+  // const ducks = new Ducks({
+  //   wechaty : Duck,
+  // })
+
+  // const store = createStore(
+  //   noopReducer,
+  //   ducks.enhancer(),
+  // )
+
+  const puppet = new PuppetMock()
+  const wechaty = WechatyBuilder.build({ puppet })
+
+  const spy = sinon.spy()
+  const store = {
+    dispatch: spy,
+  }
+
+  t.notOk(getWechaty(wechaty.id), 'should has no wechaty registered')
+  t.notOk(getPuppet(puppet.id), 'should has no puppet registered')
+
+  wechaty.use(WechatyRedux({ store } as any))
+
+  t.equal(getWechaty(wechaty.id), wechaty, 'should has wechaty registered after use plugin')
+  t.notOk(getPuppet(puppet.id), 'should has no puppet registered after use plugin')
+
+  await wechaty.start()
+  t.equal(getPuppet(puppet.id), puppet, 'should has puppet registered after wechaty start')
+
+  t.same(spy.args[0]![0], Duck.actions.registerWechaty(wechaty.id), 'should emit register wechaty action')
+  t.same(spy.args[1]![0], Duck.actions.registerPuppet(puppet.id), 'should emit register puppet action')
+  t.same(spy.args[2]![0], Duck.actions.bindWechatyPuppet({ puppetId: puppet.id, wechatyId: wechaty.id }), 'should emit bind wechaty puppet action')
+
+  spy.resetHistory()
+  await wechaty.stop()
+
+  console.info(spy.args)
 })

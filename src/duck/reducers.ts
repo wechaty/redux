@@ -17,64 +17,188 @@
  *   limitations under the License.
  *
  */
-import { createReducer, ActionType } from 'typesafe-actions'
-import type { DeepReadonly } from 'utility-types'
+import {
+  createReducer,
+  ActionType,
+}                     from 'typesafe-actions'
+import type {
+  DeepReadonly,
+}                     from 'utility-types'
 
 import type * as PUPPET from 'wechaty-puppet'
 
 import * as actions from './actions.js'
 
-const initialState: DeepReadonly<{
-  [puppetId: string]: {
-    currentUser? : PUPPET.payload.Contact,
-    qrcode?      : string,
+// type DeepWritable<T> = T extends ((...args: any[]) => any) | Primitive ? T : T extends _DeepReadonlyArray<infer U> ? _DeepReadonlyArray<U> : T extends _DeepReadonlyObject<infer V> ? _DeepReadonlyObject<V> : T;
+
+// interface _DeepWritableArray<T> extends WritableArray<DeepWritable<T>> {
+// }
+
+// type _DeepWritableObject<T> = {
+//   -readonly [P in keyof T]: DeepReadonly<T[P]>;
+// };
+
+type State = DeepReadonly<{
+  puppet: {
+    [puppetId: string]: undefined | {
+      currentUser? : PUPPET.payload.Contact,
+      qrcode?      : string,
+      wechatyId?   : string
+    }
   }
-}> = {}
+  wechaty: {
+    [wechatyId: string]: undefined | {
+      puppetId?: string
+    }
+  },
+}>
+
+const initialState: State = {
+  puppet  : {},
+  wechaty : {},
+}
 
 const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(initialState)
-  .handleAction(actions.scanEvent, (state, action) => ({
-    ...state,
-    [action.payload.puppetId]: {
-      ...state[action.payload.puppetId],
-      currentUser: undefined,
-      qrcode: action.payload.qrcode,
-    },
-  }))
-  .handleAction(actions.loginCurrentUser, (state, action) => ({
-    ...state,
-    [action.payload.puppetId]: {
-      ...state[action.payload.puppetId],
-      currentUser: action.payload,
-      qrcode: undefined,
-    },
-  }))
-  .handleAction(actions.logoutEvent, (state, action) => {
-    const newState = {
+  .handleAction(actions.scanEvent, (state, action) => {
+    const newState: State = {
       ...state,
-      [action.payload.puppetId]: {
-        ...state[action.payload.puppetId],
-        currentUser : undefined,
-        qrcode      : undefined,
+      puppet: {
+        ...state.puppet,
+        [action.payload.puppetId]: {
+          ...state.puppet[action.payload.puppetId],
+          currentUser: undefined,
+          qrcode: action.payload.qrcode,
+        },
       },
     }
     return newState
   })
-  .handleAction(actions.registerPuppet, (state, action) => {
-    const newState = {
+  .handleAction(actions.loginCurrentUser, (state, action) => {
+    const newState: State = {
       ...state,
-      [action.payload.puppetId]: {
-        ...state[action.payload.puppetId],
+      puppet: {
+        ...state.puppet,
+        [action.payload.puppetId]: {
+          ...state.puppet[action.payload.puppetId],
+          currentUser: action.payload,
+          qrcode: undefined,
+        },
+      },
+    }
+    return newState
+  })
+  .handleAction([
+    actions.logoutEvent,
+    actions.stopEvent,
+  ], (state, action) => {
+    const newState: State = {
+      ...state,
+      puppet: {
+        ...state.puppet,
+        [action.payload.puppetId]: {
+          ...state.puppet[action.payload.puppetId],
+          currentUser : undefined,
+          qrcode      : undefined,
+        },
+      },
+    }
+    return newState
+  })
+  /**
+   * Register & Deregister Puppet
+   */
+  .handleAction(actions.registerPuppet, (state, action) => {
+    const newState: State = {
+      ...state,
+      puppet: {
+        ...state.puppet,
+        [action.payload.puppetId]: {
+          ...state.puppet[action.payload.puppetId],
+        },
       },
     }
     return newState
   })
   .handleAction(actions.deregisterPuppet, (state, action) => {
-    const newState = {
+    const newState: State = {
       ...state,
+      puppet: {
+        ...state.puppet,
+        [action.payload.puppetId]: undefined,
+      },
     }
-    delete newState[action.payload.puppetId]
+    return newState
+  })
+  /**
+   * Register & Deregister Wechaty
+   */
+  .handleAction(actions.registerWechaty, (state, action) => {
+    const newState: State = {
+      ...state,
+      wechaty: {
+        ...state.wechaty,
+        [action.payload.wechatyId]: {
+          ...state.wechaty[action.payload.wechatyId],
+        },
+      },
+    }
+    return newState
+  })
+  .handleAction(actions.deregisterWechaty, (state, action) => {
+    const newState: State = {
+      ...state,
+      wechaty: {
+        ...state.wechaty,
+        [action.payload.wechatyId]: undefined,
+      },
+    }
+    return newState
+  })
+  /**
+   * Bind & Unbind Wechaty <> Puppet
+   */
+  .handleAction(actions.bindWechatyPuppet, (state, action) => {
+    const newState: State = {
+      ...state,
+      puppet: {
+        ...state.puppet,
+        [action.payload.puppetId]: {
+          ...state.puppet[action.payload.puppetId],
+          wechatyId: action.payload.wechatyId,
+        },
+      },
+      wechaty: {
+        ...state.wechaty,
+        [action.payload.wechatyId]: {
+          ...state.wechaty[action.payload.wechatyId],
+          puppetId: action.payload.puppetId,
+        },
+      },
+    }
+    return newState
+  })
+  .handleAction(actions.unbindWechatyPuppet, (state, action) => {
+    const newState: State = {
+      ...state,
+      puppet: {
+        ...state.puppet,
+        [action.payload.puppetId]: {
+          ...state.puppet[action.payload.puppetId],
+          wechatyId: undefined,
+        },
+      },
+      wechaty: {
+        ...state.wechaty,
+        [action.payload.wechatyId]: {
+          ...state.wechaty[action.payload.wechatyId],
+          puppetId: undefined,
+        },
+      },
+    }
     return newState
   })
 
-export type State = ReturnType<typeof reducer>
+export type {
+  State,
+}
 export default reducer

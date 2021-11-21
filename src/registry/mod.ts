@@ -17,23 +17,29 @@
  *   limitations under the License.
  *
  */
-import type {
-  impl,
-}                 from 'wechaty-puppet'
-
-type PuppetRegistry = Map<string, impl.PuppetInterface>
-const puppetRegistry: PuppetRegistry = new Map()
-
-const getPuppet = (id: string) => puppetRegistry.get(id)
-
-// const getMessage = async (puppetId: string, messageId: string) => puppetPool.get(puppetId)?.messagePayload(messageId)
-// const getRoom    = async (puppetId: string, roomId: string)    => puppetPool.get(puppetId)?.roomPayload(roomId)
-// const getContact = async (puppetId: string, contactId: string) => puppetPool.get(puppetId)?.contactPayload(contactId)
-
-export type {
-  PuppetRegistry,
-}
-export {
+import {
+  type WechatyLike,
   puppetRegistry,
+  wechatyRegistry,
   getPuppet,
+  getWechaty,
+}                                   from './registry.js'
+import {
+  registerPuppetInRegistry,
+  type RegisterPuppetOptions,
+}                                   from './register-puppet.js'
+import {
+  registerWechatyInRegistry,
+}                                   from './register-wechaty.js'
+
+const registerPuppet  = registerPuppetInRegistry(puppetRegistry)
+const registerWechaty = registerWechatyInRegistry(wechatyRegistry)
+
+export {
+  registerPuppet,
+  registerWechaty,
+  getPuppet,
+  getWechaty,
+  type WechatyLike,
+  type RegisterPuppetOptions,
 }

@@ -17,8 +17,11 @@
  *   limitations under the License.
  *
  */
-import * as Duck from './duck/mod.js'
-
+import * as Duck        from './duck/mod.js'
+import {
+  getPuppet,
+  getWechaty,
+}                       from './registry/mod.js'
 import {
   WechatyRedux,
   WechatyReduxOptions,
@@ -27,7 +30,6 @@ import {
   puppet$,
 }                         from './puppet$.js'
 
-import { getPuppet }      from './puppet-registry/puppet-registry.js'
 import { VERSION }        from './config.js'
 
 export type {
@@ -36,6 +38,7 @@ export type {
 export {
   Duck,
   getPuppet,
+  getWechaty,
   puppet$,
   VERSION,
   WechatyRedux,

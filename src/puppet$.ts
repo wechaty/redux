@@ -28,12 +28,13 @@ import type { StateSwitch }   from 'state-switch'
 import {
   map,
   share,
-}             from 'rxjs/operators'
+}                             from 'rxjs/operators'
 
-import { registerPuppet } from './puppet-registry/register-puppet.js'
+import {
+  registerPuppet,
+  RegisterPuppetOptions,
+}                         from './registry/mod.js'
 import * as duck          from './duck/mod.js'
-
-import { puppetRegistry } from './puppet-registry/puppet-registry.js'
 
 const fromEvent: FromEvent = rxFromEvent
 
@@ -41,8 +42,10 @@ const fromEvent: FromEvent = rxFromEvent
  * Ducks operations need to get Puppet instance by id
  *   this map is used to store the Puppet instances
  */
-
-const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
+const puppet$ = (
+  puppetInterface : PUPPET.impl.PuppetInterface,
+  options?        : RegisterPuppetOptions,
+) => {
   const puppet = puppetInterface as PUPPET.impl.PuppetAbstract
 
   /**
@@ -69,6 +72,8 @@ const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
   const roomLeave$  = fromEvent(puppet, 'room-leave')
   const roomTopic$  = fromEvent(puppet, 'room-topic')
   const scan$       = fromEvent(puppet, 'scan')
+  const start$      = fromEvent(puppet, 'start')
+  const stop$       = fromEvent(puppet, 'stop')
 
   /**
    * Merge everything to one stream$
@@ -93,6 +98,8 @@ const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
     roomLeave$  .pipe(map(payload => duck.actions.roomLeaveEvent  (puppet.id, payload))),
     roomTopic$  .pipe(map(payload => duck.actions.roomTopicEvent  (puppet.id, payload))),
     scan$       .pipe(map(payload => duck.actions.scanEvent       (puppet.id, payload))),
+    start$      .pipe(map(() => duck.actions.startEvent           (puppet.id))),
+    stop$       .pipe(map(() => duck.actions.stopEvent            (puppet.id))),
   ).pipe(
     /**
      * share() === multicast(() => new Subject()).refCount()
@@ -106,7 +113,7 @@ const puppet$ = (puppetInterface: PUPPET.impl.PuppetInterface) => {
      *  - Huan(202111): put it below the `share()`
      *    because we want to count the ref numbers internally
      */
-    registerPuppet(puppetRegistry)(puppet),
+    registerPuppet(puppet, options),
   )
 }
 

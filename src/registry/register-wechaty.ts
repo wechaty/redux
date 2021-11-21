@@ -1,0 +1,98 @@
+/**
+ *   Wechaty Open Source Software - https://github.com/wechaty
+ *
+ *   @copyright 2016 Huan LI (李卓桓) <https://github.com/huan>, and
+ *                   Wechaty Contributors <https://github.com/wechaty>.
+ *
+ *   Licensed under the Apache License, Version 2.0 (the "License");
+ *   you may not use this file except in compliance with the License.
+ *   You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software
+ *   distributed under the License is distributed on an "AS IS" BASIS,
+ *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *   See the License for the specific language governing permissions and
+ *   limitations under the License.
+ *
+ */
+import type { Store } from 'redux'
+
+import * as duck from '../duck/mod.js'
+
+import type {
+  WechatyRegistry,
+  WechatyLike,
+}                     from './registry.js'
+
+const wechatyRef = new Map<string, number>()
+
+const increaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wechaty: WechatyLike) => {
+  const counter = wechatyRef.get(wechaty.id) ?? 0
+
+  if (counter === 0) {
+    registry.set(wechaty.id, wechaty)
+  }
+
+  const newCounter = counter + 1
+  wechatyRef.set(wechaty.id, newCounter)
+
+  return newCounter
+}
+
+const decreaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wechaty: WechatyLike) => {
+  const counter = wechatyRef.get(wechaty.id) ?? 0
+
+  const newCounter = counter - 1
+  wechatyRef.set(wechaty.id, newCounter)
+
+  if (newCounter <= 0) {
+    registry.delete(wechaty.id)
+    wechatyRef.delete(wechaty.id)
+  }
+
+  return newCounter
+}
+
+/**
+ * Wechaty automatic registration RxJS operator
+ *
+ *  - Creating new operators from scratch
+ *    @see https://rxjs.dev/guide/operators
+ *
+ */
+const registerWechatyInRegistry = (registry: WechatyRegistry) => (
+  wechaty: WechatyLike,
+  store: Store,
+): () => void => {
+  const counter = increaseWechatyReferenceInRegistry(registry)(wechaty)
+  /**
+   * Emit `RegisterWechaty` action when first time subscribe to the wechaty
+   */
+  if (counter === 1) {
+    store.dispatch(duck.actions.registerWechaty(wechaty.id))
+  }
+
+  /**
+   * Return the teardown logic.
+   *
+   * This will be invoked when the result errors, completes, or is unsubscribed.
+   */
+  return () => {
+    const counter = decreaseWechatyReferenceInRegistry(registry)(wechaty)
+    if (counter <= 0) {
+      /**
+       * Cleanup wechaty in registry with reference counter
+       */
+      store.dispatch(duck.actions.deregisterWechaty(wechaty.id))
+    }
+  }
+}
+
+export {
+  registerWechatyInRegistry,
+  increaseWechatyReferenceInRegistry,
+  decreaseWechatyReferenceInRegistry,
+  wechatyRef,
+}

@@ -31,7 +31,10 @@ import {
   map,
 }                 from 'rxjs/operators'
 
-import { getPuppet } from '../puppet-registry/puppet-registry.js'
+/**
+ * TODO: use `dependencies` injection for Ducks dependencies, Huan(202111)
+ */
+import { getPuppet } from '../registry/registry.js'
 
 import type * as actions from './actions.js'
 

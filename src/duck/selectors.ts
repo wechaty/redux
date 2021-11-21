@@ -19,9 +19,9 @@
  */
 import type { State } from './reducers.js'
 
-const getQrCode      = (state: State) => (wechatyId: string) => state[wechatyId]?.qrcode
-const getCurrentUser = (state: State) => (wechatyId: string) => state[wechatyId]?.currentUser // PUPPET.payload.Contact
-const isLoggedIn     = (state: State) => (wechatyId: string) => state[wechatyId]?.currentUser !== undefined
+const getQrCode      = (state: State) => (puppetId: string) => state.puppet[puppetId]?.qrcode
+const getCurrentUser = (state: State) => (puppetId: string) => state.puppet[puppetId]?.currentUser // PUPPET.payload.Contact
+const isLoggedIn     = (state: State) => (puppetId: string) => state.puppet[puppetId]?.currentUser !== undefined
 
 export {
   getQrCode,
