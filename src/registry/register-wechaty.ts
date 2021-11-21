@@ -18,6 +18,7 @@
  *
  */
 import type { Store } from 'redux'
+import { log }        from 'wechaty-puppet'
 
 import * as duck from '../duck/mod.js'
 
@@ -29,30 +30,34 @@ import type {
 const wechatyRef = new Map<string, number>()
 
 const increaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wechaty: WechatyLike) => {
-  const counter = wechatyRef.get(wechaty.id) ?? 0
+  const counter    = wechatyRef.get(wechaty.id) ?? 0
+  const incCounter = counter + 1
+  log.verbose('WechatyRedux', 'increaseWechatyReferenceInRegistry() counter: %d', incCounter)
 
-  if (counter === 0) {
+  if (incCounter === 1) {
+    log.verbose('WechatyRedux', 'increaseWechatyReferenceInRegistry() register wechaty id:', wechaty.id)
     registry.set(wechaty.id, wechaty)
   }
 
-  const newCounter = counter + 1
-  wechatyRef.set(wechaty.id, newCounter)
+  wechatyRef.set(wechaty.id, incCounter)
 
-  return newCounter
+  return incCounter
 }
 
 const decreaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wechaty: WechatyLike) => {
-  const counter = wechatyRef.get(wechaty.id) ?? 0
+  const counter    = wechatyRef.get(wechaty.id) ?? 0
+  const decCounter = counter - 1
+  log.verbose('WechatyRedux', 'decreaseWechatyReferenceInRegistry() counter: %d', decCounter)
 
-  const newCounter = counter - 1
-  wechatyRef.set(wechaty.id, newCounter)
+  wechatyRef.set(wechaty.id, decCounter)
 
-  if (newCounter <= 0) {
+  if (decCounter <= 0) {
+    log.verbose('WechatyRedux', 'decreaseWechatyReferenceInRegistry() deregister wechaty id: %d', wechaty.id)
     registry.delete(wechaty.id)
     wechatyRef.delete(wechaty.id)
   }
 
-  return newCounter
+  return decCounter
 }
 
 /**
@@ -63,9 +68,11 @@ const decreaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wecha
  *
  */
 const registerWechatyInRegistry = (registry: WechatyRegistry) => (
-  wechaty: WechatyLike,
-  store: Store,
+  wechaty : WechatyLike,
+  store   : Store,
 ): () => void => {
+  log.verbose('WechatyRedux', 'registerWechatyInRegistry() wechaty id: %s', wechaty.id)
+
   const counter = increaseWechatyReferenceInRegistry(registry)(wechaty)
   /**
    * Emit `RegisterWechaty` action when first time subscribe to the wechaty
@@ -80,6 +87,7 @@ const registerWechatyInRegistry = (registry: WechatyRegistry) => (
    * This will be invoked when the result errors, completes, or is unsubscribed.
    */
   return () => {
+    log.verbose('WechatyRedux', 'registerWechatyInRegistry() dispose wechaty id: %s', wechaty.id)
     const counter = decreaseWechatyReferenceInRegistry(registry)(wechaty)
     if (counter <= 0) {
       /**

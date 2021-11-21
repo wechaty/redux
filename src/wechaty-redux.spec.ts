@@ -49,7 +49,7 @@ import {
   getPuppet,
   getWechaty,
 }                 from './registry/mod.js'
-import * as Duck  from './duck/mod.js'
+import * as duck  from './duck/mod.js'
 
 import {
   WechatyRedux,
@@ -57,7 +57,7 @@ import {
 
 async function * wechatyFixtures () {
   const ducks = new Ducks({
-    wechaty : Duck,
+    wechaty : duck,
   })
 
   let devCompose = compose
@@ -67,7 +67,7 @@ async function * wechatyFixtures () {
       hostname : 'localhost',
       port     : 8000,
       realtime : true,
-      stopOn   : Duck.types.NOOP,
+      stopOn   : duck.types.NOOP,
     }) as any
   }
 
@@ -84,7 +84,7 @@ async function * wechatyFixtures () {
   const puppet = new PuppetMock({ mocker })
   const bot = WechatyBuilder.build({ puppet })
 
-  const duck = ducks.ducksify('wechaty')
+  const bundle = ducks.ducksify('wechaty')
 
   bot.use(WechatyRedux({ store }))
 
@@ -94,14 +94,14 @@ async function * wechatyFixtures () {
 
   yield {
     bot,
-    duck,
+    bundle,
     ducks,
     mocker,
     store,
   }
 
   // Stop the Redux Remote DevTools Server Connection
-  duck.operations.noop()
+  bundle.operations.noop()
 
   await bot.stop()
 }
@@ -110,16 +110,16 @@ test('WechatyRedux: selectors.{isLoggedIn,getQrCode,getUserPayload}()', async t 
   for await (const {
     bot,
     mocker,
-    duck,
+    bundle,
   } of wechatyFixtures()) {
 
-    t.equal(duck.selectors.isLoggedIn(bot.puppet.id), false, 'should not logged in at start')
-    t.notOk(duck.selectors.getQrCode(bot.puppet.id), 'should no QR Code at start')
-    t.notOk(duck.selectors.getCurrentUser(bot.puppet.id), 'should no user payload at start')
+    t.equal(bundle.selectors.isLoggedIn(bot.puppet.id), false, 'should not logged in at start')
+    t.notOk(bundle.selectors.getQrCode(bot.puppet.id), 'should no QR Code at start')
+    t.notOk(bundle.selectors.getCurrentUser(bot.puppet.id), 'should no user payload at start')
 
     const QR_CODE = 'qrcode'
     mocker.scan(QR_CODE)
-    t.equal(duck.selectors.getQrCode(bot.puppet.id), QR_CODE, 'should get QR Code right')
+    t.equal(bundle.selectors.getQrCode(bot.puppet.id), QR_CODE, 'should get QR Code right')
 
     const user = mocker.createContact()
     mocker.login(user)
@@ -127,19 +127,19 @@ test('WechatyRedux: selectors.{isLoggedIn,getQrCode,getUserPayload}()', async t 
     // Let the bullets fly
     await new Promise(resolve => setImmediate(resolve))
 
-    t.ok(duck.selectors.isLoggedIn(bot.puppet.id), 'should logged in after login(user)')
-    t.notOk(duck.selectors.getQrCode(bot.puppet.id), 'should no QR Code after user login')
-    t.same(duck.selectors.getCurrentUser(bot.puppet.id), { ...user.payload, puppetId: bot.puppet.id }, 'should login user with payload')
+    t.ok(bundle.selectors.isLoggedIn(bot.puppet.id), 'should logged in after login(user)')
+    t.notOk(bundle.selectors.getQrCode(bot.puppet.id), 'should no QR Code after user login')
+    t.same(bundle.selectors.getCurrentUser(bot.puppet.id), { ...user.payload, puppetId: bot.puppet.id }, 'should login user with payload')
 
     await bot.logout()
-    t.notOk(duck.selectors.isLoggedIn(bot.puppet.id), 'should logged out after call bot.logout')
+    t.notOk(bundle.selectors.isLoggedIn(bot.puppet.id), 'should logged out after call bot.logout')
   }
 })
 
 test('WechatyRedux: operations.ding()', async t => {
   for await (const {
     bot,
-    duck,
+    bundle: duck,
   } of wechatyFixtures()) {
 
     const DATA = 'test'
@@ -160,7 +160,7 @@ test('WechatyRedux: operations.ding()', async t => {
 test('WechatyRedux: operations.say()', async t => {
   for await (const {
     bot,
-    duck,
+    bundle: duck,
     mocker,
   } of wechatyFixtures()) {
 
@@ -221,7 +221,7 @@ test('WechatyRedux: Puppet `message` event', async t => {
   }
 })
 
-test.only('WechatyRedux: getPuppet() & getWechaty()', async t => {
+test('WechatyRedux: getPuppet() & getWechaty()', async t => {
   // const ducks = new Ducks({
   //   wechaty : Duck,
   // })
@@ -243,19 +243,31 @@ test.only('WechatyRedux: getPuppet() & getWechaty()', async t => {
   t.notOk(getPuppet(puppet.id), 'should has no puppet registered')
 
   wechaty.use(WechatyRedux({ store } as any))
-
-  t.equal(getWechaty(wechaty.id), wechaty, 'should has wechaty registered after use plugin')
-  t.notOk(getPuppet(puppet.id), 'should has no puppet registered after use plugin')
+  t.notOk(getWechaty(wechaty.id), 'should has no wechaty registered after use plugin but before wechaty start')
+  t.notOk(getPuppet(puppet.id), 'should has no puppet registered after use plugin but before wechaty start')
 
   await wechaty.start()
+
+  /**
+   * Huan(202006) using `t.ok` instead of `t.equal` for `wechaty`:
+   *  Workaround for https://github.com/wechaty/wechaty/issues/2304
+   */
+  t.ok(getWechaty(wechaty.id) === wechaty, 'should has wechaty registered after use plugin & wechaty start')
   t.equal(getPuppet(puppet.id), puppet, 'should has puppet registered after wechaty start')
 
-  t.same(spy.args[0]![0], Duck.actions.registerWechaty(wechaty.id), 'should emit register wechaty action')
-  t.same(spy.args[1]![0], Duck.actions.registerPuppet(puppet.id), 'should emit register puppet action')
-  t.same(spy.args[2]![0], Duck.actions.bindWechatyPuppet({ puppetId: puppet.id, wechatyId: wechaty.id }), 'should emit bind wechaty puppet action')
+  t.equal(spy.callCount, 6, 'should have 6 actions from wechaty start()')
+  t.same(spy.args[0]![0], duck.actions.registerWechaty(wechaty.id), 'should emit register wechaty action')
+  t.same(spy.args[1]![0], duck.actions.registerPuppet(puppet.id), 'should emit register puppet action')
+  t.same(spy.args[2]![0], duck.actions.bindWechatyPuppet({ puppetId: puppet.id, wechatyId: wechaty.id }), 'should emit bind wechaty puppet action')
+  t.same(spy.args[3]![0], duck.actions.activeState(puppet.id, 'pending'), 'should emit state active action')
+  t.same(spy.args[4]![0], duck.actions.activeState(puppet.id, true), 'should emit state inactive action')
+  t.same(spy.args[5]![0], duck.actions.startEvent(puppet.id), 'should emit start event action')
 
   spy.resetHistory()
   await wechaty.stop()
 
-  console.info(spy.args)
+  t.equal(spy.callCount, 3, 'should have 3 actions from wechaty stop()')
+  t.same(spy.args[0]![0], duck.actions.inactiveState(puppet.id, 'pending'), 'should emit state inactive action')
+  t.same(spy.args[1]![0], duck.actions.inactiveState(puppet.id, true), 'should emit state ininactive action')
+  t.same(spy.args[2]![0], duck.actions.stopEvent(puppet.id), 'should emit stop event action')
 })

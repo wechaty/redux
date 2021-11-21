@@ -40,30 +40,30 @@ interface RegisterPuppetOptions {
 const puppetRef = new Map<string, number>()
 
 const increasePuppetReferenceInRegistry = (registry: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
-  const counter = puppetRef.get(puppet.id) ?? 0
+  const counter    = puppetRef.get(puppet.id) ?? 0
+  const incCounter = counter + 1
 
-  if (counter === 0) {
+  if (incCounter === 1) {
     registry.set(puppet.id, puppet)
   }
 
-  const newCounter = counter + 1
-  puppetRef.set(puppet.id, newCounter)
+  puppetRef.set(puppet.id, incCounter)
 
-  return newCounter
+  return incCounter
 }
 
 const decreasePuppetReferenceInRegistry = (registry: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
-  const counter = puppetRef.get(puppet.id) ?? 0
+  const counter    = puppetRef.get(puppet.id) ?? 0
+  const decCounter = counter - 1
 
-  const newCounter = counter - 1
-  puppetRef.set(puppet.id, newCounter)
+  puppetRef.set(puppet.id, decCounter)
 
-  if (newCounter <= 0) {
+  if (decCounter <= 0) {
     registry.delete(puppet.id)
     puppetRef.delete(puppet.id)
   }
 
-  return newCounter
+  return decCounter
 }
 
 type RegisterPuppetActionPayload = ReturnType<typeof duck.actions.registerPuppet>

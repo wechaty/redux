@@ -18,7 +18,7 @@ import {
   puppet$,
 }                           from './puppet$.js'
 
-test('puppet$()', async t => {
+test('puppet$() & getPuppet()', async t => {
   const spy = sinon.spy()
   const puppet = new PuppetMock()
 
@@ -40,4 +40,41 @@ test('puppet$()', async t => {
   t.ok(spy.calledOnce, 'should have one action after unsubscribe')
   t.same(spy.args[0]![0], duck.actions.deregisterPuppet(puppet.id), 'should get puppet deregister action')
   t.notOk(getPuppet(puppet.id), 'should not have puppet in registry')
+})
+
+test('puppet$() start/stop actions', async t => {
+  const spy = sinon.spy()
+  const puppet = new PuppetMock()
+
+  const store = {
+    dispatch: spy,
+  } as any as Store
+
+  const $ = puppet$(puppet, { store })
+  const sub = $.subscribe(store.dispatch)
+
+  t.ok(spy.calledOnce, 'should have one action after subscribe')
+  t.same(spy.args[0]![0], duck.actions.registerPuppet(puppet.id), 'should emit register puppet action')
+
+  spy.resetHistory()
+  await puppet.start()
+
+  t.ok(spy.calledThrice, 'should have three action after start')
+  t.same(spy.args[0]![0], duck.actions.activeState(puppet.id, 'pending'), 'should emit `pending` active state action')
+  t.same(spy.args[1]![0], duck.actions.activeState(puppet.id, true), 'should emit `true` active state action')
+  t.same(spy.args[2]![0], duck.actions.startEvent(puppet.id), 'should emit start event action')
+
+  spy.resetHistory()
+  await puppet.stop()
+
+  t.ok(spy.calledThrice, 'should have three action after stop')
+  t.same(spy.args[0]![0], duck.actions.inactiveState(puppet.id, 'pending'), 'should emit `pending` inactive state action')
+  t.same(spy.args[1]![0], duck.actions.inactiveState(puppet.id, true), 'should emit `true` inactive state action')
+  t.same(spy.args[2]![0], duck.actions.stopEvent(puppet.id), 'should emit stop event action')
+
+  spy.resetHistory()
+  sub.unsubscribe()
+
+  t.ok(spy.calledOnce, 'should have one action after unsubscribe')
+  t.same(spy.args[0]![0], duck.actions.deregisterPuppet(puppet.id), 'should get puppet deregister action')
 })
