@@ -1,6 +1,6 @@
 {
   "name": "wechaty-redux",
-  "version": "1.9.10",
+  "version": "1.10.0",
   "description": "Wechaty Redux Plugin Powered By Ducks",
   "type": "module",
   "exports": {
@@ -11,7 +11,6 @@
   },
   "typings": "./dist/esm/src/mod.d.ts",
   "engines": {
-    "wechaty": ">=1.9",
     "node": ">=16",
     "npm": ">=7"
   },
@@ -20,7 +19,7 @@
     "clean": "shx rm -fr dist/*",
     "dist": "npm-run-all clean build dist:commonjs",
     "dist:commonjs": "jq -n \"{ type: \\\"commonjs\\\" }\" > dist/cjs/package.json",
-    "lint": "npm run lint:es && npm run lint:ts && npm run lint:md",
+    "lint": "npm-run-all lint:es lint:ts lint:md",
     "lint:md": "markdownlint README.md",
     "lint:ts": "tsc --isolatedModules --noEmit",
     "redux-devtools": "redux-devtools --hostname=localhost --port=8000",
@@ -57,25 +56,25 @@
     "redux": "^4.1.2",
     "redux-observable": "^2.0.0",
     "rxjs": "^7.4",
-    "state-switch": "^1.6.1",
+    "state-switch": "^1.6.2",
     "uuid": "^8.3.2",
-    "wechaty-puppet": "^1.7.24"
+    "wechaty-puppet": "^1.10.2"
   },
   "devDependencies": {
     "@chatie/eslint-config": "^1.0.4",
     "@chatie/git-scripts": "^0.6.2",
     "@chatie/semver": "^0.4.7",
-    "@chatie/tsconfig": "^4.5.1",
+    "@chatie/tsconfig": "^4.5.3",
     "@types/glob": "^7.2.0",
     "@types/remote-redux-devtools": "^0.5.5",
-    "@types/uuid": "^8.3.1",
+    "@types/uuid": "^8.3.3",
     "ducks": "^1.0.2",
     "glob": "^7.2.0",
     "remote-redux-devtools": "^0.5.16",
     "typed-emitter": "^1.5.0-from-event",
     "utility-types": "^3.10.0",
-    "wechaty": "^1.9.11",
-    "wechaty-puppet-mock": "^1.9.1"
+    "wechaty": "^1.10.3",
+    "wechaty-puppet-mock": "^1.10.2"
   },
   "files": [
     "bin/",
