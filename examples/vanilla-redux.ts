@@ -24,8 +24,9 @@ import {
 import {
   createEpicMiddleware,
   combineEpics,
-} from 'redux-observable'
-import { WechatyBuilder }          from 'wechaty'
+}                           from 'redux-observable'
+import { WechatyBuilder }   from 'wechaty'
+
 import {
   WechatyRedux,
   Duck,
