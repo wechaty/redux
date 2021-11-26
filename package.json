@@ -1,6 +1,6 @@
 {
   "name": "wechaty-redux",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "description": "Wechaty Redux Plugin Powered By Ducks",
   "type": "module",
   "exports": {
