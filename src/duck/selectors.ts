@@ -20,7 +20,7 @@
 import type { State } from './reducers.js'
 
 const getQrCode      = (state: State) => (puppetId: string) => state.puppet[puppetId]?.qrcode
-const getCurrentUser = (state: State) => (puppetId: string) => state.puppet[puppetId]?.currentUser // PUPPET.payload.Contact
+const getCurrentUser = (state: State) => (puppetId: string) => state.puppet[puppetId]?.currentUser // PUPPET.payloads.Contact
 const isLoggedIn     = (state: State) => (puppetId: string) => state.puppet[puppetId]?.currentUser !== undefined
 
 export {

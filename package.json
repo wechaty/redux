@@ -1,6 +1,6 @@
 {
   "name": "wechaty-redux",
-  "version": "1.10.2",
+  "version": "1.11.2",
   "description": "Wechaty Redux Plugin Powered By Ducks",
   "type": "module",
   "exports": {
@@ -57,7 +57,7 @@
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
-    "wechaty-puppet": "^1.10.2"
+    "wechaty-puppet": "^1.11.16"
   },
   "devDependencies": {
     "@chatie/eslint-config": "^1.0.4",
@@ -73,8 +73,8 @@
     "state-switch": "^1.6.2",
     "typed-emitter": "^1.5.0-from-event",
     "utility-types": "^3.10.0",
-    "wechaty": "^1.10.3",
-    "wechaty-puppet-mock": "^1.10.2"
+    "wechaty": "^1.11.42",
+    "wechaty-puppet-mock": "^1.11.11"
   },
   "files": [
     "bin/",

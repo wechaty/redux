@@ -73,8 +73,8 @@ const toContact$ = (action: ReturnType<typeof actions.loginEvent>) => from(
   map(extendPayloadWithPuppetId(action.payload.puppetId)),
 )
 
-const isTextMessage = (text?: string) => (message: PUPPET.payload.Message) => (
-  message.type === PUPPET.type.Message.Text
+const isTextMessage = (text?: string) => (message: PUPPET.payloads.Message) => (
+  message.type === PUPPET.types.Message.Text
 ) && (
   text
     ? text === message.text
@@ -82,15 +82,15 @@ const isTextMessage = (text?: string) => (message: PUPPET.payload.Message) => (
 )
 const isWechaty = (puppetId: string) => (action: ReturnType<typeof actions.messageEvent>) => action.payload.puppetId === puppetId
 
-const isSelfMessage = (puppet: PUPPET.impl.PuppetInterface) =>
-  (message: PUPPET.payload.Message) =>
+const isSelfMessage = (puppet: PUPPET.impls.PuppetInterface) =>
+  (message: PUPPET.payloads.Message) =>
     puppet.isLoggedIn && message.fromId
       ? message.fromId === puppet.currentUserId
       : false
 void isSelfMessage
 
-const isNotSelfMessage = (puppet: PUPPET.impl.PuppetInterface) =>
-  (message: PUPPET.payload.Message) => puppet.isLoggedIn
+const isNotSelfMessage = (puppet: PUPPET.impls.PuppetInterface) =>
+  (message: PUPPET.payloads.Message) => puppet.isLoggedIn
     ? message.fromId !== puppet.currentUserId
     : true
 

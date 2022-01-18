@@ -43,10 +43,10 @@ const fromEvent: FromEvent = rxFromEvent
  *   this map is used to store the Puppet instances
  */
 const puppet$ = (
-  puppetInterface : PUPPET.impl.PuppetInterface,
+  puppetInterface : PUPPET.impls.PuppetInterface,
   options?        : RegisterPuppetOptions,
 ) => {
-  const puppet = puppetInterface as PUPPET.impl.PuppetAbstract
+  const puppet = puppetInterface as PUPPET.impls.PuppetAbstract
 
   /**
    * active/inactive state change

@@ -203,21 +203,21 @@ test('WechatyRedux: Puppet `message` event', async t => {
 
     const msg = await future
 
-    const EXPECTED_PAYLOAD: PUPPET.payload.Message = {
+    const EXPECTED_PAYLOAD: PUPPET.payloads.Message = {
       fromId        : mary.id,
       id            : msg.id,
       mentionIdList : [],
       text          : TEXT,
       timestamp     : msg.date().getTime(),
       toId          : user.id,
-      type          : PUPPET.type.Message.Text,
+      type          : PUPPET.types.Message.Text,
 
     }
 
     // Huan(202006) Workaround for puppet payload mismatch
     delete (EXPECTED_PAYLOAD as any).mentionIdList
 
-    t.same((msg as any)._payload, EXPECTED_PAYLOAD, 'should receive message with expected payload')
+    t.same(msg.payload, EXPECTED_PAYLOAD, 'should receive message with expected payload')
   }
 })
 

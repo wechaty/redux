@@ -39,7 +39,7 @@ interface RegisterPuppetOptions {
 
 const puppetRef = new Map<string, number>()
 
-const increasePuppetReferenceInRegistry = (registry: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
+const increasePuppetReferenceInRegistry = (registry: PuppetRegistry) => (puppet: PUPPET.impls.PuppetInterface) => {
   const counter    = puppetRef.get(puppet.id) ?? 0
   const incCounter = counter + 1
 
@@ -52,7 +52,7 @@ const increasePuppetReferenceInRegistry = (registry: PuppetRegistry) => (puppet:
   return incCounter
 }
 
-const decreasePuppetReferenceInRegistry = (registry: PuppetRegistry) => (puppet: PUPPET.impl.PuppetInterface) => {
+const decreasePuppetReferenceInRegistry = (registry: PuppetRegistry) => (puppet: PUPPET.impls.PuppetInterface) => {
   const counter    = puppetRef.get(puppet.id) ?? 0
   const decCounter = counter - 1
 
@@ -77,7 +77,7 @@ type RegisterPuppetActionPayload = ReturnType<typeof duck.actions.registerPuppet
  */
 const registerPuppetInRegistry = (registry: PuppetRegistry) =>
   <T> (
-    puppet   : PUPPET.impl.PuppetInterface,
+    puppet   : PUPPET.impls.PuppetInterface,
     options? : RegisterPuppetOptions,
   ) =>
     (observable: Observable<T>) => new Observable<T | RegisterPuppetActionPayload>(subscriber => {

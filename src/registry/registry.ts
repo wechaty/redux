@@ -21,12 +21,12 @@ import type * as PUPPET   from 'wechaty-puppet'
 
 interface WechatyLike {
   id: string,
-  puppet?: PUPPET.impl.PuppetInterface
-  once: (eventName: 'puppet', listener: (puppet: PUPPET.impl.PuppetInterface) => void) => void
-  off:  (eventName: 'puppet', listener: (puppet: PUPPET.impl.PuppetInterface) => void) => void
+  puppet?: PUPPET.impls.PuppetInterface
+  once: (eventName: 'puppet', listener: (puppet: PUPPET.impls.PuppetInterface) => void) => void
+  off:  (eventName: 'puppet', listener: (puppet: PUPPET.impls.PuppetInterface) => void) => void
 }
 
-type PuppetRegistry   = Map<string, PUPPET.impl.PuppetInterface>
+type PuppetRegistry   = Map<string, PUPPET.impls.PuppetInterface>
 type WechatyRegistry  = Map<string, WechatyLike>
 
 const puppetRegistry: PuppetRegistry   = new Map()

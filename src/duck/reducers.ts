@@ -41,7 +41,7 @@ import * as actions from './actions.js'
 type State = DeepReadonly<{
   puppet: {
     [puppetId: string]: undefined | {
-      currentUser? : PUPPET.payload.Contact,
+      currentUser? : PUPPET.payloads.Contact,
       qrcode?      : string,
       wechatyId?   : string
     }

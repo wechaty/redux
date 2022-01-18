@@ -50,20 +50,20 @@ const prepareWechatyPuppetId = (options: { wechatyId: string, puppetId: string }
 const prepareStateActive   = (puppetId: string, status: true | 'pending') => ({ status, puppetId })
 const prepareStateInactive = (puppetId: string, status: true | 'pending') => ({ status, puppetId })
 
-const prepareDong           = (puppetId: string, payload: PUPPET.payload.EventDong)       => ({ ...payload, puppetId })
-const prepareError          = (puppetId: string, payload: PUPPET.payload.EventError)      => ({ ...payload, puppetId })
-const prepareHeartbeat      = (puppetId: string, payload: PUPPET.payload.EventHeartbeat)  => ({ ...payload, puppetId })
-const prepareReady          = (puppetId: string, payload: PUPPET.payload.EventReady)      => ({ ...payload, puppetId })
-const prepareReset          = (puppetId: string, payload: PUPPET.payload.EventReset)      => ({ ...payload, puppetId })
-const prepareFriendship     = (puppetId: string, payload: PUPPET.payload.EventFriendship) => ({ ...payload, puppetId })
-const prepareLogin          = (puppetId: string, payload: PUPPET.payload.EventLogin)      => ({ ...payload, puppetId })
-const prepareLogout         = (puppetId: string, payload: PUPPET.payload.EventLogout)     => ({ ...payload, puppetId })
-const prepareMessage        = (puppetId: string, payload: PUPPET.payload.EventMessage)    => ({ ...payload, puppetId })
-const prepareRoomInvitation = (puppetId: string, payload: PUPPET.payload.EventRoomInvite) => ({ ...payload, puppetId })
-const prepareRoomJoin       = (puppetId: string, payload: PUPPET.payload.EventRoomJoin)   => ({ ...payload, puppetId })
-const prepareRoomLeave      = (puppetId: string, payload: PUPPET.payload.EventRoomLeave)  => ({ ...payload, puppetId })
-const prepareRoomTopic      = (puppetId: string, payload: PUPPET.payload.EventRoomTopic)  => ({ ...payload, puppetId })
-const prepareScan           = (puppetId: string, payload: PUPPET.payload.EventScan)       => ({ ...payload, puppetId })
+const prepareDong           = (puppetId: string, payload: PUPPET.payloads.EventDong)       => ({ ...payload, puppetId })
+const prepareError          = (puppetId: string, payload: PUPPET.payloads.EventError)      => ({ ...payload, puppetId })
+const prepareHeartbeat      = (puppetId: string, payload: PUPPET.payloads.EventHeartbeat)  => ({ ...payload, puppetId })
+const prepareReady          = (puppetId: string, payload: PUPPET.payloads.EventReady)      => ({ ...payload, puppetId })
+const prepareReset          = (puppetId: string, payload: PUPPET.payloads.EventReset)      => ({ ...payload, puppetId })
+const prepareFriendship     = (puppetId: string, payload: PUPPET.payloads.EventFriendship) => ({ ...payload, puppetId })
+const prepareLogin          = (puppetId: string, payload: PUPPET.payloads.EventLogin)      => ({ ...payload, puppetId })
+const prepareLogout         = (puppetId: string, payload: PUPPET.payloads.EventLogout)     => ({ ...payload, puppetId })
+const prepareMessage        = (puppetId: string, payload: PUPPET.payloads.EventMessage)    => ({ ...payload, puppetId })
+const prepareRoomInvitation = (puppetId: string, payload: PUPPET.payloads.EventRoomInvite) => ({ ...payload, puppetId })
+const prepareRoomJoin       = (puppetId: string, payload: PUPPET.payloads.EventRoomJoin)   => ({ ...payload, puppetId })
+const prepareRoomLeave      = (puppetId: string, payload: PUPPET.payloads.EventRoomLeave)  => ({ ...payload, puppetId })
+const prepareRoomTopic      = (puppetId: string, payload: PUPPET.payloads.EventRoomTopic)  => ({ ...payload, puppetId })
+const prepareScan           = (puppetId: string, payload: PUPPET.payloads.EventScan)       => ({ ...payload, puppetId })
 
 /**
  * Actions: Registry
@@ -128,7 +128,7 @@ const sayAsync = createAsyncAction(
 /**
  * Other Actions
  */
-const prepareCurrentUser  = (payload: PuppetIdOptions & PUPPET.payload.Contact) => payload
+const prepareCurrentUser  = (payload: PuppetIdOptions & PUPPET.payloads.Contact) => payload
 const loginCurrentUser    = createAction(types.LOGIN_CURRENT_USER, prepareCurrentUser)()
 
 /**
