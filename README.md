@@ -130,6 +130,10 @@ See: [api/operations.ts](src/api/operations.ts)
 
 See: [api/index.ts](src/api/index.ts)
 
+## API Docs
+
+- [Paka](https://paka.dev/npm/wechaty-redux/)
+
 ## Links
 
 ### Chatbot in Redux
