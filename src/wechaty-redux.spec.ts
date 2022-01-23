@@ -67,7 +67,7 @@ async function * wechatyFixtures () {
       hostname : 'localhost',
       port     : 8000,
       realtime : true,
-      stopOn   : duck.types.NOOP,
+      stopOn   : duck.types.NOP,
     }) as any
   }
 
@@ -101,7 +101,7 @@ async function * wechatyFixtures () {
   }
 
   // Stop the Redux Remote DevTools Server Connection
-  bundle.operations.noop()
+  bundle.operations.nop()
 
   await bot.stop()
 }
@@ -176,7 +176,7 @@ test('WechatyRedux: operations.say()', async t => {
       mary.id,
       TEXT,
     ]
-    duck.operations.say(bot.puppet.id, mary.id, TEXT)
+    duck.operations.say(bot.puppet.id, mary.id, PUPPET.payloads.sayable.text(TEXT, []))
 
     // Let the bullets fly
     await new Promise(resolve => setImmediate(resolve))

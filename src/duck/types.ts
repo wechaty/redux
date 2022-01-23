@@ -68,9 +68,9 @@ const SAY_FAILURE = 'wechaty/SAY_FAILURE'
  *  Huan(202111): rename it to a better to be understood name,
  *    i.e. LOGIN_USER_PAYLOAD ?
  */
-const LOGIN_CURRENT_USER = 'wechaty/LOGIN_CURRENT_USER'
+const LOGIN = 'wechaty/LOGIN'
 
-const NOOP = 'wechaty/NOOP'
+const NOP = 'wechaty/NOP'
 
 export {
   PUPPET_REGISTER,
@@ -110,7 +110,7 @@ export {
   SAY_REQUEST,
   SAY_SUCCESS,
 
-  LOGIN_CURRENT_USER,
+  LOGIN,
 
-  NOOP,
+  NOP,
 }

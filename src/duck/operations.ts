@@ -17,13 +17,19 @@
  *   limitations under the License.
  *
  */
-import type { Dispatch } from 'redux'
+import type { Dispatch }  from 'redux'
+import type * as PUPPET   from 'wechaty-puppet'
 
 import * as actions from './actions.js'
 
-const ding  = (dispatch: Dispatch) => (puppetId: string, data: string)                          => dispatch(actions.ding(puppetId, data))
-const reset = (dispatch: Dispatch) => (puppetId: string, data: string)                          => dispatch(actions.reset(puppetId, data))
-const say   = (dispatch: Dispatch) => (puppetId: string, conversationId: string, text: string)  => dispatch(actions.sayAsync.request({ conversationId, puppetId, text }))
+const ding  = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.ding(puppetId, data))
+const reset = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.reset(puppetId, data))
+
+const say   = (dispatch: Dispatch) => (
+  puppetId       : string,
+  conversationId : string,
+  sayable        : PUPPET.payloads.Sayable,
+) => dispatch(actions.sayAsync.request({ conversationId, puppetId, sayable }))
 
 /**
  * Remove the puppet from registry
@@ -31,7 +37,7 @@ const say   = (dispatch: Dispatch) => (puppetId: string, conversationId: string,
  */
 const deregisterPuppet = (dispatch: Dispatch) => (puppetId: string) => dispatch(actions.deregisterPuppet(puppetId))
 
-const noop = (dispatch: Dispatch) => () => dispatch(actions.noop())
+const nop = (dispatch: Dispatch) => () => dispatch(actions.nop())
 
 export {
   ding,
@@ -40,5 +46,5 @@ export {
 
   deregisterPuppet,
 
-  noop,
+  nop,
 }

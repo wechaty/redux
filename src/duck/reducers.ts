@@ -73,7 +73,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
     }
     return newState
   })
-  .handleAction(actions.loginCurrentUser, (state, action) => {
+  .handleAction(actions.login, (state, action) => {
     const newState: State = {
       ...state,
       puppet: {

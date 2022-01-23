@@ -73,9 +73,9 @@ const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => of(
   getPuppet(action.payload.puppetId),
 ).pipe(
   mergeMap(puppet => puppet
-    ? from(puppet.messageSendText(
+    ? from(puppet.messageSend(
       action.payload.conversationId,
-      action.payload.text,
+      action.payload.sayable,
     ))
     : EMPTY,
   ),
