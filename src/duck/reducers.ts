@@ -124,7 +124,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
       ...state,
       puppet: {
         ...state.puppet,
-        [action.payload.puppetId]: undefined,
+        [action.payload.puppetId]: undefined, // TODO: how to remove the key with `...`? Huan(202203)
       },
     }
     return newState

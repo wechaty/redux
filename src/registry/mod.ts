@@ -18,7 +18,7 @@
  *
  */
 import {
-  type WechatyLike,
+  // type WechatyLike,
   puppetRegistry,
   wechatyRegistry,
   getPuppet,
@@ -40,6 +40,6 @@ export {
   registerWechaty,
   getPuppet,
   getWechaty,
-  type WechatyLike,
+  // type WechatyLike,
   type RegisterPuppetOptions,
 }

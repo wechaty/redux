@@ -18,16 +18,17 @@
  *
  */
 import type * as PUPPET   from 'wechaty-puppet'
+import type * as WECHATY  from 'wechaty'
 
-interface WechatyLike {
-  id: string,
-  puppet?: PUPPET.impls.PuppetInterface
-  once: (eventName: 'puppet', listener: (puppet: PUPPET.impls.PuppetInterface) => void) => void
-  off:  (eventName: 'puppet', listener: (puppet: PUPPET.impls.PuppetInterface) => void) => void
-}
+// interface WechatyLike {
+//   id: string,
+//   puppet?: PUPPET.impls.PuppetInterface
+//   once: (eventName: 'puppet', listener: (puppet: PUPPET.impls.PuppetInterface) => void) => void
+//   off:  (eventName: 'puppet', listener: (puppet: PUPPET.impls.PuppetInterface) => void) => void
+// }
 
 type PuppetRegistry   = Map<string, PUPPET.impls.PuppetInterface>
-type WechatyRegistry  = Map<string, WechatyLike>
+type WechatyRegistry  = Map<string, WECHATY.impls.WechatyInterface>
 
 const puppetRegistry: PuppetRegistry   = new Map()
 const wechatyRegistry: WechatyRegistry = new Map()
@@ -42,7 +43,7 @@ const getWechaty  = (id: string) => wechatyRegistry.get(id)
 export {
   type PuppetRegistry,
   type WechatyRegistry,
-  type WechatyLike,
+  // type WechatyLike,
   puppetRegistry,
   wechatyRegistry,
   getPuppet,

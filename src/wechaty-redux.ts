@@ -18,14 +18,14 @@
  *
  */
 import { log } from 'wechaty-puppet'
-
+import type * as WECHATY from 'wechaty'
 import type {
   Store,
 }             from 'redux'
 
 import {
   registerWechaty,
-  type WechatyLike,
+  // type WechatyLike,
 }                   from './registry/mod.js'
 
 import { puppet$ }  from './puppet$.js'
@@ -43,7 +43,7 @@ function WechatyRedux (options: WechatyReduxOptions) {
 
   const uninstallerList: VoidFunction[] = []
 
-  return function WechatyReduxPlugin (wechaty: WechatyLike): VoidFunction {
+  return function WechatyReduxPlugin (wechaty: WECHATY.impls.WechatyInterface): VoidFunction {
     log.verbose('WechatyRedux', 'WechatyReduxPlugin(%s)', wechaty)
 
     /**
@@ -67,7 +67,7 @@ function WechatyRedux (options: WechatyReduxOptions) {
 }
 
 function subscribePuppetEvents (
-  wechaty         : WechatyLike,
+  wechaty         : WECHATY.impls.WechatyInterface,
   store           : Store,
   uninstallerList : VoidFunction[],
 ): void {

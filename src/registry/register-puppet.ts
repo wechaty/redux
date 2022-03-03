@@ -17,8 +17,8 @@
  *   limitations under the License.
  *
  */
-import type * as PUPPET from 'wechaty-puppet'
-
+import type * as PUPPET   from 'wechaty-puppet'
+import type * as WECHATY  from 'wechaty'
 import {
   Observable,
   Subject,
@@ -29,12 +29,11 @@ import * as duck from '../duck/mod.js'
 
 import type {
   PuppetRegistry,
-  WechatyLike,
 }                       from './registry.js'
 
 interface RegisterPuppetOptions {
   store?   : Store,
-  wechaty? : WechatyLike
+  wechaty? : WECHATY.impls.WechatyInterface
 }
 
 const puppetRef = new Map<string, number>()
@@ -93,8 +92,6 @@ const registerPuppetInRegistry = (registry: PuppetRegistry) =>
       const finalSubscription = proxySubject.subscribe(subscriber)
 
       const counter = increasePuppetReferenceInRegistry(registry)(puppet)
-
-      // console.info('counter:', counter)
       /**
        * Emit `RegisterPuppet` action when first time subscribe to the puppet
        */

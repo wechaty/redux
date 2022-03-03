@@ -17,19 +17,20 @@
  *   limitations under the License.
  *
  */
-import type { Store } from 'redux'
-import { log }        from 'wechaty-puppet'
+import type { Store }     from 'redux'
+import { log }            from 'wechaty-puppet'
+import type * as WECHATY  from 'wechaty'
 
 import * as duck from '../duck/mod.js'
 
 import type {
   WechatyRegistry,
-  WechatyLike,
+  // WechatyLike,
 }                     from './registry.js'
 
 const wechatyRef = new Map<string, number>()
 
-const increaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wechaty: WechatyLike) => {
+const increaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wechaty: WECHATY.impls.WechatyInterface) => {
   const counter    = wechatyRef.get(wechaty.id) ?? 0
   const incCounter = counter + 1
   log.verbose('WechatyRedux', 'increaseWechatyReferenceInRegistry() counter: %d', incCounter)
@@ -44,7 +45,7 @@ const increaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wecha
   return incCounter
 }
 
-const decreaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wechaty: WechatyLike) => {
+const decreaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wechaty: WECHATY.impls.WechatyInterface) => {
   const counter    = wechatyRef.get(wechaty.id) ?? 0
   const decCounter = counter - 1
   log.verbose('WechatyRedux', 'decreaseWechatyReferenceInRegistry() counter: %d', decCounter)
@@ -68,7 +69,7 @@ const decreaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wecha
  *
  */
 const registerWechatyInRegistry = (registry: WechatyRegistry) => (
-  wechaty : WechatyLike,
+  wechaty : WECHATY.impls.WechatyInterface,
   store   : Store,
 ): () => void => {
   log.verbose('WechatyRedux', 'registerWechatyInRegistry() wechaty id: %s', wechaty.id)
