@@ -65,7 +65,7 @@ const decreasePuppetReferenceInRegistry = (registry: PuppetRegistry) => (puppet:
   return decCounter
 }
 
-type RegisterPuppetActionPayload = ReturnType<typeof duck.actions.registerPuppet>
+type RegisterPuppetActionPayload = ReturnType<typeof duck.actions.registerPuppetCommand>
 
 /**
  * Puppet will be automatic registered/deregistered inside the RxJS operator
@@ -97,12 +97,12 @@ const registerPuppetInRegistry = (registry: PuppetRegistry) =>
        */
       if (counter === 1) {
         proxySubject.next(
-          duck.actions.registerPuppet(puppet.id),
+          duck.actions.registerPuppetCommand(puppet.id),
         )
 
         if (options?.store && options.wechaty) {
           options.store.dispatch(
-            duck.actions.bindWechatyPuppet({
+            duck.actions.bindWechatyPuppetCommand({
               puppetId : puppet.id,
               wechatyId: options.wechaty.id,
             }),
@@ -132,7 +132,7 @@ const registerPuppetInRegistry = (registry: PuppetRegistry) =>
              */
             if (options.wechaty) {
               options.store.dispatch(
-                duck.actions.unbindWechatyPuppet({
+                duck.actions.unbindWechatyPuppetCommand({
                   puppetId : puppet.id,
                   wechatyId: options.wechaty.id,
                 }),
@@ -141,7 +141,7 @@ const registerPuppetInRegistry = (registry: PuppetRegistry) =>
             /**
              * Deregister Puppet
              */
-            options.store.dispatch(duck.actions.deregisterPuppet(puppet.id))
+            options.store.dispatch(duck.actions.deregisterPuppetCommand(puppet.id))
           }
         }
       }

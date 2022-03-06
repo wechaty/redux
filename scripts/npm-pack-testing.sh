@@ -25,7 +25,6 @@ npm install --production *-*.*.*.tgz \
   @chatie/tsconfig@$NPM_TAG \
   ducks \
   pkg-jq \
-  "wechaty-puppet@$NPM_TAG" \
   "wechaty@$NPM_TAG" \
 
 #

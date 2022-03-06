@@ -59,7 +59,7 @@ const initialState: State = {
 }
 
 const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(initialState)
-  .handleAction(actions.scanEvent, (state, action) => {
+  .handleAction(actions.scanReceivedEvent, (state, action) => {
     const newState: State = {
       ...state,
       puppet: {
@@ -73,7 +73,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
     }
     return newState
   })
-  .handleAction(actions.login, (state, action) => {
+  .handleAction(actions.loginContactEvent, (state, action) => {
     const newState: State = {
       ...state,
       puppet: {
@@ -88,8 +88,8 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
     return newState
   })
   .handleAction([
-    actions.logoutEvent,
-    actions.stopEvent,
+    actions.logoutReceivedEvent,
+    actions.stoppedEvent,
   ], (state, action) => {
     const newState: State = {
       ...state,
@@ -107,7 +107,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
   /**
    * Register & Deregister Puppet
    */
-  .handleAction(actions.registerPuppet, (state, action) => {
+  .handleAction(actions.registerPuppetCommand, (state, action) => {
     const newState: State = {
       ...state,
       puppet: {
@@ -119,7 +119,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
     }
     return newState
   })
-  .handleAction(actions.deregisterPuppet, (state, action) => {
+  .handleAction(actions.deregisterPuppetCommand, (state, action) => {
     const newState: State = {
       ...state,
       puppet: {
@@ -132,7 +132,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
   /**
    * Register & Deregister Wechaty
    */
-  .handleAction(actions.registerWechaty, (state, action) => {
+  .handleAction(actions.registerWechatyCommand, (state, action) => {
     const newState: State = {
       ...state,
       wechaty: {
@@ -144,7 +144,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
     }
     return newState
   })
-  .handleAction(actions.deregisterWechaty, (state, action) => {
+  .handleAction(actions.deregisterWechatyCommand, (state, action) => {
     const newState: State = {
       ...state,
       wechaty: {
@@ -157,7 +157,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
   /**
    * Bind & Unbind Wechaty <> Puppet
    */
-  .handleAction(actions.bindWechatyPuppet, (state, action) => {
+  .handleAction(actions.bindWechatyPuppetCommand, (state, action) => {
     const newState: State = {
       ...state,
       puppet: {
@@ -177,7 +177,7 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
     }
     return newState
   })
-  .handleAction(actions.unbindWechatyPuppet, (state, action) => {
+  .handleAction(actions.unbindWechatyPuppetCommand, (state, action) => {
     const newState: State = {
       ...state,
       puppet: {

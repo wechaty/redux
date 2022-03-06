@@ -36,7 +36,7 @@ const increaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wecha
   log.verbose('WechatyRedux', 'increaseWechatyReferenceInRegistry() counter: %d', incCounter)
 
   if (incCounter === 1) {
-    log.verbose('WechatyRedux', 'increaseWechatyReferenceInRegistry() register wechaty id:', wechaty.id)
+    log.verbose('WechatyRedux', 'increaseWechatyReferenceInRegistry() register wechaty id: %s', wechaty.id)
     registry.set(wechaty.id, wechaty)
   }
 
@@ -53,7 +53,7 @@ const decreaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wecha
   wechatyRef.set(wechaty.id, decCounter)
 
   if (decCounter <= 0) {
-    log.verbose('WechatyRedux', 'decreaseWechatyReferenceInRegistry() deregister wechaty id: %d', wechaty.id)
+    log.verbose('WechatyRedux', 'decreaseWechatyReferenceInRegistry() deregister wechaty id: %s', wechaty.id)
     registry.delete(wechaty.id)
     wechatyRef.delete(wechaty.id)
   }
@@ -79,7 +79,7 @@ const registerWechatyInRegistry = (registry: WechatyRegistry) => (
    * Emit `RegisterWechaty` action when first time subscribe to the wechaty
    */
   if (counter === 1) {
-    store.dispatch(duck.actions.registerWechaty(wechaty.id))
+    store.dispatch(duck.actions.registerWechatyCommand(wechaty.id))
   }
 
   /**
@@ -94,7 +94,7 @@ const registerWechatyInRegistry = (registry: WechatyRegistry) => (
       /**
        * Cleanup wechaty in registry with reference counter
        */
-      store.dispatch(duck.actions.deregisterWechaty(wechaty.id))
+      store.dispatch(duck.actions.deregisterWechatyCommand(wechaty.id))
     }
   }
 }

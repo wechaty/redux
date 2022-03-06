@@ -17,100 +17,71 @@
  *   limitations under the License.
  *
  */
-const PUPPET_REGISTER   = 'wechaty/PUPPET_REGISTER'
-const PUPPET_DEREGISTER = 'wechaty/PUPPET_DEREGISTER'
-
-const WECHATY_REGISTER   = 'wechaty/WECHATY_REGISTER'
-const WECHATY_DEREGISTER = 'wechaty/WECHATY_DEREGISTER'
-
-const WECHATY_PUPPET_BIND   = 'wechaty/WECHATY_PUPPET_BIND'
-const WECHATY_PUPPET_UNBIND = 'wechaty/WECHATY_PUPPET_UNBIND'
-
-const STATE_ACTIVE   = 'wechaty/STATE_ACTIVE'
-const STATE_INACTIVE = 'wechaty/STATE_INACTIVE'
-
-const EVENT_DONG        = 'wechaty/EVENT_DONG'
-const EVENT_ERROR       = 'wechaty/EVENT_ERROR'
-const EVENT_FRIENDSHIP  = 'wechaty/EVENT_FRIENDSHIP'
-const EVENT_HEARTBEAT   = 'wechaty/EVENT_HEARTBEAT'
-const EVENT_LOGIN       = 'wechaty/EVENT_LOGIN'
-const EVENT_LOGOUT      = 'wechaty/EVENT_LOGOUT'
-const EVENT_MESSAGE     = 'wechaty/EVENT_MESSAGE'
-const EVENT_READY       = 'wechaty/EVENT_READY'
-const EVENT_RESET       = 'wechaty/EVENT_RESET'
-const EVENT_ROOM_INVITE = 'wechaty/EVENT_ROOM_INVITE'
-const EVENT_ROOM_JOIN   = 'wechaty/EVENT_ROOM_JOIN'
-const EVENT_ROOM_LEAVE  = 'wechaty/EVENT_ROOM_LEAVE'
-const EVENT_ROOM_TOPIC  = 'wechaty/EVENT_ROOM_TOPIC'
-const EVENT_SCAN        = 'wechaty/EVENT_SCAN'
-
-const EVENT_START       = 'wechaty/EVENT_START'
-const EVENT_STOP        = 'wechaty/EVENT_STOP'
 
 /**
- * Wechaty APIs
+ * Commands - Redux
  */
-const DING  = 'wechaty/DING'
-const RESET = 'wechaty/RESET'
+export const REGISTER_PUPPET_COMMAND   = 'wechaty-redux/REGISTER_PUPPET_COMMAND'
+export const DEREGISTER_PUPPET_COMMAND = 'wechaty-redux/DEREGISTER_PUPPET_COMMAND'
+
+export const REGISTER_WECHATY_COMMAND   = 'wechaty-redux/REGISTER_WECHATY_COMMAND'
+export const DEREGISTER_WECHATY_COMMAND = 'wechaty-redux/DEREGISTER_WECHATY_COMMAND'
+
+export const BIND_WECHATY_PUPPET_COMMAND   = 'wechaty-redux/BIND_WECHATY_PUPPET_COMMAND'
+export const UNBIND_WECHATY_PUPPET_COMMAND = 'wechaty-redux/UNBIND_WECHATY_PUPPET_COMMAND'
 
 /**
+  * Pure Events
+  */
+export const STARTED_EVENT = 'wechaty-redux/STARTED_EVENT'
+export const STOPPED_EVENT = 'wechaty-redux/STOPPED_EVENT'
+
+export const STATE_ACTIVATED_EVENT   = 'wechaty-redux/STATE_ACTIVATED_EVENT'
+export const STATE_INACTIVATED_EVENT = 'wechaty-redux/STATE_INACTIVATED_EVENT'
+
+export const DONG_RECEIVED_EVENT        = 'wechaty-redux/DONG_RECEIVED_EVENT'
+export const ERROR_RECEIVED_EVENT       = 'wechaty-redux/ERROR_RECEIVED_EVENT'
+export const FRIENDSHIP_RECEIVED_EVENT  = 'wechaty-redux/FRIENDSHIP_RECEIVED_EVENT'
+export const HEARTBEAT_RECEIVED_EVENT   = 'wechaty-redux/HEARTBEAT_RECEIVED_EVENT'
+export const LOGIN_RECEIVED_EVENT       = 'wechaty-redux/LOGIN_RECEIVED_EVENT'
+export const LOGOUT_RECEIVED_EVENT      = 'wechaty-redux/LOGOUT_RECEIVED_EVENT'
+export const MESSAGE_RECEIVED_EVENT     = 'wechaty-redux/MESSAGE_RECEIVED_EVENT'
+export const READY_RECEIVED_EVENT       = 'wechaty-redux/READY_RECEIVED_EVENT'
+export const RESET_RECEIVED_EVENT       = 'wechaty-redux/RESET_RECEIVED_EVENT'
+export const ROOM_INVITE_RECEIVED_EVENT = 'wechaty-redux/ROOM_INVITE_RECEIVED_EVENT'
+export const ROOM_JOIN_RECEIVED_EVENT   = 'wechaty-redux/ROOM_JOIN_RECEIVED_EVENT'
+export const ROOM_LEAVE_RECEIVED_EVENT  = 'wechaty-redux/ROOM_LEAVE_RECEIVED_EVENT'
+export const ROOM_TOPIC_RECEIVED_EVENT  = 'wechaty-redux/ROOM_TOPIC_RECEIVED_EVENT'
+export const SCAN_RECEIVED_EVENT        = 'wechaty-redux/SCAN_RECEIVED_EVENT'
+
+/**
+* Commands & their Events - Wechaty Puppet
+*/
+export const DING_COMMAND  = 'wechaty-redux/DING_COMMAND'
+export const DINGED_EVENT  = 'wechaty-redux/DINGED_EVENT'
+
+export const RESET_COMMAND = 'wechaty-redux/RESET_COMMAND'
+export const RESETED_EVENT = 'wechaty-redux/RESETED_EVENT'
+
+export const LOGOUT_COMMAND = 'wechaty-redux/LOGOUT_COMMAND'
+export const LOGOUTED_EVENT = 'wechaty-redux/LOGOUTED_EVENT'
+
+export const SEND_MESSAGE_COMMAND = 'wechaty-redux/SEND_MESSAGE_COMMAND'
+export const MESSAGE_SENT_EVENT   = 'wechaty-redux/MESSAGE_SENT_EVENT'
+
+/**
+ * Wechaty Events
+ */
+export const LOGIN_CONTACT_EVENT = 'wechaty-redux/LOGIN_CONTACT_EVENT'
+
+export const NOP_COMMAND = 'wechaty-redux/NOP_COMMAND'
+
+/**
+ * Huan(202203): TODO: remove SAY_XXX in the future
+ *  use CQRS Wechaty instead.
+ *
  * Wechaty Async APIs
  */
-const SAY_REQUEST = 'wechaty/SAY_REQUEST'
-const SAY_SUCCESS = 'wechaty/SAY_SUCCESS'
-const SAY_FAILURE = 'wechaty/SAY_FAILURE'
-
-/**
- * Other Types
- */
-/**
- * EVENT_LOGIN will have a payload only contains { id }
- *  Huan(202111): rename it to a better to be understood name,
- *    i.e. LOGIN_USER_PAYLOAD ?
- */
-const LOGIN = 'wechaty/LOGIN'
-
-const NOP = 'wechaty/NOP'
-
-export {
-  PUPPET_REGISTER,
-  PUPPET_DEREGISTER,
-
-  WECHATY_REGISTER,
-  WECHATY_DEREGISTER,
-
-  WECHATY_PUPPET_BIND,
-  WECHATY_PUPPET_UNBIND,
-
-  STATE_INACTIVE,
-  STATE_ACTIVE,
-
-  EVENT_DONG,
-  EVENT_ERROR,
-  EVENT_FRIENDSHIP,
-  EVENT_HEARTBEAT,
-  EVENT_LOGIN,
-  EVENT_LOGOUT,
-  EVENT_MESSAGE,
-  EVENT_READY,
-  EVENT_RESET,
-  EVENT_ROOM_INVITE,
-  EVENT_ROOM_JOIN,
-  EVENT_ROOM_LEAVE,
-  EVENT_ROOM_TOPIC,
-  EVENT_SCAN,
-
-  EVENT_START,
-  EVENT_STOP,
-
-  DING,
-  RESET,
-
-  SAY_FAILURE,
-  SAY_REQUEST,
-  SAY_SUCCESS,
-
-  LOGIN,
-
-  NOP,
-}
+export const SAY_REQUEST = 'wechaty-redux/SAY_REQUEST'
+export const SAY_SUCCESS = 'wechaty-redux/SAY_SUCCESS'
+export const SAY_FAILURE = 'wechaty-redux/SAY_FAILURE'

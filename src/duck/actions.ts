@@ -29,14 +29,14 @@ import * as UUID          from 'uuid'
 import * as types from './types.js'
 
 // interface ContactIdOptions  { contactId: string }
-interface ErrorOptions            { gerror: string }
-interface IdOptions               { id: string }
-interface MessageIdOptions        { messageId: string }
-interface ConversationIdOptions   { conversationId: string }
-// interface TextOptions             { text: string }
-interface SayableOptions          { sayable: PUPPET.payloads.Sayable }
+export interface ErrorOptions            { gerror: string }
+export interface IdOptions               { id: string }
+export interface MessageIdOptions        { messageId: string }
+export interface ConversationIdOptions   { conversationId: string }
+// export interface TextOptions             { text: string }
+export interface SayableOptions          { sayable: PUPPET.payloads.Sayable }
 
-interface PuppetIdOptions  { puppetId: string }
+export interface PuppetIdOptions  { puppetId: string }
 
 /**
  * Register Actions
@@ -68,53 +68,52 @@ const prepareEventRoomTopic      = (puppetId: string, payload: PUPPET.payloads.E
 const prepareEventScan           = (puppetId: string, payload: PUPPET.payloads.EventScan)       => ({ ...payload, puppetId })
 
 /**
- * Actions: Registry
+ * Actions: Wechaty & Puppet Registry
  */
-const registerPuppet    = createAction(types.PUPPET_REGISTER,   preparePuppetId)()
-const deregisterPuppet  = createAction(types.PUPPET_DEREGISTER, preparePuppetId)()
+export const registerPuppetCommand    = createAction(types.REGISTER_PUPPET_COMMAND,   preparePuppetId)()
+export const deregisterPuppetCommand  = createAction(types.DEREGISTER_PUPPET_COMMAND, preparePuppetId)()
 
-const registerWechaty    = createAction(types.WECHATY_REGISTER,   prepareWechatyId)()
-const deregisterWechaty  = createAction(types.WECHATY_DEREGISTER, prepareWechatyId)()
+export const registerWechatyCommand    = createAction(types.REGISTER_WECHATY_COMMAND,   prepareWechatyId)()
+export const deregisterWechatyCommand  = createAction(types.DEREGISTER_WECHATY_COMMAND, prepareWechatyId)()
 
-const bindWechatyPuppet   = createAction(types.WECHATY_PUPPET_BIND,   prepareWechatyPuppetId)()
-const unbindWechatyPuppet = createAction(types.WECHATY_PUPPET_UNBIND, prepareWechatyPuppetId)()
+export const bindWechatyPuppetCommand   = createAction(types.BIND_WECHATY_PUPPET_COMMAND,   prepareWechatyPuppetId)()
+export const unbindWechatyPuppetCommand = createAction(types.UNBIND_WECHATY_PUPPET_COMMAND, prepareWechatyPuppetId)()
 
 /**
  * Actions: StateState
  */
-const activeState    = createAction(types.STATE_ACTIVE,   prepareStateActive)()
-const inactiveState  = createAction(types.STATE_INACTIVE, prepareStateInactive)()
+export const stateActivatedEvent    = createAction(types.STATE_ACTIVATED_EVENT,   prepareStateActive)()
+export const stateInactivatedEvent  = createAction(types.STATE_INACTIVATED_EVENT, prepareStateInactive)()
 
 /**
- * Actions: Events
+ * Actions: Pure Events
  */
-const dongEvent       = createAction(types.EVENT_DONG,        prepareEventDong)()
-const errorEvent      = createAction(types.EVENT_ERROR,       prepareEventError)()
-const friendshipEvent = createAction(types.EVENT_FRIENDSHIP,  prepareEventFriendship)()
-const heartbeatEvent  = createAction(types.EVENT_HEARTBEAT,   prepareEventHeartbeat)()
-const loginEvent      = createAction(types.EVENT_LOGIN,       prepareEventLogin)()
-const logoutEvent     = createAction(types.EVENT_LOGOUT,      prepareEventLogout)()
-const messageEvent    = createAction(types.EVENT_MESSAGE,     prepareEventMessage)()
-const readyEvent      = createAction(types.EVENT_READY,       prepareEventReady)()
-const resetEvent      = createAction(types.EVENT_RESET,       prepareEventReset)()
-const roomInviteEvent = createAction(types.EVENT_ROOM_INVITE, prepareEventRoomInvitation)()
-const roomJoinEvent   = createAction(types.EVENT_ROOM_JOIN,   prepareEventRoomJoin)()
-const roomLeaveEvent  = createAction(types.EVENT_ROOM_LEAVE,  prepareEventRoomLeave)()
-const roomTopicEvent  = createAction(types.EVENT_ROOM_TOPIC,  prepareEventRoomTopic)()
-const scanEvent       = createAction(types.EVENT_SCAN,        prepareEventScan)()
+export const dongReceivedEvent       = createAction(types.DONG_RECEIVED_EVENT,        prepareEventDong)()
+export const errorReceivedEvent      = createAction(types.ERROR_RECEIVED_EVENT,       prepareEventError)()
+export const friendshipReceivedEvent = createAction(types.FRIENDSHIP_RECEIVED_EVENT,  prepareEventFriendship)()
+export const heartbeatReceivedEvent  = createAction(types.HEARTBEAT_RECEIVED_EVENT,   prepareEventHeartbeat)()
+export const loginReceivedEvent      = createAction(types.LOGIN_RECEIVED_EVENT,       prepareEventLogin)()
+export const logoutReceivedEvent     = createAction(types.LOGOUT_RECEIVED_EVENT,      prepareEventLogout)()
+export const messageReceivedEvent    = createAction(types.MESSAGE_RECEIVED_EVENT,     prepareEventMessage)()
+export const readyReceivedEvent      = createAction(types.READY_RECEIVED_EVENT,       prepareEventReady)()
+export const resetReceivedEvent      = createAction(types.RESET_RECEIVED_EVENT,       prepareEventReset)()
+export const roomInviteReceivedEvent = createAction(types.ROOM_INVITE_RECEIVED_EVENT, prepareEventRoomInvitation)()
+export const roomJoinReceivedEvent   = createAction(types.ROOM_JOIN_RECEIVED_EVENT,   prepareEventRoomJoin)()
+export const roomLeaveReceivedEvent  = createAction(types.ROOM_LEAVE_RECEIVED_EVENT,  prepareEventRoomLeave)()
+export const roomTopicReceivedEvent  = createAction(types.ROOM_TOPIC_RECEIVED_EVENT,  prepareEventRoomTopic)()
+export const scanReceivedEvent       = createAction(types.SCAN_RECEIVED_EVENT,        prepareEventScan)()
 
-const startEvent      = createAction(types.EVENT_START,       preparePuppetId)()
-const stopEvent       = createAction(types.EVENT_STOP,        preparePuppetId)()
+export const startedEvent      = createAction(types.STARTED_EVENT,        preparePuppetId)()
+export const stoppedEvent       = createAction(types.STOPPED_EVENT,        preparePuppetId)()
 
 /**
  * Actions: Void APIs
  */
 const prepareData = (puppetId: string, data: string)  => ({ data, puppetId })
-const prepareLogin  = (payload: PuppetIdOptions & PUPPET.payloads.Contact) => payload
+const prepareLoginContact  = (payload: PuppetIdOptions & PUPPET.payloads.Contact) => payload
 
-const ding  = createAction(types.DING,  prepareData)()
-const reset = createAction(types.RESET, prepareData)()
-const login = createAction(types.LOGIN, prepareLogin)()
+export const dingCommand  = createAction(types.DING_COMMAND,  prepareData)()
+export const resetCommand = createAction(types.RESET_COMMAND, prepareData)()
 
 /**
  * Actions: Non-Void APIs
@@ -123,58 +122,24 @@ const prepareSayRequest = ({ puppetId, conversationId, sayable } : PuppetIdOptio
 const prepareSaySuccess = ({ id, puppetId, messageId }           : PuppetIdOptions & IdOptions & Partial<MessageIdOptions>)   => ({ id,             puppetId, messageId })
 const prepareSayFailure = ({ id, puppetId, gerror }              : PuppetIdOptions & IdOptions & ErrorOptions)                => ({ id,             puppetId, gerror })
 
-const sayAsync = createAsyncAction(
+/**
+ * Huan(202203): TODO: remove sayAsync in the future
+ *  use CQRS Wechaty instead
+ */
+export const sayAsync = createAsyncAction(
   [types.SAY_REQUEST, prepareSayRequest],
   [types.SAY_SUCCESS, prepareSaySuccess],
   [types.SAY_FAILURE, prepareSayFailure],
 )()
-const say = sayAsync.request
+export const sayCommand = sayAsync.request
+
+/**
+ * Helper Events
+ */
+export const loginContactEvent = createAction(types.LOGIN_CONTACT_EVENT, prepareLoginContact)()
 
 /**
  * Bug compatible & workaround for Ducks API
  *  https://github.com/huan/ducks/issues/2
  */
-const nop = createAction(types.NOP)()
-
-export {
-  type PuppetIdOptions,
-  registerPuppet,
-  deregisterPuppet,
-
-  registerWechaty,
-  deregisterWechaty,
-
-  bindWechatyPuppet,
-  unbindWechatyPuppet,
-
-  inactiveState,
-  activeState,
-
-  dongEvent,
-  errorEvent,
-  friendshipEvent,
-  heartbeatEvent,
-  loginEvent,
-  logoutEvent,
-  messageEvent,
-  readyEvent,
-  resetEvent,
-  roomInviteEvent,
-  roomJoinEvent,
-  roomLeaveEvent,
-  roomTopicEvent,
-  scanEvent,
-
-  startEvent,
-  stopEvent,
-
-  ding,
-  reset,
-  say,
-
-  sayAsync,
-
-  login,
-
-  nop,
-}
+export const nopCommand = createAction(types.NOP_COMMAND)()

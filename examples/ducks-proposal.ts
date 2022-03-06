@@ -37,17 +37,21 @@ async function main () {
   const bot = WechatyBuilder.build({ puppet: 'wechaty-puppet-mock' })
   bot.use(WechatyRedux({ store }))
 
-  await bot.start()
-  console.info('Wechaty has started with Redux enabled.')
-
   /**
    * 3. Using Redux Store with Wechaty Ducks API!
    *  (With the Power of Ducks / Ducksify)
    */
   const wechatyDuck = ducks.ducksify('wechaty')
 
-  store.subscribe(() => console.info(store.getState()))
+  store.subscribe(() => console.info((store.getState() as any)['ducks']))
+
+  await bot.start()
+  console.info('Wechaty has started with Redux enabled.')
+
   wechatyDuck.operations.ding(bot.puppet.id, 'Ducksify Style ding!')
+
+  await bot.stop()
+  console.info('Ducks Proposal Example finished.')
 }
 
 main()

@@ -37,7 +37,7 @@ import {
 
 import * as actions from './actions.js'
 
-const ding$ = (action: ReturnType<typeof actions.ding>) => of(
+const ding$ = (action: ReturnType<typeof actions.dingCommand>) => of(
   getPuppet(action.payload.puppetId),
 ).pipe(
   mergeMap(puppet => puppet
@@ -46,14 +46,14 @@ const ding$ = (action: ReturnType<typeof actions.ding>) => of(
   ),
   ignoreElements(),
   catchError(e => of(
-    actions.errorEvent(
+    actions.errorReceivedEvent(
       action.payload.puppetId,
       { gerror: GError.stringify(e) },
     ),
   )),
 )
 
-const reset$ = (action: ReturnType<typeof actions.reset>) => of(
+const reset$ = (action: ReturnType<typeof actions.resetCommand>) => of(
   getPuppet(action.payload.puppetId),
 ).pipe(
   mergeMap(puppet => puppet
@@ -62,7 +62,7 @@ const reset$ = (action: ReturnType<typeof actions.reset>) => of(
   ),
   ignoreElements(),
   catchError((e: Error) => of(
-    actions.errorEvent(
+    actions.errorReceivedEvent(
       action.payload.puppetId,
       { gerror: GError.stringify(e) },
     ),

@@ -67,7 +67,7 @@ async function * wechatyFixtures () {
       hostname : 'localhost',
       port     : 8000,
       realtime : true,
-      stopOn   : duck.types.NOP,
+      stopOn   : duck.types.NOP_COMMAND,
     }) as any
   }
 
@@ -222,15 +222,6 @@ test('WechatyRedux: Puppet `message` event', async t => {
 })
 
 test('WechatyRedux: getPuppet() & getWechaty()', async t => {
-  // const ducks = new Ducks({
-  //   wechaty : Duck,
-  // })
-
-  // const store = createStore(
-  //   noopReducer,
-  //   ducks.enhancer(),
-  // )
-
   const puppet = new PuppetMock()
   const wechaty = WechatyBuilder.build({ puppet })
 
@@ -248,26 +239,22 @@ test('WechatyRedux: getPuppet() & getWechaty()', async t => {
 
   await wechaty.start()
 
-  /**
-   * Huan(202006) using `t.ok` instead of `t.equal` for `wechaty`:
-   *  Workaround for https://github.com/wechaty/wechaty/issues/2304
-   */
-  t.ok(getWechaty(wechaty.id) === wechaty, 'should has wechaty registered after use plugin & wechaty start')
+  t.equal(getWechaty(wechaty.id), wechaty, 'should has wechaty registered after use plugin & wechaty start')
   t.equal(getPuppet(puppet.id), puppet, 'should has puppet registered after wechaty start')
 
   t.equal(spy.callCount, 6, 'should have 6 actions from wechaty start()')
-  t.same(spy.args[0]![0], duck.actions.registerWechaty(wechaty.id), 'should emit register wechaty action')
-  t.same(spy.args[1]![0], duck.actions.registerPuppet(puppet.id), 'should emit register puppet action')
-  t.same(spy.args[2]![0], duck.actions.bindWechatyPuppet({ puppetId: puppet.id, wechatyId: wechaty.id }), 'should emit bind wechaty puppet action')
-  t.same(spy.args[3]![0], duck.actions.activeState(puppet.id, 'pending'), 'should emit state active action')
-  t.same(spy.args[4]![0], duck.actions.activeState(puppet.id, true), 'should emit state inactive action')
-  t.same(spy.args[5]![0], duck.actions.startEvent(puppet.id), 'should emit start event action')
+  t.same(spy.args[0]![0], duck.actions.registerWechatyCommand(wechaty.id), 'should emit register wechaty action')
+  t.same(spy.args[1]![0], duck.actions.registerPuppetCommand(puppet.id), 'should emit register puppet action')
+  t.same(spy.args[2]![0], duck.actions.bindWechatyPuppetCommand({ puppetId: puppet.id, wechatyId: wechaty.id }), 'should emit bind wechaty puppet action')
+  t.same(spy.args[3]![0], duck.actions.stateActivatedEvent(puppet.id, 'pending'), 'should emit state active action')
+  t.same(spy.args[4]![0], duck.actions.stateActivatedEvent(puppet.id, true), 'should emit state inactive action')
+  t.same(spy.args[5]![0], duck.actions.startedEvent(puppet.id), 'should emit start event action')
 
   spy.resetHistory()
   await wechaty.stop()
 
   t.equal(spy.callCount, 3, 'should have 3 actions from wechaty stop()')
-  t.same(spy.args[0]![0], duck.actions.inactiveState(puppet.id, 'pending'), 'should emit state inactive action')
-  t.same(spy.args[1]![0], duck.actions.inactiveState(puppet.id, true), 'should emit state ininactive action')
-  t.same(spy.args[2]![0], duck.actions.stopEvent(puppet.id), 'should emit stop event action')
+  t.same(spy.args[0]![0], duck.actions.stateInactivatedEvent(puppet.id, 'pending'), 'should emit state inactive action')
+  t.same(spy.args[1]![0], duck.actions.stateInactivatedEvent(puppet.id, true), 'should emit state ininactive action')
+  t.same(spy.args[2]![0], duck.actions.stoppedEvent(puppet.id), 'should emit stop event action')
 })
