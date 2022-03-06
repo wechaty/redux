@@ -55,17 +55,18 @@
     "redux": "^4.1.2",
     "redux-observable": "^2.0.0",
     "rxjs": "^7.5",
+    "tstest": "^1.2.1",
     "typesafe-actions": "^5.1.0",
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
-    "wechaty-puppet": "^1.13.10"
+    "wechaty-puppet": "^1.13.12"
   },
   "devDependencies": {
     "@chatie/eslint-config": "^1.0.4",
     "@chatie/git-scripts": "^0.6.2",
     "@chatie/semver": "^0.4.7",
-    "@chatie/tsconfig": "^4.6.2",
+    "@chatie/tsconfig": "^4.6.3",
     "@types/glob": "^7.2.0",
     "@types/remote-redux-devtools": "^0.5.5",
     "@types/uuid": "^8.3.4",
@@ -75,7 +76,7 @@
     "state-switch": "^1.6.3",
     "typed-emitter": "^1.5.0-from-event",
     "utility-types": "^3.10.0",
-    "wechaty": "^1.13.2",
+    "wechaty": "^1.13.25",
     "wechaty-puppet-mock": "^1.13.4"
   },
   "files": [

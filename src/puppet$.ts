@@ -81,8 +81,10 @@ const puppet$ = (
   return merge(
     /* eslint-disable func-call-spacing */
     /* eslint-disable no-whitespace-before-property */
-    stateActive$   .pipe(map(status  => duck.actions.stateActivatedEvent    (puppet.id, status))),
-    stateInactive$ .pipe(map(status  => duck.actions.stateInactivatedEvent  (puppet.id, status))),
+    stateActive$  .pipe(map(status  => duck.actions.stateActivatedEvent    (puppet.id, status))),
+    stateInactive$.pipe(map(status  => duck.actions.stateInactivatedEvent  (puppet.id, status))),
+    start$        .pipe(map(()      => duck.actions.startedEvent           (puppet.id))),
+    stop$         .pipe(map(()      => duck.actions.stoppedEvent           (puppet.id))),
 
     dong$       .pipe(map(payload => duck.actions.dongReceivedEvent       (puppet.id, payload))),
     error$      .pipe(map(payload => duck.actions.errorReceivedEvent      (puppet.id, payload))),
@@ -98,8 +100,6 @@ const puppet$ = (
     roomLeave$  .pipe(map(payload => duck.actions.roomLeaveReceivedEvent  (puppet.id, payload))),
     roomTopic$  .pipe(map(payload => duck.actions.roomTopicReceivedEvent  (puppet.id, payload))),
     scan$       .pipe(map(payload => duck.actions.scanReceivedEvent       (puppet.id, payload))),
-    start$      .pipe(map(() => duck.actions.startedEvent           (puppet.id))),
-    stop$       .pipe(map(() => duck.actions.stoppedEvent            (puppet.id))),
   ).pipe(
     /**
      * share() === multicast(() => new Subject()).refCount()

@@ -222,15 +222,6 @@ test('WechatyRedux: Puppet `message` event', async t => {
 })
 
 test('WechatyRedux: getPuppet() & getWechaty()', async t => {
-  // const ducks = new Ducks({
-  //   wechaty : Duck,
-  // })
-
-  // const store = createStore(
-  //   noopReducer,
-  //   ducks.enhancer(),
-  // )
-
   const puppet = new PuppetMock()
   const wechaty = WechatyBuilder.build({ puppet })
 
@@ -248,11 +239,7 @@ test('WechatyRedux: getPuppet() & getWechaty()', async t => {
 
   await wechaty.start()
 
-  /**
-   * Huan(202006) using `t.ok` instead of `t.equal` for `wechaty`:
-   *  Workaround for https://github.com/wechaty/wechaty/issues/2304
-   */
-  t.ok(getWechaty(wechaty.id) === wechaty, 'should has wechaty registered after use plugin & wechaty start')
+  t.equal(getWechaty(wechaty.id), wechaty, 'should has wechaty registered after use plugin & wechaty start')
   t.equal(getPuppet(puppet.id), puppet, 'should has puppet registered after wechaty start')
 
   t.equal(spy.callCount, 6, 'should have 6 actions from wechaty start()')
