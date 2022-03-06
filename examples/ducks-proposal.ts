@@ -24,30 +24,35 @@ import {
   Duck,
 }                 from '../src/mod.js' // 'wechaty-redux'
 
-/**
- * 1. Ducksify Wechaty Redux API
- */
-const ducks = new Ducks({ wechaty: Duck })
-const store = ducks.configureStore()
+async function main () {
+  /**
+   * 1. Ducksify Wechaty Redux API
+   */
+  const ducks = new Ducks({ wechaty: Duck })
+  const store = ducks.configureStore()
 
-/**
- * 2. Instantiate Wechaty with Redux Plugin
- */
-const bot = WechatyBuilder.build({ puppet: 'wechaty-puppet-mock' })
-bot.use(WechatyRedux({ store }))
+  /**
+   * 2. Instantiate Wechaty with Redux Plugin
+   */
+  const bot = WechatyBuilder.build({ puppet: 'wechaty-puppet-mock' })
+  bot.use(WechatyRedux({ store }))
 
-/**
- * 3. Using Redux Store with Wechaty Ducks API!
- *  (With the Power of Ducks / Ducksify)
- */
-const wechatyDuck = ducks.ducksify('wechaty')
+  /**
+   * 3. Using Redux Store with Wechaty Ducks API!
+   *  (With the Power of Ducks / Ducksify)
+   */
+  const wechatyDuck = ducks.ducksify('wechaty')
 
-store.subscribe(() => console.info((store.getState() as any)['ducks']))
+  store.subscribe(() => console.info((store.getState() as any)['ducks']))
 
-await bot.start()
-console.info('Wechaty has started with Redux enabled.')
+  await bot.start()
+  console.info('Wechaty has started with Redux enabled.')
 
-wechatyDuck.operations.ding(bot.puppet.id, 'Ducksify Style ding!')
+  wechatyDuck.operations.ding(bot.puppet.id, 'Ducksify Style ding!')
 
-await bot.stop()
-console.info('Ducks Proposal Example finished.')
+  await bot.stop()
+  console.info('Ducks Proposal Example finished.')
+}
+
+main()
+  .catch(console.error)
