@@ -36,7 +36,7 @@ const increaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wecha
   log.verbose('WechatyRedux', 'increaseWechatyReferenceInRegistry() counter: %d', incCounter)
 
   if (incCounter === 1) {
-    log.verbose('WechatyRedux', 'increaseWechatyReferenceInRegistry() register wechaty id:', wechaty.id)
+    log.verbose('WechatyRedux', 'increaseWechatyReferenceInRegistry() register wechaty id: %s', wechaty.id)
     registry.set(wechaty.id, wechaty)
   }
 
@@ -53,7 +53,7 @@ const decreaseWechatyReferenceInRegistry = (registry: WechatyRegistry) => (wecha
   wechatyRef.set(wechaty.id, decCounter)
 
   if (decCounter <= 0) {
-    log.verbose('WechatyRedux', 'decreaseWechatyReferenceInRegistry() deregister wechaty id: %d', wechaty.id)
+    log.verbose('WechatyRedux', 'decreaseWechatyReferenceInRegistry() deregister wechaty id: %s', wechaty.id)
     registry.delete(wechaty.id)
     wechatyRef.delete(wechaty.id)
   }
