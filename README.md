@@ -136,6 +136,10 @@ See: [api/index.ts](src/api/index.ts)
 
 ## Links
 
+### CQRS
+
+1. [Command–query separation](https://en.wikipedia.org/wiki/Command%E2%80%93query_separation)
+
 ### Chatbot in Redux
 
 1. [Building bots with Redux](https://blog.botframework.com/2018/04/12/building-bots-with-redux/)
@@ -161,6 +165,11 @@ See: [api/index.ts](src/api/index.ts)
 
 - [Redux Middleware](https://redux.js.org/advanced/middleware)
 - [React tips — How to create a Redux Middleware Throttle](https://medium.com/@leonardobrunolima/react-tips-how-to-create-a-redux-middleware-throttle-f2908ee6f49e)
+
+### Redux Enhancers
+
+- [SO: Redux enhancer example](https://stackoverflow.com/a/67119838/1123955)
+- [Creating a Store with Enhancers​](https://redux.js.org/tutorials/fundamentals/part-4-store#creating-a-store-with-enhancers)
 
 ## Articles
 

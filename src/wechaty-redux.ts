@@ -83,9 +83,7 @@ function subscribePuppetEvents (
     puppet = wechaty.puppet
   } catch (e) {
     log.verbose('WechatyRedux', 'install() wechaty.puppet not ready yet. retry on puppet event later')
-  }
 
-  if (!puppet) {
     const onPuppet = () => subscribePuppetEvents(wechaty, store, uninstallerList)
 
     wechaty.once('puppet', onPuppet)
