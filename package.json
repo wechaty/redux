@@ -55,7 +55,6 @@
     "redux": "^4.1.2",
     "redux-observable": "^2.0.0",
     "rxjs": "^7.5",
-    "tstest": "^1.2.1",
     "typesafe-actions": "^5.1.0",
     "uuid": "^8.3.2"
   },
