@@ -34,12 +34,12 @@ import * as rxAsync from './rx-async.js'
 import * as utils   from './utils.js'
 
 const dingEpic: Epic = actions$ => actions$.pipe(
-  filter(isActionOf(actions.ding)),
+  filter(isActionOf(actions.dingCommand)),
   mergeMap(rxAsync.ding$),
 )
 
 const resetEpic: Epic = actions$ => actions$.pipe(
-  filter(isActionOf(actions.reset)),
+  filter(isActionOf(actions.resetCommand)),
   mergeMap(rxAsync.reset$),
 )
 
@@ -49,9 +49,9 @@ const sayEpic: Epic = actions$ => actions$.pipe(
 )
 
 const loginEpic: Epic = actions$ => actions$.pipe(
-  filter(isActionOf(actions.loginEvent)),
+  filter(isActionOf(actions.loginReceivedEvent)),
   mergeMap(utils.toContact$),
-  map(payload => actions.login(payload)),
+  map(payload => actions.loginContactEvent(payload)),
 )
 
 export {
