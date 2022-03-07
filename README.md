@@ -182,7 +182,12 @@ See: [api/index.ts](src/api/index.ts)
 
 ## History
 
-### main v1.0 (Oct 28, 2021)
+### main v1.17 (Mar 7, 2022)
+
+Refactoring all events with breaking changes
+for better [CQRS Wechaty](https://github.com/wechaty/cqrs) support.
+
+### v1.0 (Oct 28, 2021)
 
 Release v1.0 of Wechaty Redux (thanks [@mukaiu](https://github.com/wechaty/redux/pull/49))
 
