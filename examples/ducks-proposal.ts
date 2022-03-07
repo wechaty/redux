@@ -48,7 +48,8 @@ async function main () {
   await bot.start()
   console.info('Wechaty has started with Redux enabled.')
 
-  wechatyDuck.operations.ding(bot.puppet.id, 'Ducksify Style ding!')
+  void wechatyDuck
+  // wechatyDuck.operations.ding(bot.puppet.id, 'Ducksify Style ding!')
 
   await bot.stop()
   console.info('Ducks Proposal Example finished.')

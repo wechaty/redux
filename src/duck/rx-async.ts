@@ -17,83 +17,83 @@
  *   limitations under the License.
  *
  */
-import {
-  EMPTY,
-  from,
-  of,
-}                 from 'rxjs'
-import {
-  ignoreElements,
-  catchError,
-  mapTo,
-  mergeMap,
-  // tap,
-}                 from 'rxjs/operators'
-import { GError } from 'gerror'
+// import {
+//   EMPTY,
+//   from,
+//   of,
+// }                 from 'rxjs'
+// import {
+//   ignoreElements,
+//   catchError,
+//   mapTo,
+//   mergeMap,
+//   // tap,
+// }                 from 'rxjs/operators'
+// import { GError } from 'gerror'
 
-import {
-  getPuppet,
-}             from '../registry/mod.js'
+// import {
+//   getPuppet,
+// }             from '../registry/mod.js'
 
-import * as actions from './actions.js'
+// import * as actions from './actions.js'
 
-const ding$ = (action: ReturnType<typeof actions.dingCommand>) => of(
-  getPuppet(action.payload.puppetId),
-).pipe(
-  mergeMap(puppet => puppet
-    ? of(puppet.ding(action.payload.data))
-    : EMPTY,
-  ),
-  ignoreElements(),
-  catchError(e => of(
-    actions.errorReceivedEvent(
-      action.payload.puppetId,
-      { gerror: GError.stringify(e) },
-    ),
-  )),
-)
+// const ding$ = (action: ReturnType<typeof actions.dingCommand>) => of(
+//   getPuppet(action.payload.puppetId),
+// ).pipe(
+//   mergeMap(puppet => puppet
+//     ? of(puppet.ding(action.payload.data))
+//     : EMPTY,
+//   ),
+//   ignoreElements(),
+//   catchError(e => of(
+//     actions.errorReceivedEvent(
+//       action.payload.puppetId,
+//       { gerror: GError.stringify(e) },
+//     ),
+//   )),
+// )
 
-const reset$ = (action: ReturnType<typeof actions.resetCommand>) => of(
-  getPuppet(action.payload.puppetId),
-).pipe(
-  mergeMap(puppet => puppet
-    ? of(puppet.reset())
-    : EMPTY,
-  ),
-  ignoreElements(),
-  catchError((e: Error) => of(
-    actions.errorReceivedEvent(
-      action.payload.puppetId,
-      { gerror: GError.stringify(e) },
-    ),
-  )),
-)
+// const reset$ = (action: ReturnType<typeof actions.resetCommand>) => of(
+//   getPuppet(action.payload.puppetId),
+// ).pipe(
+//   mergeMap(puppet => puppet
+//     ? of(puppet.reset())
+//     : EMPTY,
+//   ),
+//   ignoreElements(),
+//   catchError((e: Error) => of(
+//     actions.errorReceivedEvent(
+//       action.payload.puppetId,
+//       { gerror: GError.stringify(e) },
+//     ),
+//   )),
+// )
 
-const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => of(
-  getPuppet(action.payload.puppetId),
-).pipe(
-  mergeMap(puppet => puppet
-    ? from(puppet.messageSend(
-      action.payload.conversationId,
-      action.payload.sayable,
-    ))
-    : EMPTY,
-  ),
-  mapTo(actions.sayAsync.success({
-    id       : action.payload.id,
-    puppetId : action.payload.puppetId,
-  })),
-  catchError(e => of(
-    actions.sayAsync.failure({
-      gerror   : GError.stringify(e),
-      id       : action.payload.id,
-      puppetId : action.payload.puppetId,
-    }),
-  )),
-)
+// const say$ = (action: ReturnType<typeof actions.sayAsync.request>) => of(
+//   getPuppet(action.payload.puppetId),
+// ).pipe(
+//   mergeMap(puppet => puppet
+//     ? from(puppet.messageSend(
+//       action.payload.conversationId,
+//       action.payload.sayable,
+//     ))
+//     : EMPTY,
+//   ),
+//   mapTo(actions.sayAsync.success({
+//     id       : action.payload.id,
+//     puppetId : action.payload.puppetId,
+//   })),
+//   catchError(e => of(
+//     actions.sayAsync.failure({
+//       gerror   : GError.stringify(e),
+//       id       : action.payload.id,
+//       puppetId : action.payload.puppetId,
+//     }),
+//   )),
+// )
 
 export {
-  ding$,
-  reset$,
-  say$,
+  // ding$,
+  // reset$,
+  // say$,
 }

@@ -64,24 +64,10 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
       ...state,
       puppet: {
         ...state.puppet,
-        [action.payload.puppetId]: {
-          ...state.puppet[action.payload.puppetId],
+        [action.meta.puppetId]: {
+          ...state.puppet[action.meta.puppetId],
           currentUser: undefined,
           qrcode: action.payload.qrcode,
-        },
-      },
-    }
-    return newState
-  })
-  .handleAction(actions.loginContactEvent, (state, action) => {
-    const newState: State = {
-      ...state,
-      puppet: {
-        ...state.puppet,
-        [action.payload.puppetId]: {
-          ...state.puppet[action.payload.puppetId],
-          currentUser: action.payload,
-          qrcode: undefined,
         },
       },
     }
@@ -95,8 +81,8 @@ const reducer = createReducer<typeof initialState, ActionType<typeof actions>>(i
       ...state,
       puppet: {
         ...state.puppet,
-        [action.payload.puppetId]: {
-          ...state.puppet[action.payload.puppetId],
+        [action.meta.puppetId]: {
+          ...state.puppet[action.meta.puppetId],
           currentUser : undefined,
           qrcode      : undefined,
         },

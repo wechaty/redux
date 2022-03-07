@@ -20,13 +20,17 @@
 /* eslint-disable sort-keys */
 import {
   createAction,
-  createAsyncAction,
 }                         from 'typesafe-actions'
 
 import type * as PUPPET   from 'wechaty-puppet'
-import * as UUID          from 'uuid'
+// import * as UUID          from 'uuid'
 
 import * as types from './types.js'
+
+/**
+ * We put `puppetId` in the meta property
+ */
+const metaPuppetId = (puppetId: string, ..._: any)  => ({ puppetId })
 
 // interface ContactIdOptions  { contactId: string }
 export interface ErrorOptions            { gerror: string }
@@ -39,104 +43,72 @@ export interface SayableOptions          { sayable: PUPPET.payloads.Sayable }
 export interface PuppetIdOptions  { puppetId: string }
 
 /**
- * Register Actions
+ * @private Registery Actions Payload
  */
-const preparePuppetId   = (puppetId: string)  => ({ puppetId })
-const prepareWechatyId  = (wechatyId: string) => ({ wechatyId })
+const payloadPuppetId   = (puppetId: string)  => ({ puppetId })
+const payloadWechatyId  = (wechatyId: string) => ({ wechatyId })
 
-const prepareWechatyPuppetId = (options: { wechatyId: string, puppetId: string }) => options
+const payloadWechatyPuppetId = (options: { wechatyId: string, puppetId: string }) => options
+
+/**
+ * @private Registry Actions Creators
+ */
+export const registerPuppetCommand    = createAction(types.REGISTER_PUPPET_COMMAND,   payloadPuppetId)()
+export const deregisterPuppetCommand  = createAction(types.DEREGISTER_PUPPET_COMMAND, payloadPuppetId)()
+
+export const registerWechatyCommand    = createAction(types.REGISTER_WECHATY_COMMAND,   payloadWechatyId)()
+export const deregisterWechatyCommand  = createAction(types.DEREGISTER_WECHATY_COMMAND, payloadWechatyId)()
+
+export const bindWechatyPuppetCommand   = createAction(types.BIND_WECHATY_PUPPET_COMMAND,   payloadWechatyPuppetId)()
+export const unbindWechatyPuppetCommand = createAction(types.UNBIND_WECHATY_PUPPET_COMMAND, payloadWechatyPuppetId)()
 
 /**
  * Event Actions' Payloads
  */
-const prepareStateActive   = (puppetId: string, status: true | 'pending') => ({ status, puppetId })
-const prepareStateInactive = (puppetId: string, status: true | 'pending') => ({ status, puppetId })
+const payloadStateActive   = (_puppetId: string, status: true | 'pending') => status
+const payloadStateInactive = (_puppetId: string, status: true | 'pending') => status
 
-const prepareEventDong           = (puppetId: string, payload: PUPPET.payloads.EventDong)       => ({ ...payload, puppetId })
-const prepareEventError          = (puppetId: string, payload: PUPPET.payloads.EventError)      => ({ ...payload, puppetId })
-const prepareEventHeartbeat      = (puppetId: string, payload: PUPPET.payloads.EventHeartbeat)  => ({ ...payload, puppetId })
-const prepareEventReady          = (puppetId: string, payload: PUPPET.payloads.EventReady)      => ({ ...payload, puppetId })
-const prepareEventReset          = (puppetId: string, payload: PUPPET.payloads.EventReset)      => ({ ...payload, puppetId })
-const prepareEventFriendship     = (puppetId: string, payload: PUPPET.payloads.EventFriendship) => ({ ...payload, puppetId })
-const prepareEventLogin          = (puppetId: string, payload: PUPPET.payloads.EventLogin)      => ({ ...payload, puppetId })
-const prepareEventLogout         = (puppetId: string, payload: PUPPET.payloads.EventLogout)     => ({ ...payload, puppetId })
-const prepareEventMessage        = (puppetId: string, payload: PUPPET.payloads.EventMessage)    => ({ ...payload, puppetId })
-const prepareEventRoomInvitation = (puppetId: string, payload: PUPPET.payloads.EventRoomInvite) => ({ ...payload, puppetId })
-const prepareEventRoomJoin       = (puppetId: string, payload: PUPPET.payloads.EventRoomJoin)   => ({ ...payload, puppetId })
-const prepareEventRoomLeave      = (puppetId: string, payload: PUPPET.payloads.EventRoomLeave)  => ({ ...payload, puppetId })
-const prepareEventRoomTopic      = (puppetId: string, payload: PUPPET.payloads.EventRoomTopic)  => ({ ...payload, puppetId })
-const prepareEventScan           = (puppetId: string, payload: PUPPET.payloads.EventScan)       => ({ ...payload, puppetId })
-
-/**
- * Actions: Wechaty & Puppet Registry
- */
-export const registerPuppetCommand    = createAction(types.REGISTER_PUPPET_COMMAND,   preparePuppetId)()
-export const deregisterPuppetCommand  = createAction(types.DEREGISTER_PUPPET_COMMAND, preparePuppetId)()
-
-export const registerWechatyCommand    = createAction(types.REGISTER_WECHATY_COMMAND,   prepareWechatyId)()
-export const deregisterWechatyCommand  = createAction(types.DEREGISTER_WECHATY_COMMAND, prepareWechatyId)()
-
-export const bindWechatyPuppetCommand   = createAction(types.BIND_WECHATY_PUPPET_COMMAND,   prepareWechatyPuppetId)()
-export const unbindWechatyPuppetCommand = createAction(types.UNBIND_WECHATY_PUPPET_COMMAND, prepareWechatyPuppetId)()
+const payloadEventDong           = (_puppetId: string, payload: PUPPET.payloads.EventDong)       => payload
+const payloadEventError          = (_puppetId: string, payload: PUPPET.payloads.EventError)      => payload
+const payloadEventHeartbeat      = (_puppetId: string, payload: PUPPET.payloads.EventHeartbeat)  => payload
+const payloadEventReady          = (_puppetId: string, payload: PUPPET.payloads.EventReady)      => payload
+const payloadEventReset          = (_puppetId: string, payload: PUPPET.payloads.EventReset)      => payload
+const payloadEventFriendship     = (_puppetId: string, payload: PUPPET.payloads.EventFriendship) => payload
+const payloadEventLogin          = (_puppetId: string, payload: PUPPET.payloads.EventLogin)      => payload
+const payloadEventLogout         = (_puppetId: string, payload: PUPPET.payloads.EventLogout)     => payload
+const payloadEventMessage        = (_puppetId: string, payload: PUPPET.payloads.EventMessage)    => payload
+const payloadEventRoomInvitation = (_puppetId: string, payload: PUPPET.payloads.EventRoomInvite) => payload
+const payloadEventRoomJoin       = (_puppetId: string, payload: PUPPET.payloads.EventRoomJoin)   => payload
+const payloadEventRoomLeave      = (_puppetId: string, payload: PUPPET.payloads.EventRoomLeave)  => payload
+const payloadEventRoomTopic      = (_puppetId: string, payload: PUPPET.payloads.EventRoomTopic)  => payload
+const payloadEventScan           = (_puppetId: string, payload: PUPPET.payloads.EventScan)       => payload
 
 /**
  * Actions: StateState
  */
-export const stateActivatedEvent    = createAction(types.STATE_ACTIVATED_EVENT,   prepareStateActive)()
-export const stateInactivatedEvent  = createAction(types.STATE_INACTIVATED_EVENT, prepareStateInactive)()
+export const stateActivatedEvent    = createAction(types.STATE_ACTIVATED_EVENT,   payloadStateActive,   metaPuppetId)()
+export const stateInactivatedEvent  = createAction(types.STATE_INACTIVATED_EVENT, payloadStateInactive, metaPuppetId)()
+
+export const startedEvent = createAction(types.STARTED_EVENT, payloadPuppetId, metaPuppetId)()
+export const stoppedEvent = createAction(types.STOPPED_EVENT, payloadPuppetId, metaPuppetId)()
 
 /**
  * Actions: Pure Events
  */
-export const dongReceivedEvent       = createAction(types.DONG_RECEIVED_EVENT,        prepareEventDong)()
-export const errorReceivedEvent      = createAction(types.ERROR_RECEIVED_EVENT,       prepareEventError)()
-export const friendshipReceivedEvent = createAction(types.FRIENDSHIP_RECEIVED_EVENT,  prepareEventFriendship)()
-export const heartbeatReceivedEvent  = createAction(types.HEARTBEAT_RECEIVED_EVENT,   prepareEventHeartbeat)()
-export const loginReceivedEvent      = createAction(types.LOGIN_RECEIVED_EVENT,       prepareEventLogin)()
-export const logoutReceivedEvent     = createAction(types.LOGOUT_RECEIVED_EVENT,      prepareEventLogout)()
-export const messageReceivedEvent    = createAction(types.MESSAGE_RECEIVED_EVENT,     prepareEventMessage)()
-export const readyReceivedEvent      = createAction(types.READY_RECEIVED_EVENT,       prepareEventReady)()
-export const resetReceivedEvent      = createAction(types.RESET_RECEIVED_EVENT,       prepareEventReset)()
-export const roomInviteReceivedEvent = createAction(types.ROOM_INVITE_RECEIVED_EVENT, prepareEventRoomInvitation)()
-export const roomJoinReceivedEvent   = createAction(types.ROOM_JOIN_RECEIVED_EVENT,   prepareEventRoomJoin)()
-export const roomLeaveReceivedEvent  = createAction(types.ROOM_LEAVE_RECEIVED_EVENT,  prepareEventRoomLeave)()
-export const roomTopicReceivedEvent  = createAction(types.ROOM_TOPIC_RECEIVED_EVENT,  prepareEventRoomTopic)()
-export const scanReceivedEvent       = createAction(types.SCAN_RECEIVED_EVENT,        prepareEventScan)()
-
-export const startedEvent      = createAction(types.STARTED_EVENT,        preparePuppetId)()
-export const stoppedEvent       = createAction(types.STOPPED_EVENT,        preparePuppetId)()
-
-/**
- * Actions: Void APIs
- */
-const prepareData = (puppetId: string, data: string)  => ({ data, puppetId })
-const prepareLoginContact  = (payload: PuppetIdOptions & PUPPET.payloads.Contact) => payload
-
-export const dingCommand  = createAction(types.DING_COMMAND,  prepareData)()
-export const resetCommand = createAction(types.RESET_COMMAND, prepareData)()
-
-/**
- * Actions: Non-Void APIs
- */
-const prepareSayRequest = ({ puppetId, conversationId, sayable } : PuppetIdOptions & ConversationIdOptions & SayableOptions)  => ({ id: UUID.v4(),  puppetId, conversationId, sayable })
-const prepareSaySuccess = ({ id, puppetId, messageId }           : PuppetIdOptions & IdOptions & Partial<MessageIdOptions>)   => ({ id,             puppetId, messageId })
-const prepareSayFailure = ({ id, puppetId, gerror }              : PuppetIdOptions & IdOptions & ErrorOptions)                => ({ id,             puppetId, gerror })
-
-/**
- * Huan(202203): TODO: remove sayAsync in the future
- *  use CQRS Wechaty instead
- */
-export const sayAsync = createAsyncAction(
-  [types.SAY_REQUEST, prepareSayRequest],
-  [types.SAY_SUCCESS, prepareSaySuccess],
-  [types.SAY_FAILURE, prepareSayFailure],
-)()
-export const sayCommand = sayAsync.request
-
-/**
- * Helper Events
- */
-export const loginContactEvent = createAction(types.LOGIN_CONTACT_EVENT, prepareLoginContact)()
+export const dongReceivedEvent       = createAction(types.DONG_RECEIVED_EVENT,        payloadEventDong,           metaPuppetId)()
+export const errorReceivedEvent      = createAction(types.ERROR_RECEIVED_EVENT,       payloadEventError,          metaPuppetId)()
+export const friendshipReceivedEvent = createAction(types.FRIENDSHIP_RECEIVED_EVENT,  payloadEventFriendship,     metaPuppetId)()
+export const heartbeatReceivedEvent  = createAction(types.HEARTBEAT_RECEIVED_EVENT,   payloadEventHeartbeat,      metaPuppetId)()
+export const loginReceivedEvent      = createAction(types.LOGIN_RECEIVED_EVENT,       payloadEventLogin,          metaPuppetId)()
+export const logoutReceivedEvent     = createAction(types.LOGOUT_RECEIVED_EVENT,      payloadEventLogout,         metaPuppetId)()
+export const messageReceivedEvent    = createAction(types.MESSAGE_RECEIVED_EVENT,     payloadEventMessage,        metaPuppetId)()
+export const readyReceivedEvent      = createAction(types.READY_RECEIVED_EVENT,       payloadEventReady,          metaPuppetId)()
+export const resetReceivedEvent      = createAction(types.RESET_RECEIVED_EVENT,       payloadEventReset,          metaPuppetId)()
+export const roomInviteReceivedEvent = createAction(types.ROOM_INVITE_RECEIVED_EVENT, payloadEventRoomInvitation, metaPuppetId)()
+export const roomJoinReceivedEvent   = createAction(types.ROOM_JOIN_RECEIVED_EVENT,   payloadEventRoomJoin,       metaPuppetId)()
+export const roomLeaveReceivedEvent  = createAction(types.ROOM_LEAVE_RECEIVED_EVENT,  payloadEventRoomLeave,      metaPuppetId)()
+export const roomTopicReceivedEvent  = createAction(types.ROOM_TOPIC_RECEIVED_EVENT,  payloadEventRoomTopic,      metaPuppetId)()
+export const scanReceivedEvent       = createAction(types.SCAN_RECEIVED_EVENT,        payloadEventScan,           metaPuppetId)()
 
 /**
  * Bug compatible & workaround for Ducks API

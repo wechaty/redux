@@ -17,46 +17,20 @@
  *   limitations under the License.
  *
  */
-import {
-  isActionOf,
-}               from 'typesafe-actions'
-import {
-  filter,
-  mergeMap,
-  map,
-}               from 'rxjs/operators'
-import type {
-  Epic,
-}               from 'redux-observable'
+// import {
+//   isActionOf,
+// }               from 'typesafe-actions'
+// import {
+//   filter,
+//   mergeMap,
+//   map,
+// }               from 'rxjs/operators'
+// import type {
+//   Epic,
+// }               from 'redux-observable'
 
-import * as actions from './actions.js'
-import * as rxAsync from './rx-async.js'
-import * as utils   from './utils.js'
+// import * as actions from './actions.js'
+// import * as rxAsync from './rx-async.js'
+// import * as utils   from './utils.js'
 
-const dingEpic: Epic = actions$ => actions$.pipe(
-  filter(isActionOf(actions.dingCommand)),
-  mergeMap(rxAsync.ding$),
-)
-
-const resetEpic: Epic = actions$ => actions$.pipe(
-  filter(isActionOf(actions.resetCommand)),
-  mergeMap(rxAsync.reset$),
-)
-
-const sayEpic: Epic = actions$ => actions$.pipe(
-  filter(isActionOf(actions.sayAsync.request)),
-  mergeMap(rxAsync.say$),
-)
-
-const loginEpic: Epic = actions$ => actions$.pipe(
-  filter(isActionOf(actions.loginReceivedEvent)),
-  mergeMap(utils.toContact$),
-  map(payload => actions.loginContactEvent(payload)),
-)
-
-export {
-  dingEpic,
-  resetEpic,
-  sayEpic,
-  loginEpic,
-}
+export {}

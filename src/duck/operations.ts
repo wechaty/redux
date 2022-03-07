@@ -18,18 +18,18 @@
  *
  */
 import type { Dispatch }  from 'redux'
-import type * as PUPPET   from 'wechaty-puppet'
+// import type * as PUPPET   from 'wechaty-puppet'
 
 import * as actions from './actions.js'
 
-const ding  = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.dingCommand(puppetId, data))
-const reset = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.resetCommand(puppetId, data))
+// const ding  = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.dingCommand(puppetId, data))
+// const reset = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.resetCommand(puppetId, data))
 
-const say   = (dispatch: Dispatch) => (
-  puppetId       : string,
-  conversationId : string,
-  sayable        : PUPPET.payloads.Sayable,
-) => dispatch(actions.sayAsync.request({ conversationId, puppetId, sayable }))
+// const say   = (dispatch: Dispatch) => (
+//   puppetId       : string,
+//   conversationId : string,
+//   sayable        : PUPPET.payloads.Sayable,
+// ) => dispatch(actions.sayAsync.request({ conversationId, puppetId, sayable }))
 
 /**
  * Remove the puppet from registry
@@ -40,9 +40,9 @@ const deregisterPuppet = (dispatch: Dispatch) => (puppetId: string) => dispatch(
 const nop = (dispatch: Dispatch) => () => dispatch(actions.nopCommand())
 
 export {
-  ding,
-  reset,
-  say,
+  // ding,
+  // reset,
+  // say,
 
   deregisterPuppet,
 

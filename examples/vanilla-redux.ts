@@ -51,7 +51,7 @@ async function main () {
     },
   }
 
-  const rootEpic = combineEpics(...Object.values(Duck.epics))
+  const rootEpic = combineEpics(...Object.values(Duck.epics) as any)
   epicMiddleware.run(rootEpic)
 
   /**
@@ -69,7 +69,7 @@ async function main () {
 
   await bot.start()
 
-  store.dispatch(Duck.actions.dingCommand(bot.puppet.id, 'dispatch a ding action'))
+  // store.dispatch(Duck.actions.dingCommand(bot.puppet.id, 'dispatch a ding action'))
   // The above code 👆 is exactly do the same thing with the following code 👇 :
   // Duck.operations.ding(store.dispatch)(bot.puppet.id, 'call ding from operations')
 
