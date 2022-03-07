@@ -21,9 +21,7 @@
 import {
   createAction,
 }                         from 'typesafe-actions'
-
 import type * as PUPPET   from 'wechaty-puppet'
-// import * as UUID          from 'uuid'
 
 import * as types from './types.js'
 
@@ -33,22 +31,21 @@ import * as types from './types.js'
 const metaPuppetId = (puppetId: string, ..._: any)  => ({ puppetId })
 
 // interface ContactIdOptions  { contactId: string }
-export interface ErrorOptions            { gerror: string }
-export interface IdOptions               { id: string }
-export interface MessageIdOptions        { messageId: string }
-export interface ConversationIdOptions   { conversationId: string }
+// interface ErrorOptions            { gerror: string }
+// interface IdOptions               { id: string }
+// interface MessageIdOptions        { messageId: string }
+// interface ConversationIdOptions   { conversationId: string }
 // export interface TextOptions             { text: string }
-export interface SayableOptions          { sayable: PUPPET.payloads.Sayable }
+// interface SayableOptions          { sayable: PUPPET.payloads.Sayable }
 
-export interface PuppetIdOptions  { puppetId: string }
+// interface PuppetIdOptions  { puppetId: string }
 
 /**
  * @private Registery Actions Payload
  */
-const payloadPuppetId   = (puppetId: string)  => ({ puppetId })
-const payloadWechatyId  = (wechatyId: string) => ({ wechatyId })
-
-const payloadWechatyPuppetId = (options: { wechatyId: string, puppetId: string }) => options
+const payloadPuppetId         = (puppetId:  string) => ({ puppetId })
+const payloadWechatyId        = (wechatyId: string) => ({ wechatyId })
+const payloadWechatyPuppetId  = (options: { wechatyId: string, puppetId: string })  => options
 
 /**
  * @private Registry Actions Creators
@@ -65,8 +62,8 @@ export const unbindWechatyPuppetCommand = createAction(types.UNBIND_WECHATY_PUPP
 /**
  * Event Actions' Payloads
  */
-const payloadStateActive   = (_puppetId: string, status: true | 'pending') => status
-const payloadStateInactive = (_puppetId: string, status: true | 'pending') => status
+const payloadStateActive   = (_puppetId: string, state: true | 'pending') => ({ state })
+const payloadStateInactive = (_puppetId: string, state: true | 'pending') => ({ state })
 
 const payloadEventDong           = (_puppetId: string, payload: PUPPET.payloads.EventDong)       => payload
 const payloadEventError          = (_puppetId: string, payload: PUPPET.payloads.EventError)      => payload
