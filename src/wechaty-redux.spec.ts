@@ -84,6 +84,8 @@ async function * wechatyFixtures () {
   const puppet = new PuppetMock({ mocker })
   const bot = WechatyBuilder.build({ puppet })
 
+  await bot.init()
+
   const bundle = ducks.ducksify('wechaty')
 
   bot.use(WechatyRedux({ store }))
@@ -233,9 +235,13 @@ test('WechatyRedux: getPuppet() & getWechaty()', async t => {
   t.notOk(getWechaty(wechaty.id), 'should has no wechaty registered')
   t.notOk(getPuppet(puppet.id), 'should has no puppet registered')
 
+  t.throws(() => wechaty.use(WechatyRedux({ store } as any)), 'should throws without init() puppet')
+
+  await wechaty.init()
   wechaty.use(WechatyRedux({ store } as any))
-  t.notOk(getWechaty(wechaty.id), 'should has no wechaty registered after use plugin but before wechaty start')
-  t.notOk(getPuppet(puppet.id), 'should has no puppet registered after use plugin but before wechaty start')
+
+  t.equal(getWechaty(wechaty.id), wechaty,  'should has wechaty registered after use plugin but before wechaty start')
+  t.equal(getPuppet(puppet.id),   puppet,   'should has puppet registered after use plugin but before wechaty start')
 
   await wechaty.start()
 

@@ -53,56 +53,22 @@ function WechatyRedux (options: WechatyReduxOptions) {
     const deregister = registerWechaty(wechaty, store)
     uninstallerList.push(() => deregister())
 
-    subscribePuppetEvents(
-      wechaty,
+    /**
+     * Huan(202203): The `wechaty.puppet` MUST be instanciated
+     *  before using the Redux plugin
+     */
+    const sub = puppet$(wechaty.puppet, {
       store,
-      uninstallerList,
-    )
+      wechaty,
+    }).subscribe(store.dispatch)
+
+    uninstallerList.push(() => sub.unsubscribe())
 
     return () => {
       uninstallerList.forEach(setImmediate)
       uninstallerList.length = 0
     }
   }
-}
-
-function subscribePuppetEvents (
-  wechaty         : WECHATY.impls.WechatyInterface,
-  store           : Store,
-  uninstallerList : VoidFunction[],
-): void {
-  log.verbose('WechatyRedux', 'subscribePuppetEvents(store, %s)', wechaty)
-
-  /**
-   * Huan(202005):
-   *  the wechaty.puppet will be initialized after the wechaty.start()
-   *  so here might be no puppet yet.
-   */
-  let puppet
-  try {
-    puppet = wechaty.puppet
-  } catch (e) {
-    log.verbose('WechatyRedux', 'install() wechaty.puppet not ready yet. retry on puppet event later')
-
-    const onPuppet = () => subscribePuppetEvents(wechaty, store, uninstallerList)
-
-    wechaty.once('puppet', onPuppet)
-    uninstallerList.push(
-      () => wechaty.off('puppet', onPuppet),
-    )
-
-    log.verbose('WechatyRedux', 'install() wechaty.once(puppet) event listener added')
-    return
-  }
-
-  const sub = puppet$(puppet, {
-    store,
-    wechaty,
-  }).subscribe(store.dispatch)
-
-  uninstallerList.push(() => {
-    sub.unsubscribe()
-  })
 }
 
 export {
