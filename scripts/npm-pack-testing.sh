@@ -26,6 +26,7 @@ npm install --production *-*.*.*.tgz \
   ducks \
   pkg-jq \
   "wechaty@$NPM_TAG" \
+  "wechaty-puppet-mock@$NPM_TAG" \
 
 #
 # CommonJS

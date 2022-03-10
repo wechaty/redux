@@ -31,6 +31,7 @@ async function main () {
   const store = ducks.configureStore()
 
   const wechaty = WechatyBuilder.build({ puppet: 'wechaty-puppet-mock' })
+  await wechaty.init()
 
   wechaty.use(
     WechatyRedux({ store })
