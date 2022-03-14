@@ -27,18 +27,10 @@ import * as types from './types.js'
 
 /**
  * We put `puppetId` in the meta property
+ *
+ * This must be sync with CQRS Wechaty module
  */
 const metaPuppetId = (puppetId: string, ..._: any)  => ({ puppetId })
-
-// interface ContactIdOptions  { contactId: string }
-// interface ErrorOptions            { gerror: string }
-// interface IdOptions               { id: string }
-// interface MessageIdOptions        { messageId: string }
-// interface ConversationIdOptions   { conversationId: string }
-// export interface TextOptions             { text: string }
-// interface SayableOptions          { sayable: PUPPET.payloads.Sayable }
-
-// interface PuppetIdOptions  { puppetId: string }
 
 /**
  * @private Registery Actions Payload

@@ -33,7 +33,7 @@ export const UNBIND_WECHATY_PUPPET_COMMAND = 'wechaty-redux/UNBIND_WECHATY_PUPPE
 export const NOP_COMMAND = 'wechaty-redux/NOP_COMMAND'
 
 /**
- * Pure Events
+ * Wechaty Listener Events
  */
 export const STARTED_EVENT = 'wechaty-redux/STARTED_EVENT'
 export const STOPPED_EVENT = 'wechaty-redux/STOPPED_EVENT'
@@ -55,33 +55,3 @@ export const ROOM_JOIN_RECEIVED_EVENT   = 'wechaty-redux/ROOM_JOIN_RECEIVED_EVEN
 export const ROOM_LEAVE_RECEIVED_EVENT  = 'wechaty-redux/ROOM_LEAVE_RECEIVED_EVENT'
 export const ROOM_TOPIC_RECEIVED_EVENT  = 'wechaty-redux/ROOM_TOPIC_RECEIVED_EVENT'
 export const SCAN_RECEIVED_EVENT        = 'wechaty-redux/SCAN_RECEIVED_EVENT'
-
-/**
-* Commands & their Events - Wechaty Puppet
-*/
-// export const DING_COMMAND  = 'wechaty-redux/DING_COMMAND'
-// export const DINGED_EVENT  = 'wechaty-redux/DINGED_EVENT'
-
-// export const RESET_COMMAND = 'wechaty-redux/RESET_COMMAND'
-// export const RESETED_EVENT = 'wechaty-redux/RESETED_EVENT'
-
-// export const LOGOUT_COMMAND = 'wechaty-redux/LOGOUT_COMMAND'
-// export const LOGOUTED_EVENT = 'wechaty-redux/LOGOUTED_EVENT'
-
-// export const SEND_MESSAGE_COMMAND = 'wechaty-redux/SEND_MESSAGE_COMMAND'
-// export const MESSAGE_SENT_EVENT   = 'wechaty-redux/MESSAGE_SENT_EVENT'
-
-/**
- * Wechaty Events
- */
-// export const LOGIN_CONTACT_EVENT = 'wechaty-redux/LOGIN_CONTACT_EVENT'
-
-/**
- * Huan(202203): TODO: remove SAY_XXX in the future
- *  use CQRS Wechaty instead.
- *
- * Wechaty Async APIs
- */
-// export const SAY_REQUEST = 'wechaty-redux/SAY_REQUEST'
-// export const SAY_SUCCESS = 'wechaty-redux/SAY_SUCCESS'
-// export const SAY_FAILURE = 'wechaty-redux/SAY_FAILURE'

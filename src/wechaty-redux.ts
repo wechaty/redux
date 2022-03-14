@@ -17,15 +17,14 @@
  *   limitations under the License.
  *
  */
-import { log } from 'wechaty-puppet'
-import type * as WECHATY from 'wechaty'
+import { log }            from 'wechaty-puppet'
+import type * as WECHATY  from 'wechaty'
 import type {
   Store,
-}             from 'redux'
+}                         from 'redux'
 
 import {
   registerWechaty,
-  // type WechatyLike,
 }                   from './registry/mod.js'
 
 import { puppet$ }  from './puppet$.js'

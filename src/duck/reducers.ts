@@ -29,15 +29,6 @@ import type * as PUPPET from 'wechaty-puppet'
 
 import * as actions from './actions.js'
 
-// type DeepWritable<T> = T extends ((...args: any[]) => any) | Primitive ? T : T extends _DeepReadonlyArray<infer U> ? _DeepReadonlyArray<U> : T extends _DeepReadonlyObject<infer V> ? _DeepReadonlyObject<V> : T;
-
-// interface _DeepWritableArray<T> extends WritableArray<DeepWritable<T>> {
-// }
-
-// type _DeepWritableObject<T> = {
-//   -readonly [P in keyof T]: DeepReadonly<T[P]>;
-// };
-
 type State = DeepReadonly<{
   puppet: {
     [puppetId: string]: undefined | {
