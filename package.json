@@ -63,8 +63,8 @@
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
-    "wechaty": "^1.15.3",
-    "wechaty-puppet": "^1.13.14"
+    "wechaty": "^1.18.1",
+    "wechaty-puppet": "^1.18.3"
   },
   "devDependencies": {
     "@chatie/eslint-config": "^1.0.4",
@@ -76,7 +76,7 @@
     "@types/uuid": "^8.3.4",
     "glob": "^7.2.0",
     "remote-redux-devtools": "^0.5.16",
-    "wechaty-puppet-mock": "^1.13.4"
+    "wechaty-puppet-mock": "^1.18.2"
   },
   "files": [
     "bin/",
