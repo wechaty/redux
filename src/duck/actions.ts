@@ -52,6 +52,8 @@ export const bindWechatyPuppetCommand   = createAction(types.BIND_WECHATY_PUPPET
 export const unbindWechatyPuppetCommand = createAction(types.UNBIND_WECHATY_PUPPET_COMMAND, payloadWechatyPuppetId)()
 
 /**
+ * @public
+ *
  * Event Actions' Payloads
  */
 const payloadStateActive   = (_puppetId: string, state: true | 'pending') => ({ state })
@@ -100,7 +102,22 @@ export const roomTopicReceivedEvent  = createAction(types.ROOM_TOPIC_RECEIVED_EV
 export const scanReceivedEvent       = createAction(types.SCAN_RECEIVED_EVENT,        payloadEventScan,           metaPuppetId)()
 
 /**
- * Bug compatible & workaround for Ducks API
+ * Commands
+ *
+ * Wechaty Redux provide the minimum commands for the system state management:
+ *  1. ding: request the `dong` event
+ *  2. reset: reset the Wechaty state
+ *
+ * For more commands, please refer to the Wechaty CQRS:
+ *  @link https://github.com/wechaty/cqrs
+ */
+const payloadData  = (_puppetId: string, data?: string) => ({ data })
+
+export const dingCommand  = createAction(types.DING_COMMAND,  payloadData, metaPuppetId)()
+export const resetCommand = createAction(types.RESET_COMMAND, payloadData, metaPuppetId)()
+
+/**
+ * @private Bug compatible & workaround for Ducks API
  *  https://github.com/huan/ducks/issues/2
  */
 export const nopCommand = createAction(types.NOP_COMMAND)()

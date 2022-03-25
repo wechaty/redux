@@ -19,21 +19,7 @@
  */
 
 /**
- * @private Commands - Redux
- */
-export const REGISTER_PUPPET_COMMAND   = 'wechaty-redux/REGISTER_PUPPET_COMMAND'
-export const DEREGISTER_PUPPET_COMMAND = 'wechaty-redux/DEREGISTER_PUPPET_COMMAND'
-
-export const REGISTER_WECHATY_COMMAND   = 'wechaty-redux/REGISTER_WECHATY_COMMAND'
-export const DEREGISTER_WECHATY_COMMAND = 'wechaty-redux/DEREGISTER_WECHATY_COMMAND'
-
-export const BIND_WECHATY_PUPPET_COMMAND   = 'wechaty-redux/BIND_WECHATY_PUPPET_COMMAND'
-export const UNBIND_WECHATY_PUPPET_COMMAND = 'wechaty-redux/UNBIND_WECHATY_PUPPET_COMMAND'
-
-export const NOP_COMMAND = 'wechaty-redux/NOP_COMMAND'
-
-/**
- * Wechaty Listener Events
+ * Pure Events
  */
 export const STARTED_EVENT = 'wechaty-redux/STARTED_EVENT'
 export const STOPPED_EVENT = 'wechaty-redux/STOPPED_EVENT'
@@ -55,3 +41,33 @@ export const ROOM_JOIN_RECEIVED_EVENT   = 'wechaty-redux/ROOM_JOIN_RECEIVED_EVEN
 export const ROOM_LEAVE_RECEIVED_EVENT  = 'wechaty-redux/ROOM_LEAVE_RECEIVED_EVENT'
 export const ROOM_TOPIC_RECEIVED_EVENT  = 'wechaty-redux/ROOM_TOPIC_RECEIVED_EVENT'
 export const SCAN_RECEIVED_EVENT        = 'wechaty-redux/SCAN_RECEIVED_EVENT'
+
+/**
+* Commands & Responses - Wechaty Puppet
+*/
+export const DING_COMMAND           = 'wechaty-redux/DING_COMMAND'
+export const DING_COMMAND_RESPONSE  = 'wechaty-redux/DING_COMMAND_RESPONSE'
+
+export const RESET_COMMAND          = 'wechaty-redux/RESET_COMMAND'
+export const RESET_COMMAND_RESPONSE = 'wechaty-redux/RESET_COMMAND_RESPONSE'
+
+/**
+ * @private Commands - Redux
+ *
+ * Wechaty Redux provide the minimum commands for the system state management:
+ *  1. ding: request the `dong` event
+ *  2. reset: reset the Wechaty state
+ *
+ * For more commands, please refer to the Wechaty CQRS:
+ *  @link https://github.com/wechaty/cqrs
+ */
+export const REGISTER_PUPPET_COMMAND   = 'wechaty-redux/REGISTER_PUPPET_COMMAND'
+export const DEREGISTER_PUPPET_COMMAND = 'wechaty-redux/DEREGISTER_PUPPET_COMMAND'
+
+export const REGISTER_WECHATY_COMMAND   = 'wechaty-redux/REGISTER_WECHATY_COMMAND'
+export const DEREGISTER_WECHATY_COMMAND = 'wechaty-redux/DEREGISTER_WECHATY_COMMAND'
+
+export const BIND_WECHATY_PUPPET_COMMAND   = 'wechaty-redux/BIND_WECHATY_PUPPET_COMMAND'
+export const UNBIND_WECHATY_PUPPET_COMMAND = 'wechaty-redux/UNBIND_WECHATY_PUPPET_COMMAND'
+
+export const NOP_COMMAND = 'wechaty-redux/NOP_COMMAND'

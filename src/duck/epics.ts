@@ -17,20 +17,64 @@
  *   limitations under the License.
  *
  */
-// import {
-//   isActionOf,
-// }               from 'typesafe-actions'
-// import {
-//   filter,
-//   mergeMap,
-//   map,
-// }               from 'rxjs/operators'
-// import type {
-//   Epic,
-// }               from 'redux-observable'
+import { isActionOf } from 'typesafe-actions'
+import {
+  EMPTY,
+  of,
+}                     from 'rxjs'
+import {
+  ignoreElements,
+  catchError,
+  filter,
+  mergeMap,
+}                     from 'rxjs/operators'
+import type { Epic }  from 'redux-observable'
+import { GError }     from 'gerror'
 
-// import * as actions from './actions.js'
-// import * as rxAsync from './rx-async.js'
-// import * as utils   from './utils.js'
+import { getPuppet }  from '../registry/mod.js'
 
-export {}
+import * as actions   from './actions.js'
+
+/**
+ * @private Commands - Redux
+ *
+ * Wechaty Redux provide the minimum commands for the system state management:
+ *  1. ding: request the `dong` event
+ *  2. reset: reset the Wechaty state
+ *
+ * For more commands, please refer to the Wechaty CQRS:
+ *  @link https://github.com/wechaty/cqrs
+ */
+export const dingEpic: Epic = actions$ => actions$.pipe(
+  filter(isActionOf(actions.dingCommand)),
+  mergeMap(action => of(getPuppet(action.meta.puppetId)).pipe(
+    mergeMap(puppet => puppet
+      ? of(puppet.ding(action.payload.data))
+      : EMPTY,
+    ),
+    ignoreElements(),
+    catchError(e => of(
+      actions.errorReceivedEvent(
+        action.meta.puppetId,
+        { gerror: GError.stringify(e) },
+      ),
+    )),
+  )),
+)
+
+export const resetEpic: Epic = actions$ => actions$.pipe(
+  filter(isActionOf(actions.resetCommand)),
+  mergeMap(action => of(getPuppet(action.meta.puppetId)).pipe(
+    mergeMap(puppet => puppet
+      ? of(puppet.reset())
+      : EMPTY,
+    ),
+    ignoreElements(),
+    catchError((e: Error) => of(
+      actions.errorReceivedEvent(
+        action.meta.puppetId,
+        { gerror: GError.stringify(e) },
+      ),
+    )),
+  )),
+)
