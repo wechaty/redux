@@ -79,7 +79,7 @@ const registerWechatyInRegistry = (registry: WechatyRegistry) => (
    * Emit `RegisterWechaty` action when first time subscribe to the wechaty
    */
   if (counter === 1) {
-    store.dispatch(duck.actions.registerWechatyCommand(wechaty.id))
+    store.dispatch(duck.actions.REGISTER_WECHATY_COMMAND(wechaty.id))
   }
 
   /**
@@ -94,7 +94,7 @@ const registerWechatyInRegistry = (registry: WechatyRegistry) => (
       /**
        * Cleanup wechaty in registry with reference counter
        */
-      store.dispatch(duck.actions.deregisterWechatyCommand(wechaty.id))
+      store.dispatch(duck.actions.DEREGISTER_WECHATY_COMMAND(wechaty.id))
     }
   }
 }

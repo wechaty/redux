@@ -183,10 +183,13 @@ See: [api/index.ts](src/api/index.ts)
 
 ## History
 
-### main v1.17 (Mar 7, 2022)
+### main
 
-Refactoring all events with breaking changes
-for better [CQRS Wechaty](https://github.com/wechaty/cqrs) support.
+### v1.20 (Mar 7, 2022)
+
+1. Refactoring all events with breaking changes
+  for better [CQRS Wechaty](https://github.com/wechaty/cqrs) support.
+1. Refactoring the events name convension: from `eventName` to `EVENT_NAME`
 
 ### v1.0 (Oct 28, 2021)
 

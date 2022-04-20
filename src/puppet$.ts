@@ -81,25 +81,25 @@ const puppet$ = (
   return merge(
     /* eslint-disable func-call-spacing */
     /* eslint-disable no-whitespace-before-property */
-    stateActive$  .pipe(map(status  => duck.actions.stateActivatedEvent    (puppet.id, status))),
-    stateInactive$.pipe(map(status  => duck.actions.stateInactivatedEvent  (puppet.id, status))),
-    start$        .pipe(map(()      => duck.actions.startedEvent           (puppet.id))),
-    stop$         .pipe(map(()      => duck.actions.stoppedEvent           (puppet.id))),
+    stateActive$  .pipe(map(status  => duck.actions.STATE_ACTIVATED_EVENT     (puppet.id, status))),
+    stateInactive$.pipe(map(status  => duck.actions.STATE_INACTIVATED_EVENT   (puppet.id, status))),
+    start$        .pipe(map(()      => duck.actions.STARTED_EVENT             (puppet.id))),
+    stop$         .pipe(map(()      => duck.actions.STOPPED_EVENT             (puppet.id))),
 
-    dong$       .pipe(map(payload => duck.actions.dongReceivedEvent       (puppet.id, payload))),
-    error$      .pipe(map(payload => duck.actions.errorReceivedEvent      (puppet.id, payload))),
-    friendship$ .pipe(map(payload => duck.actions.friendshipReceivedEvent (puppet.id, payload))),
-    heartbeat$  .pipe(map(payload => duck.actions.heartbeatReceivedEvent  (puppet.id, payload))),
-    login$      .pipe(map(payload => duck.actions.loginReceivedEvent      (puppet.id, payload))),
-    logout$     .pipe(map(payload => duck.actions.logoutReceivedEvent     (puppet.id, payload))),
-    message$    .pipe(map(payload => duck.actions.messageReceivedEvent    (puppet.id, payload))),
-    ready$      .pipe(map(payload => duck.actions.readyReceivedEvent      (puppet.id, payload))),
-    reset$      .pipe(map(payload => duck.actions.resetReceivedEvent      (puppet.id, payload))),
-    roomInvite$ .pipe(map(payload => duck.actions.roomInviteReceivedEvent (puppet.id, payload))),
-    roomJoin$   .pipe(map(payload => duck.actions.roomJoinReceivedEvent   (puppet.id, payload))),
-    roomLeave$  .pipe(map(payload => duck.actions.roomLeaveReceivedEvent  (puppet.id, payload))),
-    roomTopic$  .pipe(map(payload => duck.actions.roomTopicReceivedEvent  (puppet.id, payload))),
-    scan$       .pipe(map(payload => duck.actions.scanReceivedEvent       (puppet.id, payload))),
+    dong$       .pipe(map(payload => duck.actions.DONG_RECEIVED_EVENT         (puppet.id, payload))),
+    error$      .pipe(map(payload => duck.actions.ERROR_RECEIVED_EVENT        (puppet.id, payload))),
+    friendship$ .pipe(map(payload => duck.actions.FRIENDSHIP_RECEIVED_EVENT   (puppet.id, payload))),
+    heartbeat$  .pipe(map(payload => duck.actions.HEARTBEAT_RECEIVED_EVENT    (puppet.id, payload))),
+    login$      .pipe(map(payload => duck.actions.LOGIN_RECEIVED_EVENT        (puppet.id, payload))),
+    logout$     .pipe(map(payload => duck.actions.LOGOUT_RECEIVED_EVENT       (puppet.id, payload))),
+    message$    .pipe(map(payload => duck.actions.MESSAGE_RECEIVED_EVENT      (puppet.id, payload))),
+    ready$      .pipe(map(payload => duck.actions.READY_RECEIVED_EVENT        (puppet.id, payload))),
+    reset$      .pipe(map(payload => duck.actions.RESET_RECEIVED_EVENT        (puppet.id, payload))),
+    roomInvite$ .pipe(map(payload => duck.actions.ROOM_INVITE_RECEIVED_EVENT  (puppet.id, payload))),
+    roomJoin$   .pipe(map(payload => duck.actions.ROOM_JOIN_RECEIVED_EVENT    (puppet.id, payload))),
+    roomLeave$  .pipe(map(payload => duck.actions.ROOM_LEAVE_RECEIVED_EVENT   (puppet.id, payload))),
+    roomTopic$  .pipe(map(payload => duck.actions.ROOM_TOPIC_RECEIVED_EVENT   (puppet.id, payload))),
+    scan$       .pipe(map(payload => duck.actions.SCAN_RECEIVED_EVENT         (puppet.id, payload))),
   ).pipe(
     /**
      * share() === multicast(() => new Subject()).refCount()

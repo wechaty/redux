@@ -46,7 +46,7 @@ import * as actions   from './actions.js'
  *  @link https://github.com/wechaty/cqrs
  */
 export const dingEpic: Epic = actions$ => actions$.pipe(
-  filter(isActionOf(actions.dingCommand)),
+  filter(isActionOf(actions.DING_COMMAND)),
   mergeMap(action => of(getPuppet(action.meta.puppetId)).pipe(
     mergeMap(puppet => puppet
       ? of(puppet.ding(action.payload.data))
@@ -54,7 +54,7 @@ export const dingEpic: Epic = actions$ => actions$.pipe(
     ),
     ignoreElements(),
     catchError(e => of(
-      actions.errorReceivedEvent(
+      actions.ERROR_RECEIVED_EVENT(
         action.meta.puppetId,
         { gerror: GError.stringify(e) },
       ),
@@ -63,7 +63,7 @@ export const dingEpic: Epic = actions$ => actions$.pipe(
 )
 
 export const resetEpic: Epic = actions$ => actions$.pipe(
-  filter(isActionOf(actions.resetCommand)),
+  filter(isActionOf(actions.RESET_COMMAND)),
   mergeMap(action => of(getPuppet(action.meta.puppetId)).pipe(
     mergeMap(puppet => puppet
       ? of(puppet.reset())
@@ -71,7 +71,7 @@ export const resetEpic: Epic = actions$ => actions$.pipe(
     ),
     ignoreElements(),
     catchError((e: Error) => of(
-      actions.errorReceivedEvent(
+      actions.ERROR_RECEIVED_EVENT(
         action.meta.puppetId,
         { gerror: GError.stringify(e) },
       ),

@@ -65,7 +65,7 @@ const decreasePuppetReferenceInRegistry = (registry: PuppetRegistry) => (puppet:
   return decCounter
 }
 
-type RegisterPuppetActionPayload = ReturnType<typeof duck.actions.registerPuppetCommand>
+type RegisterPuppetActionPayload = ReturnType<typeof duck.actions.REGISTER_PUPPET_COMMAND>
 
 /**
  * Puppet will be automatic registered/deregistered inside the RxJS operator
@@ -97,12 +97,12 @@ const registerPuppetInRegistry = (registry: PuppetRegistry) =>
        */
       if (counter === 1) {
         proxySubject.next(
-          duck.actions.registerPuppetCommand(puppet.id),
+          duck.actions.REGISTER_PUPPET_COMMAND(puppet.id),
         )
 
         if (options?.store && options.wechaty) {
           options.store.dispatch(
-            duck.actions.bindWechatyPuppetCommand({
+            duck.actions.BIND_WECHATY_PUPPET_COMMAND({
               puppetId : puppet.id,
               wechatyId: options.wechaty.id,
             }),
@@ -132,7 +132,7 @@ const registerPuppetInRegistry = (registry: PuppetRegistry) =>
              */
             if (options.wechaty) {
               options.store.dispatch(
-                duck.actions.unbindWechatyPuppetCommand({
+                duck.actions.UNBIND_WECHATY_PUPPET_COMMAND({
                   puppetId : puppet.id,
                   wechatyId: options.wechaty.id,
                 }),
@@ -141,7 +141,7 @@ const registerPuppetInRegistry = (registry: PuppetRegistry) =>
             /**
              * Deregister Puppet
              */
-            options.store.dispatch(duck.actions.deregisterPuppetCommand(puppet.id))
+            options.store.dispatch(duck.actions.DEREGISTER_PUPPET_COMMAND(puppet.id))
           }
         }
       }

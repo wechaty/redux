@@ -21,12 +21,12 @@ import type { Dispatch }  from 'redux'
 
 import * as actions from './actions.js'
 
-export const ding  = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.dingCommand(puppetId, data))
-export const reset = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.resetCommand(puppetId, data))
+export const ding  = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.DING_COMMAND(puppetId, data))
+export const reset = (dispatch: Dispatch) => (puppetId: string, data: string)  => dispatch(actions.RESET_COMMAND(puppetId, data))
 
 /**
  * Remove the puppet from registry
  *  caution: all actions will failed if the specified puppet id is not in the registry
  */
-export const deregisterPuppet = (dispatch: Dispatch) => (puppetId: string)  => dispatch(actions.deregisterPuppetCommand(puppetId))
-export const nop              = (dispatch: Dispatch) => ()                  => dispatch(actions.nopCommand())
+export const deregisterPuppet = (dispatch: Dispatch) => (puppetId: string)  => dispatch(actions.DEREGISTER_PUPPET_COMMAND(puppetId))
+export const nop              = (dispatch: Dispatch) => ()                  => dispatch(actions.NOP_COMMAND())

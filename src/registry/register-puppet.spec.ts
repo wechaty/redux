@@ -104,7 +104,7 @@ test('registerPuppetInRegistry() with duck.actions.registerPuppet()', async t =>
 
   const sub1 = $.subscribe(spy)
   t.ok(spy.calledOnce, 'should receive one action')
-  t.same(spy.args[0]![0], duck.actions.registerPuppetCommand(puppet.id), 'should emit puppet register action after subscribe once')
+  t.same(spy.args[0]![0], duck.actions.REGISTER_PUPPET_COMMAND(puppet.id), 'should emit puppet register action after subscribe once')
 
   const sub2 = $.subscribe(spy)
   t.ok(spy.calledOnce, 'should receive no more actions after the 2+ subscription')
@@ -140,8 +140,8 @@ test('registerPuppetInRegistry() with store & wechaty', async t => {
 
   const sub1 = $.subscribe(store.dispatch as any)
   t.ok(spy.calledTwice, 'should receive two action')
-  t.same(spy.args[0]![0], duck.actions.registerPuppetCommand(puppet.id), 'should emit puppet register action after subscribe once')
-  t.same(spy.args[1]![0], duck.actions.bindWechatyPuppetCommand({ puppetId: puppet.id, wechatyId: wechaty.id }), 'should emit bind wechaty puppet action after subscribe once')
+  t.same(spy.args[0]![0], duck.actions.REGISTER_PUPPET_COMMAND(puppet.id), 'should emit puppet register action after subscribe once')
+  t.same(spy.args[1]![0], duck.actions.BIND_WECHATY_PUPPET_COMMAND({ puppetId: puppet.id, wechatyId: wechaty.id }), 'should emit bind wechaty puppet action after subscribe once')
 
   spy.resetHistory()
   spy.resetHistory()
@@ -154,6 +154,6 @@ test('registerPuppetInRegistry() with store & wechaty', async t => {
 
   sub2.unsubscribe()
   t.equal(spy.callCount, 2, 'should receive two action after unsubscribe all')
-  t.same(spy.args[0]![0], duck.actions.unbindWechatyPuppetCommand({ puppetId: puppet.id, wechatyId: wechaty.id }), 'should emit unbind wechaty puppet action after unsubscribed all')
-  t.same(spy.args[1]![0], duck.actions.deregisterPuppetCommand(puppet.id), 'should emit deregister puppet action after subscribe all')
+  t.same(spy.args[0]![0], duck.actions.UNBIND_WECHATY_PUPPET_COMMAND({ puppetId: puppet.id, wechatyId: wechaty.id }), 'should emit unbind wechaty puppet action after unsubscribed all')
+  t.same(spy.args[1]![0], duck.actions.DEREGISTER_PUPPET_COMMAND(puppet.id), 'should emit deregister puppet action after subscribe all')
 })
